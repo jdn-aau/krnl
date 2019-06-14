@@ -970,17 +970,19 @@ void __attribute__ ((weak)) k_sem_clip (unsigned char nr, int nrClip);
     #endif
 
 /**
-   a function for overloading on usersite which is called when a semaphore is overflooding
-   no reset occur - it's only reading out semaphore idendity
-   Wait blablablSignal operations has not taken place !
-   1: means first semahore allocated by user, 2 the next etc
-   Interrupt is disabled when called and must not be enabled during.. so no print etc
-   @param[in] nr  id of semaphore 1,2,3,...
-   @param[in] nrClip number of times clip has occured (may be reset by call k_wait_lost)
- */
-    #ifdef KRNLBUG
-void __attribute__ ((weak)) k_sem_no_clip (unsigned char nr, int val);
+* called in a signal call val is sem val AFTER signal has taken place
+*/
+     #ifdef KRNLBUG
+void __attribute__ ((weak)) k_sem_signal (unsigned char nr, int val);
     #endif
+
+/**
+* called when wait called. val is sem value after wait
+*/
+     #ifdef KRNLBUG
+void __attribute__ ((weak)) k_sem_wait (unsigned char nr, int val);
+    #endif
+
 
 /**
    a function for overloading on usersite which is called when a msgQ is overflooding
@@ -993,15 +995,7 @@ void __attribute__ ((weak)) k_sem_no_clip (unsigned char nr, int val);
     #ifdef KRNLBUG
 void __attribute__ ((weak)) k_send_Q_clip (unsigned char nr, int nrClip);
     #endif
-/**
-* Is called when a success full send a msg to a sendQ
-* NB after this breakout k_sem_no_clip is called bq ki_signal is used for
-* handling tasks waiting at the sendQ Q
-*/
-    #ifdef KRNLBUG
-void __attribute__ ((weak)) k_send_Q_no_clip (unsigned char nr, int bufCnt);
-    #endif
-
+ 
 struct k_msg_t *k_crt_send_Q (int nr_el, int el_size, void *pBuf);
 
 /**
