@@ -1,0 +1,49 @@
+
+
+/under construction/
+
+~~~
+{}{}
+// defined as weak so compiler will take yours instead of mine
+void __attribute__ ((weak)) k_breakout (void)
+{
+}
+
+void __attribute__ ((weak)) k_sem_clip (unsigned char nr, int nrClip)
+{
+}
+
+void __attribute__ ((weak)) k_sem_noclip (unsigned char nr)
+{
+}
+
+void __attribute__ ((weak)) k_send_Q_clip (unsigned char nr, int nrClip)
+{
+}
+
+#endif
+
+#ifdef DYNMEMORY
+void * __attribute__ ((weak)) k_malloc(int k)
+{
+void * m;
+  DI();
+  m = malloc(k);
+  EI();
+  return m;
+}
+
+void __attribute__ ((weak)) k_free (void *m)
+{
+}
+#endif
+
+#ifdef WDT_TIMER
+void __attribute__ ((weak)) k_enable_wdt(void)
+{
+  DI();
+  wdt_enable(WDT_PERIOD);
+  EI();
+}
+#endif
+~~~

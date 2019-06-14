@@ -1,0 +1,29 @@
+Board                             int. 0  1  2  3  4  5  
+Uno                                    2  3  x  x  x  x	 	 	 
+Mega2560                               23 21 20 19 18
+32u4 based (e.g Leonardo, Micro)       3  2  0  1  7  x	 
+
+timers                    8bit  16bit  8bit  16bit  16bit  16bit
+UNO                         +     +     +      x      x      x
+MEGA                        +     +     +      +      +      +
+leonardo                    +     +     x      +      (+)   - (): 64MHz highspeed need special handling  
+
+uno                              
+
+
+
+http://provideyourown.com/2012/arduino-leonardo-versus-uno-whats-new/
+
+
+
+Board	            TimerOne           TimerThree
+PWM Pins	
+Teensy 3.1	          3, 4	         25, 32
+Teensy 3.0	          3, 4	
+Teensy 2.0	          4, 14, 15	       9
+Teensy++ 2.0	      25, 26, 27	 14, 15, 16
+Arduino Uno	          9, 10	
+Arduino Leonardo      9, 10, 11       5
+Arduino Mega	      11, 12, 13    2, 3, 5
+Wiring-S              4, 5	
+Sanguino              12, 13	
