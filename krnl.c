@@ -755,6 +755,10 @@ ki_wait (struct k_t *sem, int timeout)
 
   if (timeout < 0)    // no luck, dont want to wait so bye bye
   {
+  
+#ifdef KRNLBUG
+  k_sem_wait(sem->nr, -1111);  // -1111 timeout
+#endif
     return (-2);
   }
   // from here we want to wait

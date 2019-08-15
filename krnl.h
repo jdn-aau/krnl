@@ -9,7 +9,7 @@
 *                                                     *
 * you are watching krnl.h                             *
 *                                                     *
-*       March 2015,2016,..,2018                       *  
+*       March 2015,2016,..,2018                       *
 *       Author: jdn                                   *
 *       13 March 2018                                 *
 *                                                     *
@@ -17,25 +17,25 @@
 
              (simple not - not ?! :-) )
    my own small KeRNeL adapted for Arduino
-                                                    
+
    previous known as KRNL or SNOT
-                                                     
+
    this version adapted for Arduino
-                                                     
+
    (C) 2012,2013,2014
       2017,2018,2019
-                                                     
+
    Jens Dalsgaard Nielsen <jdn@es.aau.dk>
    http://es.aau.dk/staff/jdn
    Section of Automation & Control
    Aalborg University,
    Denmark
-                                                     
+
    "THE BEER-WARE LICENSE" (frit efter PHK)
    <jdn@es.aau.dk> wrote this file. As long as you
    retain this notice you can do whatever you want
-   with this stuff, but You shall add your 
-   name and email and date for your 
+   with this stuff, but You shall add your
+   name and email and date for your
    modification.
 
    If we meet some day, and you think
@@ -43,9 +43,9 @@
    you can buy me a beer in return :-)
    or if you are real happy then ...
    single malt will be well received :-)
-                                                     
+
    Use it at your own risk - no warranty
-                                                     
+
    tested with duemilanove w/328, uno R3,
    seeduino 1280 and mega2560    1284p and 2561
 *****************************************************
@@ -193,60 +193,60 @@
 
 ***********************************************************/
 
-    #ifndef sbi
-    #define sbi(r,b)  r |= _BV(b)
-    #endif
+#ifndef sbi
+#define sbi(r,b)  r |= _BV(b)
+#endif
 
 
-    #ifndef cbi
-    #define cbi(r,b) r &= ~_BV(b)
-    #endif
+#ifndef cbi
+#define cbi(r,b) r &= ~_BV(b)
+#endif
 
-    #ifndef rbi
-    #define cbi(r,b) r &= ~_BV(b)
-    #endif
+#ifndef rbi
+#define cbi(r,b) r &= ~_BV(b)
+#endif
 
-    #ifndef KRNL
+#ifndef KRNL
 
 // blink with led 13 when dmy is running
-  //  #define K_BUGBLINK
+//  #define K_BUGBLINK
 
-    #define KRNL
+#define KRNL
 
-   #define KRNLBUG
+#define KRNLBUG
 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
 
-    // if you want k_malloc
-    // NB k_free wont release mem due to possible fragmentation
-    // SO DONT USE k_free
-    #define DYNMEMORY
-    
-    // watchdog 1 sec
-    #define WDT_TIMER
-    #define WDT_PERIOD WDTO_1S 
-    
-    #define QHD_PRIO 102   // Queue head prio - for sentinel use
+// if you want k_malloc
+// NB k_free wont release mem due to possible fragmentation
+// SO DONT USE k_free
+#define DYNMEMORY
 
-    #define DMY_PRIO (QHD_PRIO-2) // dummy task prio (0 == highest prio)
-    #define ZOMBI_PRIO (QHD_PRIO -1)
-    #define DMY_STK_SZ  90    // staksize for dummy
-    #define MAIN_PRIO   50    // main task prio
-    #define STAK_HASH   0x5c  // just a hashcode
-    #define MAX_SEM_VAL 50    // NB is also max for nr elem in msgQ !
-    #define MAX_INT 0x7FFF
-    // not in use #define SEM_MAX_DEFAULT 50
-    #define SEM_MAX_VALUE 32000
+// watchdog 1 sec
+#define WDT_TIMER
+#define WDT_PERIOD WDTO_1S
+
+#define QHD_PRIO 102   // Queue head prio - for sentinel use
+
+#define DMY_PRIO (QHD_PRIO-2) // dummy task prio (0 == highest prio)
+#define ZOMBI_PRIO (QHD_PRIO -1)
+#define DMY_STK_SZ  90    // staksize for dummy
+#define MAIN_PRIO   50    // main task prio
+#define STAK_HASH   0x5c  // just a hashcode
+#define MAX_SEM_VAL 50    // NB is also max for nr elem in msgQ !
+#define MAX_INT 0x7FFF
+// not in use #define SEM_MAX_DEFAULT 50
+#define SEM_MAX_VALUE 32000
 
 // BACKSTOPPER wraps a looping fct around your task so it will just restart
-// is the task leaves the task body code 
+// is the task leaves the task body code
 // like loop function
 // BEWARE bq local variables in the task body just evaporate
-    #define BACKSTOPPER
-    
+#define BACKSTOPPER
 
 
-    #define CEILINGFAIL -3
+
+#define CEILINGFAIL -3
 
 
 /* which timer to use for krnl heartbeat
@@ -260,63 +260,63 @@
 
 
 
-    #if defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
-    #define KRNLTMR 2
+#if defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+#define KRNLTMR 2
 
-    #elif defined (__AVR_ATmega1284P__)
-    #define KRNLTMR 2
+#elif defined (__AVR_ATmega1284P__)
+#define KRNLTMR 2
 
-    #elif defined (__AVR_ATmega328P__)
-    #define KRNLTMR 2
+#elif defined (__AVR_ATmega328P__)
+#define KRNLTMR 2
 
-    #elif defined (__AVR_ATmega32U4__)
-    #define KRNLTMR 3
+#elif defined (__AVR_ATmega32U4__)
+#define KRNLTMR 3
 
-    #else
-    #error  "unknown AVR cpu type - bad place to come"
+#else
+#error  "unknown AVR cpu type - bad place to come"
 
-    #endif
+#endif
 // END USER CONFIGURATION
 
 // check for legal timers
-    #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
 
-    #if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2)
-    #error "bad timer selection for krnl heartbeat(168/328/328p/...)"
-    #endif
+#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2)
+#error "bad timer selection for krnl heartbeat(168/328/328p/...)"
+#endif
 
-    #endif
+#endif
 
-    #if defined(__AVR_ATmega32U4__)
+#if defined(__AVR_ATmega32U4__)
 
-    #if (KRNLTMR != 0) && (KRNLTMR != 1) &&(KRNLTMR != 3)
-    #error "bad timer selection for krnl heartbeat(32u4)...)"
-    #endif
+#if (KRNLTMR != 0) && (KRNLTMR != 1) &&(KRNLTMR != 3)
+#error "bad timer selection for krnl heartbeat(32u4)...)"
+#endif
 
-    #endif
+#endif
 
-    #if defined (__AVR_ATmega1280__)  || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+#if defined (__AVR_ATmega1280__)  || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
 
-    #if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3) && (KRNLTMR != 4) && (KRNLTMR != 5)
-    #error "bad timer for krnl heartbeat(1280/2560/2561) in krnl"
-    #endif
+#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3) && (KRNLTMR != 4) && (KRNLTMR != 5)
+#error "bad timer for krnl heartbeat(1280/2560/2561) in krnl"
+#endif
 
-    #endif
+#endif
 
-    #if defined (__AVR_ATmega1284P__)
+#if defined (__AVR_ATmega1284P__)
 
-    #if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3)
-    #error "bad timer for krnl heartbeat(1284P) in krnl"
-    #endif
+#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3)
+#error "bad timer for krnl heartbeat(1284P) in krnl"
+#endif
 
-    #endif
+#endif
 
 //----------------------------------------------------------
 
-    #ifdef __cplusplus
+#ifdef __cplusplus
 extern "C"
 {
-    #endif
+#endif
 
 extern int k_task, k_sem, k_msg;
 extern volatile char krnl_preempt_flag;
@@ -325,40 +325,40 @@ extern char dmy_stk[DMY_STK_SZ];
 /***** KeRNeL data types *****/
 struct k_t
 {
-    #ifdef BACKSTOPPER
-        void (*pt)(void);
-    #endif
-        unsigned char nr;
-        struct k_t *next,     // task,sem: double chain lists ptr
-        *pred;            // task,sem: double chain lists ptr
-        volatile char sp_lo,     // sem:vacant    | task: low 8 byte of stak adr
-                      sp_hi;     // sem: vacant   |task: high 8 byte of stak adr
-        char prio,     // task & sem:  priority
-             ceiling_prio,     // sem
-             saved_prio;     // semaohore
-        volatile int cnt1,     // sem: sem counter | task: ptr to stak
-                     cnt2,     // asem: dyn part of time counter | task: timeout
-                     cnt3,     // sem: preset timer value |  task: ptr to Q we are hanging in
-                     maxv,     // sem: max value |         task: org priority
-                     clip;     // sem: counter for lost signals | task: vacant
+#ifdef BACKSTOPPER
+    void (*pt)(void);
+#endif
+    unsigned char nr;
+    struct k_t *next,     // task,sem: double chain lists ptr
+               *pred;            // task,sem: double chain lists ptr
+    volatile char sp_lo,     // sem:vacant    | task: low 8 byte of stak adr
+             sp_hi;     // sem: vacant   |task: high 8 byte of stak adr
+    char prio,     // task & sem:  priority
+         ceiling_prio,     // sem
+         saved_prio;     // semaohore
+    volatile int cnt1,     // sem: sem counter | task: ptr to stak
+             cnt2,     // asem: dyn part of time counter | task: timeout
+             cnt3,     // sem: preset timer value |  task: ptr to Q we are hanging in
+             maxv,     // sem: max value |         task: org priority
+             clip;     // sem: counter for lost signals | task: vacant
 };
 
 struct k_msg_t
 {
-        // msg type
-        unsigned char nr;
-        struct k_t *sem;
-        char *pBuf;     // ptr to user supplied ringbuffer
-        volatile int nr_el, el_size, lost_msg;
-        volatile int r, w, cnt;
+    // msg type
+    unsigned char nr;
+    struct k_t *sem;
+    char *pBuf;     // ptr to user supplied ringbuffer
+    volatile int nr_el, el_size, lost_msg;
+    volatile int r, w, cnt;
 };
 
 /***** KeRNeL variables *****/
 
 extern struct k_t *task_pool, *sem_pool, AQ,      // activeQ
-*pmain_el, *pAQ, *pDmy, // ptr to dummy task descriptor
-*pRun,                  // ptr to running task
-*pSleepSem;
+           *pmain_el, *pAQ, *pDmy, // ptr to dummy task descriptor
+           *pRun,                  // ptr to running task
+           *pSleepSem;
 
 extern struct k_msg_t *send_pool;
 
@@ -409,7 +409,7 @@ Data address	I/O address	Contents
    Register addresses
    IO adr      data addr
    0x3f SREG    0x5f
-   0x3e SPH     
+   0x3e SPH
    0x3d SPL
    0x3c EIND    0x5c 1280/2560 only
    0x3b RAMPZ   0x5b 1280/2560/1284p only
@@ -422,13 +422,13 @@ Data address	I/O address	Contents
    PC is NOT available
  */
 
-    #define lo8(X) ((unsigned char)((unsigned int)(X)))
-    #define hi8(X) ((unsigned char)((unsigned int)(X) >> 8))
+#define lo8(X) ((unsigned char)((unsigned int)(X)))
+#define hi8(X) ((unsigned char)((unsigned int)(X) >> 8))
 
 extern volatile char k_bug_on;
 
-    #ifdef KRNLBUG
-    #define K_CHG_STAK()    \
+#ifdef KRNLBUG
+#define K_CHG_STAK()    \
         if (pRun != AQ.next) {  \
                 pRun->sp_lo = SPL;    \
                 pRun->sp_hi = SPH;    \
@@ -438,8 +438,8 @@ extern volatile char k_bug_on;
                 SPH = pRun->sp_hi;    \
         }
 
-    #else
-    #define K_CHG_STAK()    \
+#else
+#define K_CHG_STAK()    \
         if (pRun != AQ.next) {  \
                 pRun->sp_lo = SPL;    \
                 pRun->sp_hi = SPH;    \
@@ -448,7 +448,7 @@ extern volatile char k_bug_on;
                 SPH = pRun->sp_hi;    \
         }
 
-    #endif
+#endif
 
 
 // MISSING no code 1284p
@@ -462,22 +462,22 @@ extern volatile char k_bug_on;
 
 
 
-    #if defined (__AVR_ATmega2560__) || defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2561__) ||  defined ( __AVR_ATmega1284P__) ||  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
+#if defined (__AVR_ATmega2560__) || defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2561__) ||  defined ( __AVR_ATmega1284P__) ||  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
 
-    #define DI()   __asm__ volatile ("cli")
-    #define EI()   __asm__ volatile ("sei")
-    #define RETI() __asm__ volatile ("reti")
+#define DI()   __asm__ volatile ("cli")
+#define EI()   __asm__ volatile ("sei")
+#define RETI() __asm__ volatile ("reti")
 
-    #endif
+#endif
 
 /* below: r1 must/shall always assumed to be zero in c code (gcc issue I think) */
 
-    #if defined (__AVR_ATmega2560__) || defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2561__)
+#if defined (__AVR_ATmega2560__) || defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2561__)
 
 // 0x3b RAMPZ extended z-pointer register
 // 0x3c EIND extended indirect register
 
-    #define PUSHREGS() __asm__ volatile ( \
+#define PUSHREGS() __asm__ volatile ( \
                 "push r1  \n\t" \
                 "push r0  \n\t" \
                 "in r0, __SREG__ \n\t" \
@@ -520,7 +520,7 @@ extern volatile char k_bug_on;
                 "push r31 \n\t" \
                 )
 
-    #define POPREGS() __asm__ volatile ( \
+#define POPREGS() __asm__ volatile ( \
                 "pop r31 \n\t" \
                 "pop r30 \n\t" \
                 "pop r29 \n\t" \
@@ -561,12 +561,12 @@ extern volatile char k_bug_on;
                 "pop r1  \n\t" \
                 )
 
-    #elif defined ( __AVR_ATmega1284P__)
+#elif defined ( __AVR_ATmega1284P__)
 
 // 0x3b RAMPZ extended z-pointer register
 // 0x3c EIND extended indirect register
 
-    #define PUSHREGS() __asm__ volatile ( \
+#define PUSHREGS() __asm__ volatile ( \
                 "push r1  \n\t" \
                 "push r0  \n\t" \
                 "in r0, __SREG__ \n\t" \
@@ -607,7 +607,7 @@ extern volatile char k_bug_on;
                 "push r31 \n\t" \
                 )
 
-    #define POPREGS() __asm__ volatile ( \
+#define POPREGS() __asm__ volatile ( \
                 "pop r31 \n\t" \
                 "pop r30 \n\t" \
                 "pop r29 \n\t" \
@@ -646,10 +646,10 @@ extern volatile char k_bug_on;
                 "pop r1  \n\t" \
                 )
 
-    #elif  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
+#elif  defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
 
 // 328p etc
-    #define PUSHREGS() __asm__ volatile ( \
+#define PUSHREGS() __asm__ volatile ( \
                 "push r1 \n\t" \
                 "push r0 \n\t" \
                 "in r0, __SREG__ \n\t" \
@@ -688,7 +688,7 @@ extern volatile char k_bug_on;
                 "push r31 \n\t" \
                 )
 
-    #define POPREGS() __asm__ volatile ( \
+#define POPREGS() __asm__ volatile ( \
                 "pop r31 \n\t" \
                 "pop r30 \n\t" \
                 "pop r29 \n\t" \
@@ -725,9 +725,9 @@ extern volatile char k_bug_on;
                 "pop r1  \n\t" \
                 )
 
-    #else
-    #error "unknown arch"
-    #endif
+#else
+#error "unknown arch"
+#endif
 
 // function prototypes
 // naming convention
@@ -735,7 +735,7 @@ extern volatile char k_bug_on;
 // ki_... expects interrupt to be disablet and do no task shift
 // rest is internal functions
 
- 
+
 #ifdef DYNMEMORY
 
 /**
@@ -756,7 +756,7 @@ void k_free(void * m);
 
 void __attribute__ ((weak)) k_enable_wdt(void);
 /**
-   Returns nr of milliseconds since krnl was started by k_start 
+   Returns nr of milliseconds since krnl was started by k_start
    @return: unsigned long is returned
    @remark only to be called after start of KRNL and only when interrupt is disabled
    @remark To be called within an ISR so interrupts is no disabled
@@ -764,7 +764,7 @@ void __attribute__ ((weak)) k_enable_wdt(void);
 unsigned long ki_millis (void);
 
 /**
-   Returns nr of milliseconds since krnl was started by k_start 
+   Returns nr of milliseconds since krnl was started by k_start
    @return: unsigned long is returned
    @remark only to be called after start of KRNL
    @remark Interrupt is disabled when reading krnl time and is enabled afterwards
@@ -912,7 +912,7 @@ int k_sem_signals_lost (struct k_t *sem);
    @return 0: ok , -1: could do wait bw blocking would have taken place
    @remark The ki_ indicates that interrups is NOT enabled when leaving ki_wait
    @remark only to be called after start of KRNL
-   @remark normally not to be used by users !!! BEWARE  
+   @remark normally not to be used by users !!! BEWARE
  */
 int ki_wait (struct k_t *sem, int timeout);
 
@@ -956,6 +956,24 @@ int ki_msg_count (struct k_msg_t *m);
 int k_msg_count (struct k_msg_t *m);
 
 
+/*********************************************************************
+************************* DEBUG BREAKOUT FUNCTIONS *******************
+**********************************************************************
+*
+* Breakout functions can be removed by commenting out define of
+* KRNLBUG in krnl.h  (located around line 216)
+
+* All semaphore calls k_sem_clip, k_sem_signal, k_Sem_wait are all called
+* AFTER decrement/incr of semaphore has taken place BUT before eventually
+* taskshift.
+*
+* For message buffers/semaphores an internal semaphore is used for synchronization
+* so referring to the msgQ is by
+* struct k_msg_t *msgSem; msgSem->sem->nr
+*
+*/
+
+
 /**
    a function for overloading on usersite which is called when a semaphore is overflooding
    no reset occur - it's only reading out semaphore idendity
@@ -965,23 +983,25 @@ int k_msg_count (struct k_msg_t *m);
    @param[in] nr  id of semaphore 1,2,3,...
    @param[in] nrClip number of times clip has occured (may be reset by call k_wait_lost)
  */
-    #ifdef KRNLBUG
+#ifdef KRNLBUG
 void __attribute__ ((weak)) k_sem_clip (unsigned char nr, int nrClip);
-    #endif
+#endif
 
 /**
 * called in a signal call val is sem val AFTER signal has taken place
 */
-     #ifdef KRNLBUG
+#ifdef KRNLBUG
 void __attribute__ ((weak)) k_sem_signal (unsigned char nr, int val);
-    #endif
+#endif
 
 /**
-* called when wait called. val is sem value after wait
+* called when wait called. val is sem value after countdown has taken place
+* NB is the wait call willl not wait and there is no token at the semaphore
+*  val will be -1111
 */
-     #ifdef KRNLBUG
+#ifdef KRNLBUG
 void __attribute__ ((weak)) k_sem_wait (unsigned char nr, int val);
-    #endif
+#endif
 
 
 /**
@@ -992,10 +1012,10 @@ void __attribute__ ((weak)) k_sem_wait (unsigned char nr, int val);
    @param nr : id of send Q 0,1,2,...
    @param nrClip: number of times clip has occured (may be reset by call k_receive and lost parm not eq NULL)
  */
-    #ifdef KRNLBUG
+#ifdef KRNLBUG
 void __attribute__ ((weak)) k_send_Q_clip (unsigned char nr, int nrClip);
-    #endif
- 
+#endif
+
 struct k_msg_t *k_crt_send_Q (int nr_el, int el_size, void *pBuf);
 
 /**
@@ -1094,9 +1114,9 @@ void k_reset ();
    Nov 2014 - fake do not use it bq it will not work
    for emergency use :-)
  */
-    #ifdef K_BUGBLINK
+#ifdef K_BUGBLINK
 void k_bugblink13 (char on);
-    #endif
+#endif
 /**
    returns nr of unbytes bytes on stak.
    For chekking if stak is too big or to small...
@@ -1115,7 +1135,7 @@ int k_stk_chk (struct k_t *t);
  **/
 int k_unused_stak (struct k_t *t);
 
-    #ifdef NEVER
+#ifdef NEVER
 /**
    Set preempt or non preempt
    @param[in] on : 1: preempt on, 0: off 2: no change
@@ -1128,7 +1148,7 @@ char k_set_preempt (char on);
    @return: current state: 1 preempt sch. 0 non preempt
  **/
 char k_get_preempt (void);
-    #endif
+#endif
 /**
    round robbin
    @return: current state: 1 preempt sch. 0 non preempt
@@ -1146,20 +1166,20 @@ void k_release (void);
  */
 int freeRam (void);
 
-    #ifdef KRNLBUG
+#ifdef KRNLBUG
 
 /**
    Breakout function called from scheduler
  **/
 void __attribute__ ((weak)) k_breakout (void);
-    #endif
+#endif
 
-    #ifdef __cplusplus
+#ifdef __cplusplus
 }
-    #endif
+#endif
 
 #endif        // #ifndef KRNL
-    
-    
-    
-    
+
+
+
+
