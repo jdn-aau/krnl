@@ -1,19 +1,20 @@
 /******************************************************
 *                                                     *
 *                                                     *
-              | |/ /___|  _ \| \ | | ___| |
-              | ' // _ \ |_) |  \| |/ _ \ |
-              | . \  __/  _ <| |\  |  __/ |___
-              |_|\_\___|_| \_\_| \_|\___|_____|
+*             | |/ /___|  _ \| \ | | ___| |           *
+*             | ' // _ \ |_) |  \| |/ _ \ |           *
+*             | . \  __/  _ <| |\  |  __/ |___        *
+*             |_|\_\___|_| \_\_| \_|\___|_____|       *
 *                                                     *
 *                                                     *
-  you are watching krnl.h
+* you are watching krnl.c                             *
 *                                                     *
-        March 2015,2016,..,2018
-        Author: jdn
-        13 March 2018
+*       March 2015,2016,..,2018                       *
+*       Author: jdn                                   *
+*       13 March 2018                                 *
 *                                                     *
 *******************************************************
+
   this version adapted for Arduino
 
   (C) 2012,2013,2014
@@ -399,6 +400,7 @@ exitt:
   POPREGS ();
   RETI ();
 }
+/**HERE**/
 
 //----------------------------------------------------------------------------
 // inspired from ...
@@ -419,6 +421,7 @@ void __attribute__ ((naked, noinline)) ki_task_shift (void)
   POPREGS ();   // restore regs
   RETI ();      // and do a reti NB this also enables interrupt !!!
 }
+
 
 #ifdef BACKSTOPPER
 void
