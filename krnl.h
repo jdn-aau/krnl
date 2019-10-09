@@ -67,7 +67,7 @@
 #pragma message ("krnl detected 8 MHz")
 #endif
 
-#if (KRNL_VRS != 20190611)
+#if (KRNL_VRS != 20191008)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 
