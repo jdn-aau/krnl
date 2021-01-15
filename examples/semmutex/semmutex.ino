@@ -1,6 +1,6 @@
 #include <krnl.h>
 
-
+// tt
 // mutual exclusion by semaphore :-)
 // two tasks want to acces serial line
 // they have to reserce the serial port by aquiring a semaphore and release afterwards

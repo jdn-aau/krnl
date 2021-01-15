@@ -18,6 +18,7 @@ June 2016 - added watch dog timer - see below
 Some highlights
 ---------------
 
+last news
 Jan 2021 - std timer0 for all AVRs CPU and hearbeat is 1msec
            millis is still working - but dont  use it :-)
 - open source (beer license)
