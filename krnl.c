@@ -884,7 +884,7 @@ ki_wait (struct k_t *sem, int timeout)
 #ifdef KRNLBUG
     k_sem_wait (sem->nr, sem->cnt1);
 #endif
-    return (1);     // ok: 1 bq we are not suspended
+    return (1);     // ok: 1 bq we are not suspended.
   }
 
   if (timeout < 0)    // no luck, dont want to wait so bye bye
