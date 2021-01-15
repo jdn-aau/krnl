@@ -40,7 +40,7 @@ void setup()
   mutexSem = k_crt_sem(1,10);
   t1 = k_crt_task(t1Code,10,stak1,100);
   t2 = k_crt_task(t2Code,10,stak2,100);
-  k_start(10);
+  k_start(1);
 }
 void loop()
 {
