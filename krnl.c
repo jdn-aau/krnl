@@ -52,6 +52,97 @@
 
 
 */
+
+
+/*
+ABOUT TIMERS
+following is Arduinos impl found in ...
+"arduino install"/hardware/arduino/avr/cores/arduino/wiring.c
+
+volatile unsigned long timer0_overflow_count = 0;
+volatile unsigned long timer0_millis = 0;
+static unsigned char timer0_fract = 0;
+
+#if defined(TIM0_OVF_vect)
+ISR(TIM0_OVF_vect)
+#else
+ISR(TIMER0_OVF_vect)
+#endif
+{
+	// copy these to local variables so they can be stored in registers
+	// (volatile variables must be read from memory on every access)
+	unsigned long m = timer0_millis;
+	unsigned char f = timer0_fract;
+
+	m += MILLIS_INC;
+	f += FRACT_INC;
+	if (f >= FRACT_MAX) {
+		f -= FRACT_MAX;
+		m += 1;
+	}
+
+	timer0_fract = f;
+	timer0_millis = m;
+	timer0_overflow_count++;
+}
+
+unsigned long millis()
+{
+	unsigned long m;
+	uint8_t oldSREG = SREG;
+
+	// disable interrupts while we read timer0_millis or we might get an
+	// inconsistent value (e.g. in the middle of a write to timer0_millis)
+	cli();
+	m = timer0_millis;
+	SREG = oldSREG;
+
+	return m;
+}
+
+unsigned long micros() {
+	unsigned long m;
+	uint8_t oldSREG = SREG, t;
+	
+	cli();
+	m = timer0_overflow_count;
+#if defined(TCNT0)
+	t = TCNT0;
+#elif defined(TCNT0L)
+	t = TCNT0L;
+#else
+	#error TIMER 0 not defined
+#endif
+
+#ifdef TIFR0
+	if ((TIFR0 & _BV(TOV0)) && (t < 255))
+		m++;
+#else
+	if ((TIFR & _BV(TOV0)) && (t < 255))
+		m++;
+#endif
+
+	SREG = oldSREG;
+	
+	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
+}
+
+void delay(unsigned long ms)
+{
+	uint32_t start = micros();
+
+	while (ms > 0) {
+		yield();
+		while ( ms > 0 && (micros() - start) >= 1000) {
+			ms--;
+			start += 1000;
+		}
+	}
+}
+
+*********/
+
+
 #include "krnl.h"
 
 #ifdef WDT_TIMER
@@ -289,13 +380,13 @@ prio_enQ (struct k_t *Q, struct k_t *el)
 
    Timer2 reload value, globally available
 */
-struct k_t *pE;
+
 
 #if (KRNLTMR == 0)
 
 extern volatile unsigned long timer0_overflow_count;
 extern volatile unsigned long timer0_millis;
-static unsigned char timer0_fractt = 0;
+extern unsigned char timer0_fract;
 #define MICROSECONDS_PER_TIMER0_OVERFLOW (1024) //clockCyclesToMicroseconds(64 * 256))
 
 // the whole number of milliseconds per timer0 overflow
@@ -311,26 +402,65 @@ static unsigned char timer0_fractt = 0;
 #endif
 
 
+
+/* from wiring.c
+// the prescaler is set so that timer0 ticks every 64 clock cycles, and the
+// the overflow handler is called every 256 ticks.
+#define MICROSECONDS_PER_TIMER0_OVERFLOW (clockCyclesToMicroseconds(64 * 256))
+
+// the whole number of milliseconds per timer0 overflow
+#define MILLIS_INC (MICROSECONDS_PER_TIMER0_OVERFLOW / 1000)
+
+// the fractional number of milliseconds per timer0 overflow. we shift right
+// by three to fit these numbers into a byte. (for the clock speeds we care
+// about - 8 and 16 MHz - this doesn't lose precision.)
+#define FRACT_INC ((MICROSECONDS_PER_TIMER0_OVERFLOW % 1000) >> 3)
+#define FRACT_MAX (1000 >> 3) which is 
+
+*/
+
 ISR (KRNLTMRVECTOR, ISR_NAKED)  // naked so we have to supply with prolog and epilog (push pop stack of regs)
 {
+static struct k_t *pE;
   PUSHREGS ();      // no local vars ! I think
 
   // JDN NASTY FOR TIMING ANALYSIS ONLY
   //  PORTB |=0x10;
 
-#ifdef WDT_TIMER
+#if WDT_TIMER == 1
   wdt_reset ();
 #endif
 
 #if (KRNLTMR == 0)
+
+// STD IS NOT TAKEN TIMER 0 - SEE IN krnl.h
   // we have overtaken the millis timer so we do it by hand
-  timer0_millis += MILLIS_INC;
-  timer0_fractt += FRACT_INC;
-  if (timer0_fractt >= FRACT_MAX) {
-    timer0_fractt -= FRACT_MAX;
-    timer0_millis += 1;
-  }
-  timer0_overflow_count++;
+  //found in "arduino install"/hardware/arduino/avr/cores/arduino/wiring.c
+  //F = 976.5625Hz, i.e. it increments every 1.024msec
+  // so every 
+  
+  	// copy these to local variables so they can be stored in registers
+	// (volatile variables must be read from memory on every access)
+	unsigned long m = timer0_millis;
+//JDN see below	unsigned char f = timer0_fract;
+
+	m += MILLIS_INC;
+	/* JDN if you use the frac part then you will se time advance every 41/42 tick and
+	clock will drift ahead timers - 
+    So JDN will choose NOT to do the fract stuff and see timing be 2.344 % to slow
+    NB Its 0.57hour/24h !
+    
+	f += FRACT_INC;
+	if (f >= FRACT_MAX) {
+		f -= FRACT_MAX;
+		m += 1;
+	}
+
+	timer0_fract = f;
+
+	timer0_overflow_count++;
+	*/
+	timer0_millis = m;	
 #else
   TCNTx = tcntValue;    // Reload the timer
 #endif
@@ -424,8 +554,7 @@ void __attribute__ ((naked, noinline)) ki_task_shift (void)
 
 
 #ifdef BACKSTOPPER
-void
-jumper ()
+void jumper ()
 {
   (*(pRun->pt)) ();
   k_set_prio(ZOMBI_PRIO);
@@ -1214,6 +1343,7 @@ k_start (int tm)
 #endif
 
 #if (KRNLTMR !=0)
+// hm we are heading for 16 bit timers :-)
   TCCRxA = 0;
   TCCRxB = PRESCALE;    // atm328s  2560,...
 

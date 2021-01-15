@@ -73,7 +73,7 @@
    - mangle with Arduino library code in ...
       hardware/arduino/avr/cores/arduino/wiring.c
       rename  ISR ... with function head:
-  #if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny84__)
+  #if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) | defined(__AVR_ATtiny84__)
         ISR(TIM0_OVF_vect)
   #else
         ISR(TIMER0_OVF_vect)
@@ -209,21 +209,25 @@
 #ifndef KRNL
 
 // blink with led 13 when dmy is running
-//  #define K_BUGBLINK
-
+#define K_BUGBLINK 0
+// or 1 for activate
 #define KRNL
 
-#define KRNLBUG
+
+// breakout fct to be called in dispatcher
+// or 0
+#define KRNLBUG 1
 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
 
 // if you want k_malloc
 // NB k_free wont release mem due to possible fragmentation
 // SO DONT USE k_free
-#define DYNMEMORY
+#define DYNMEMORY 1
+// or 0
 
 // watchdog 1 sec
-#define WDT_TIMER
+// JDN #define WDT_TIMER 1
 #define WDT_PERIOD WDTO_1S
 
 #define QHD_PRIO 102   // Queue head prio - for sentinel use
@@ -242,7 +246,7 @@
 // is the task leaves the task body code
 // like loop function
 // BEWARE bq local variables in the task body just evaporate
-#define BACKSTOPPER
+#define BACKSTOPPER 1
 
 
 
@@ -267,7 +271,8 @@
 #define KRNLTMR 2
 
 #elif defined (__AVR_ATmega328P__)
-#define KRNLTMR 2
+#define KRNLTMR 1
+// changed from 0  /JDN
 
 #elif defined (__AVR_ATmega32U4__)
 #define KRNLTMR 3
@@ -325,7 +330,7 @@ extern char dmy_stk[DMY_STK_SZ];
 /***** KeRNeL data types *****/
 struct k_t
 {
-#ifdef BACKSTOPPER
+#if BACKSTOPPER == 1
     void (*pt)(void);
 #endif
     unsigned char nr;
@@ -462,7 +467,7 @@ f 15
 
 extern volatile char k_bug_on;
 
-#ifdef KRNLBUG
+#if  KRNLBUG == 1
 #define K_CHG_STAK()    \
         if (pRun != AQ.next) {  \
                 pRun->sp_lo = SPL;    \
@@ -771,7 +776,7 @@ extern volatile char k_bug_on;
 // rest is internal functions
 
 
-#ifdef DYNMEMORY
+#if DYNMEMORY == 1
 
 /**
   call malloc protected by DI and EI
@@ -1018,14 +1023,14 @@ int k_msg_count (struct k_msg_t *m);
    @param[in] nr  id of semaphore 1,2,3,...
    @param[in] nrClip number of times clip has occured (may be reset by call k_wait_lost)
  */
-#ifdef KRNLBUG
+#if KRNLBUG == 1
 void __attribute__ ((weak)) k_sem_clip (unsigned char nr, int nrClip);
 #endif
 
 /**
 * called in a signal call val is sem val AFTER signal has taken place
 */
-#ifdef KRNLBUG
+#if KRNLBUG == 1
 void __attribute__ ((weak)) k_sem_signal (unsigned char nr, int val);
 #endif
 
@@ -1034,7 +1039,7 @@ void __attribute__ ((weak)) k_sem_signal (unsigned char nr, int val);
 * NB is the wait call willl not wait and there is no token at the semaphore
 *  val will be -1111
 */
-#ifdef KRNLBUG
+#if KRNLBUG == 1
 void __attribute__ ((weak)) k_sem_wait (unsigned char nr, int val);
 #endif
 
@@ -1047,7 +1052,7 @@ void __attribute__ ((weak)) k_sem_wait (unsigned char nr, int val);
    @param nr : id of send Q 0,1,2,...
    @param nrClip: number of times clip has occured (may be reset by call k_receive and lost parm not eq NULL)
  */
-#ifdef KRNLBUG
+#if KRNLBUG == 1
 void __attribute__ ((weak)) k_send_Q_clip (unsigned char nr, int nrClip);
 #endif
 
@@ -1149,7 +1154,7 @@ void k_reset ();
    Nov 2014 - fake do not use it bq it will not work
    for emergency use :-)
  */
-#ifdef K_BUGBLINK
+#if K_BUGBLINK == 1
 void k_bugblink13 (char on);
 #endif
 /**
@@ -1201,7 +1206,7 @@ void k_release (void);
  */
 int freeRam (void);
 
-#ifdef KRNLBUG
+#if KRNLBUG == 1
 
 /**
    Breakout function called from scheduler

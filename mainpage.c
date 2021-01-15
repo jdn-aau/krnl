@@ -5,7 +5,7 @@
  * my own small KeRNeL adapted for Arduino - now known as KRNL
 * (old name was SNOT)
  *
- * (C) 2012-2019
+ * (C) 2012,2013,2014.2015.2016
  *
  * Jens Dalsgaard Nielsen <jdn@es.aau.dk>
  * http://www.control.aau.dk/~jdn
@@ -25,8 +25,6 @@
  * KRNL is a preemptive realtime kernel here ported for Arduino
  *
  * See krnl.h for documentation or follow the links below
- *
- * See krnl.c for src
 *
 * NEWS : get it from github Q see https://github.com/jdn-aau/krnl
 * \tableofcontents
