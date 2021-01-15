@@ -12,7 +12,7 @@
 *       March 2015,2016,..,2018                       *
 *       Author: jdn                                   *
 *       13 March 2018                                 *
-* 12                                                  *
+*                                                     *
 *******************************************************
 
   this version adapted for Arduino
@@ -278,6 +278,8 @@ void delay(unsigned long ms)
 
 #endif
 
+int k_config = KRNLTMR | (DYNMEM << 4) | (KRNLBUG << 5) | (BACKSTOPPER << 6)
+
 //----------------------------------------------------------------------------
 
 struct k_t *task_pool,   // array of descriptors for tasks
@@ -433,23 +435,22 @@ static struct k_t *pE;
 
 #if (KRNLTMR == 0)
 
-// STD IS NOT TAKEN TIMER 0 - SEE IN krnl.h
+   // STD IS NOT TAKEN TIMER 0 - SEE IN krnl.h
   // we have overtaken the millis timer so we do it by hand
   //found in "arduino install"/hardware/arduino/avr/cores/arduino/wiring.c
   //F = 976.5625Hz, i.e. it increments every 1.024msec
   // so every 
-  
-  	// copy these to local variables so they can be stored in registers
-	// (volatile variables must be read from memory on every access)
+  // copy these to local variables so they can be stored in registers
+  // (volatile variables must be read from memory on every access)
+  //JDN see below	unsigned char f = timer0_fract;
+
 	unsigned long m = timer0_millis;
-//JDN see below	unsigned char f = timer0_fract;
 
 	m += MILLIS_INC;
 	/* JDN if you use the frac part then you will se time advance every 41/42 tick and
 	clock will drift ahead timers - 
-    So JDN will choose NOT to do the fract stuff and see timing be 2.344 % to slow
-    NB Its 0.57hour/24h !
-    
+    */
+     
 	f += FRACT_INC;
 	if (f >= FRACT_MAX) {
 		f -= FRACT_MAX;
@@ -459,7 +460,8 @@ static struct k_t *pE;
 	timer0_fract = f;
 
 	timer0_overflow_count++;
-	*/
+	
+
 	timer0_millis = m;	
 #else
   TCNTx = tcntValue;    // Reload the timer

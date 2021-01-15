@@ -12,7 +12,7 @@
 *       March 2015,2016,..,2018                       *
 *       Author: jdn                                   *
 *       13 March 2018                                 *
-*12                                                   *
+*                                                     *
 *******************************************************
 
              (simple not - not ?! :-) )
@@ -24,6 +24,10 @@
 
    (C) 2012,2013,2014
       2017,2018,2019
+      2020,2021
+      
+      config info on the fly
+      int k_config = KRNLTMR | (DYNMEM << 4) | (KRNLBUG << 5) | (sBACKSTOPPER << 6)
 
    Jens Dalsgaard Nielsen <jdn@es.aau.dk>
    http://es.aau.dk/staff/jdn
@@ -51,11 +55,12 @@
 *****************************************************
  remember to update in krnl.c !!!
 *****************************************************/
-#define KRNL_VRS 20191008
+#define KRNL_VRS 20210114
 
 
 /***********************
 
+WE DO RUN N TIMER 0 AS STANDARD AND Ticks is 1msec independet og parm in calll to k_start !!!!
    NB NB ABOUT WRAP AROUND
 
    Krnl maintain a milisecond timer (k_millis_counter)
@@ -210,7 +215,8 @@
 
 // blink with led 13 when dmy is running
 #define K_BUGBLINK 0
-// or 1 for activate
+//  1 for activate
+
 #define KRNL
 
 
@@ -223,8 +229,10 @@
 // if you want k_malloc
 // NB k_free wont release mem due to possible fragmentation
 // SO DONT USE k_free
+
 #define DYNMEMORY 1
-// or 0
+
+// or 0 for deactivate
 
 // watchdog 1 sec
 // JDN #define WDT_TIMER 1
@@ -263,19 +271,21 @@
  */
 
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// DONT CHANGE TO OTHER TIMERS IF YOU DONT KNOW WHAT YOU ARE DOING /JDN
 
 #if defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
-#define KRNLTMR 2
+#define KRNLTMR 0
 
 #elif defined (__AVR_ATmega1284P__)
-#define KRNLTMR 2
+#define KRNLTMR 0
 
 #elif defined (__AVR_ATmega328P__)
-#define KRNLTMR 1
-// changed from 0  /JDN
+#define KRNLTMR 0
 
 #elif defined (__AVR_ATmega32U4__)
-#define KRNLTMR 3
+#define KRNLTMR 0
 
 #else
 #error  "unknown AVR cpu type - bad place to come"
@@ -323,6 +333,7 @@ extern "C"
 {
 #endif
 
+extern int k_config;
 extern int k_task, k_sem, k_msg;
 extern volatile char krnl_preempt_flag;
 extern char dmy_stk[DMY_STK_SZ];
