@@ -12,7 +12,7 @@
 *       March 2015,2016,..,2018                       *
 *       Author: jdn                                   *
 *       13 March 2018                                 *
-* 1                                                     *
+* 12                                                  *
 *******************************************************
 
   this version adapted for Arduino
