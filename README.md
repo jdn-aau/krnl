@@ -18,6 +18,8 @@ June 2016 - added watch dog timer - see below
 Some highlights
 ---------------
 
+Jan 2021 - std timer0 for all AVRs CPU and hearbeat is 1msec
+           millis is still working - but dont  use it :-)
 - open source (beer license)
 - well suited for teaching
  - easy to read and understand source
@@ -33,7 +35,7 @@ Some highlights
 Some characteristics:
 
 - preemptive scheduling 
- - Basic heart beat at 1 kHz. SNOT can have heeartbeat in quants of milli seconds
+ - Basic heart beat at 1 kHz. KRNL can have heeartbeat in quants of milli seconds
  - static priority scheme
 -  support task, semaphores, message queues
  - All elements shall be allocated prior to start of KRNL
