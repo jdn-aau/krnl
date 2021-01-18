@@ -5,6 +5,10 @@ I have found it interesting to develop an open source realtime kernel
 for the Arduino platform - but is also portable to other platforms
 
 
+2021 January:
+Krnl used timer0 uns a 1 msec kernel tick even if you give another value to k_start.
+
+It can be changed in the c source awhere i
 
 - SEE SOME NOTES BELOW ABOUT TIMERS AND PINS 
 - Now doxygen docu at html directory :-)

@@ -1144,7 +1144,19 @@ int k_init (int nrTask, int nrSem, int nrMsg);
    @remark only to be called after init of KRNL
    @remark KRNL WILL NOT START IF YOU HAVE TRIED TO CREATE MORE TASKS/SEMS/MSG QS THAN YOU HAVE ALLOCATED SPACE FOR IN k_init !!!
  */
-int k_start (int tm);     // tm in milliseconds
+int k_start ();     // tm in milliseconds
+
+/**
+   start KRNL with tm tick speed (1 msec on timer 0)
+   Can be changed in c source og use k_start_adv (not advised)
+    @return  -1-333 nr of k_Crt calls taht went wrong. krnl did not start
+           -555 negative tick parm value
+           -666 bad tick quant (legal is 1-10,20,30-10000
+   @remark only to be called after init of KRNL
+   @remark KRNL WILL NOT START IF YOU HAVE TRIED TO CREATE MORE TASKS/SEMS/MSG QS THAN YOU HAVE ALLOCATED SPACE FOR IN k_init !!!
+ */
+int k_start_adv (int tm);     // tm in milliseconds
+
 
 /**
    stop KRNL

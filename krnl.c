@@ -1288,7 +1288,102 @@ leave:
 }
 
 int
-k_start (int tm)
+k_start ()
+{
+int tm;
+  /*
+     TCCRxB
+     48,88,168,328, 1280,2560
+     timer 0 and 2 has same prescaler config:
+     8 bit:
+     0 0 0 No clock source (Timer/Counter stopped).
+     0 0 1 clk T2S /(No prescaling)
+     0 1 0 clk T2S /8 (From prescaler)      2000000 intr/sec at 1 downcount
+     0 1 1 clk T2S /32 (From prescaler)      500000 intr/sec ...
+     1 0 0 clk T2S /64 (From prescaler)      250000
+     1 0 1 clk T2S /128 (From prescaler)     125000
+     1 1 0 clk T 2 S /256 (From prescaler)    62500
+     1 1 1 clk T 2 S /1024 (From prescaler)   15625  eq 15.625 count down for 1 millisec
+     so 255 counts ~= 80.32 milli sec timer
+
+     timer 1(328+megas), 3,4,5(megas only)
+     1280, 2560,2561 has same prescaler config :
+     FOR 16 bits !
+     prescaler in cs2 cs1 cs0
+     0   0   0   none
+     0   0   1   /1 == none
+     0   1   0   /8     2000000 intr/sec
+     0   1   1   /64     250000 intr/sec
+     1   0   0   /256     62500 intr/sec
+     1   0   1   /1024    15625 intr/sec
+     16MHz Arduino -> 16000000/1024 =  15625 intr/second at one count
+     16MHz Arduino -> 16000000/256  =  62500 ticks/second
+     -------------------------/64   = 250000 ticks/second !
+
+     NB 16 bit counter so values >= 65535 is not working
+     ************************************************************************************* */
+
+
+  // will not start if errors during initialization
+  if (k_err_cnt) {
+    return -k_err_cnt;
+  }
+  // boundary check
+  if (tm <= 0) {
+    return -555;
+  } else {
+    tm = 1;
+    k_tick_size = fakecnt = tm; // JDN NEW
+    fakecnt_preset = 0;   // on duty for every interrupt
+  }
+
+  DI ();      // silencio
+
+  //  outdated ? JDN NASTY
+#if defined(__AVR_ATmega32U4__)
+  // 32u4 have no intern/extern clock source register
+#else
+  // should be default ASSR &= ~(1 << AS2);   // Select clock source: internal I/O clock 32u4 does not have this facility
+#endif
+
+#if (KRNLTMR !=0)
+// hm we are heading for 16 bit timers :-)
+  TCCRxA = 0;
+  TCCRxB = PRESCALE;    // atm328s  2560,...
+
+  if (F_CPU == 16000000L) {
+    tcntValue = COUNTMAX - DIVV;
+  } else {
+    tcntValue = COUNTMAX - DIVV8; // 8 Mhz wwe assume
+  }
+
+  TCNTx = tcntValue;
+
+  //  let us start the show
+  TIMSKx |= (1 << TOIEx); // enable interrupt
+#endif
+
+  DI ();
+  pRun = pmain_el;    // just for ki_task_shift
+
+  k_running = 1;
+#ifdef WDT_TIMER
+  k_enable_wdt();
+#endif
+
+  ki_task_shift ();   // bye bye from here
+  EI ();
+
+  // this while loop bq main are dummy
+  while (!stopp) {
+  }
+
+  return (pmain_el->cnt1);  // haps from pocket from kstop
+}
+
+
+int
+k_start_adv (int tm)
 {
   /*
      TCCRxB
