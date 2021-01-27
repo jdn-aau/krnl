@@ -1,11 +1,8 @@
-/*! \mainpage KRNL - a Simple portable kernel for Ardunio 
- * this file only for doxygen use 
+/*! \mainpage KRNL
  *
+ * my own small KeRNeL adapted for Arduino
  *
- * my own small KeRNeL adapted for Arduino - now known as KRNL
-* (old name was SNOT)
- *
- * (C) 2012,2013,2014.2015.2016
+ * (C) 2012,2013,2014,...,2021
  *
  * Jens Dalsgaard Nielsen <jdn@es.aau.dk>
  * http://www.control.aau.dk/~jdn
@@ -26,12 +23,12 @@
  *
  * See krnl.h for documentation or follow the links below
 *
-* NEWS : get it from github Q see https://github.com/jdn-aau/krnl
 * \tableofcontents
 
  One note before starting:
 
-
+\section NOTE
+In standard version you can only select 1 millisecond in k_start. Otherwise it will not start
 \section  a1 Before you start
 
 All initialization must be carried out after k_init and BEFORE k_start
@@ -67,10 +64,7 @@ KRNL itself uses approx 190B before allocating task/sem/msgQ descriptors
 \section a3 Initialization
 If any call fails (like no more RAM or bad parameters) KRNL will not start but will return an error code in k_start
 - int k_init(int nrTask, int nrSem, int nrMsg);
-- int k_start(); // kernelspeed = 1 millisecond, and we use timer0
-- int k_start_adv(int tickDuration); // tm in milliseconds
-
-
+- int k_start(int tm); // tm in milliseconds
 
 \section a4 Creation calls - before k_start
 \subsection a41 Semaphore
