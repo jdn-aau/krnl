@@ -1107,12 +1107,13 @@ k_receive (struct k_msg_t *pB, void *el, int timeout, int *lost_msg)
 
 #ifdef READERWRITER
 //https://en.wikipedia.org/wiki/Readers%E2%80%93writers_problem
+
 void k_rwInit(struct k_rwlock_t *lock)
 {
   lock->nrReaders = 0;
-  lock->rdwrSem = k_crt_sem(1,100);
-  lock->rdSem = k_crt_sem(1,100);
-  lock->fifoSem = k_crt_sem(1,100);
+  lock->rdwrSem = k_crt_sem(1,2);
+  lock->rdSem = k_crt_sem(1,2);
+  lock->fifoSem = k_crt_sem(1,2);
 }
 
 
