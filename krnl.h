@@ -1111,14 +1111,29 @@ char ki_receive (struct k_msg_t *pB, void *el, int *lost_msg);
 
 
 #ifdef READERWRITER
+/**
+ initialise a reader-writers comples
+*/
 void k_rwInit(struct k_rwlock_t *lock);
 
+/**
+reader-writer Read enter 
+*/
 int k_rwRdEnter(struct k_rwlock_t *lock, int timeout);
 
+/**
+reader-writer Write enter 
+*/
 int k_rwWrEnter(struct k_rwlock_t *lock, int timeout);
 
+/**
+  reader-writer Read leave
+*/
 int k_rwRdLeave(struct k_rwlock_t *lock);
 
+/**
+  reader-writer Write leave
+*/
 int k_rwWrLeave(struct k_rwlock_t *lock);
 
 #endif
