@@ -18,7 +18,7 @@
   this version adapted for Arduino
 
   (C) 2012,2013,2014
-     2017,2018,2019
+     2017,2018,2019,2021
 
 
 
@@ -68,7 +68,7 @@
 #pragma message ("krnl detected 8 MHz")
 #endif
 
-#if (KRNL_VRS != 2021-01)
+#if (KRNL_VRS != 2021-03-01)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 

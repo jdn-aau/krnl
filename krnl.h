@@ -23,7 +23,7 @@
    this version adapted for Arduino
 
    (C) 2012,2013,2014
-      2017,2018,2019
+      2017,2018,2019,2021
 
    Jens Dalsgaard Nielsen <jdn@es.aau.dk>
    http://es.aau.dk/staff/jdn
@@ -51,7 +51,7 @@
 *****************************************************
  remember to update in krnl.c !!!
 *****************************************************/
-#define KRNL_VRS 2021-01
+#define KRNL_VRS 2021-03-01
 
 
 /***********************
