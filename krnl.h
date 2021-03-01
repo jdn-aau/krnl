@@ -14,7 +14,10 @@
 *       13 March 2018                                 *
 *                                                     *
 *******************************************************
+IF YOU ARE LUCKY LOOK HERE
 
+https://github.com/jdn-aau/krnl
+ 
              (simple not - not ?! :-) )
    my own small KeRNeL adapted for Arduino
 

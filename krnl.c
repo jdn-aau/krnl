@@ -21,6 +21,11 @@
      2017,2018,2019,2021
 
 
+IF YOU ARE LUCKY LOOK HERE
+
+https://github.com/jdn-aau/krnl
+
+
 
   Jens Dalsgaard Nielsen <jdn@es.aau.dk>
   http://es.aau.dk/staff/jdn
