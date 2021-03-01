@@ -227,9 +227,8 @@
 #define WDT_PERIOD WDTO_1S
 
 #define QHD_PRIO 102   // Queue head prio - for sentinel use
-
-#define DMY_PRIO (QHD_PRIO-2) // dummy task prio (0 == highest prio)
 #define ZOMBI_PRIO (QHD_PRIO -1)
+#define DMY_PRIO (QHD_PRIO-2) // dummy task prio (0 == highest prio)
 #define DMY_STK_SZ  90    // staksize for dummy
 #define MAIN_PRIO   50    // main task prio
 #define STAK_HASH   0x5c  // just a hashcode
@@ -244,6 +243,9 @@
 // BEWARE bq local variables in the task body just evaporate
 #define BACKSTOPPER
 
+// IF YOU WANT READER WRITER LOCK THEN DEFINE
+
+#define READERWRITER
 
 
 #define CEILINGFAIL -3
@@ -353,6 +355,12 @@ struct k_msg_t
     volatile int r, w, cnt;
 };
 
+#ifdef READERWRITER
+struct k_rwlock_t  {
+int nrReaders;
+struct k_t * rdwrSem, *rdSem, *fifoSem;
+};
+#endif
 /***** KeRNeL variables *****/
 
 extern struct k_t *task_pool, *sem_pool, AQ,      // activeQ
@@ -1101,6 +1109,19 @@ char k_receive (struct k_msg_t *pB, void *el, int timeout, int *lost_msg);
  */
 char ki_receive (struct k_msg_t *pB, void *el, int *lost_msg);
 
+
+#ifdef READERWRITER
+void k_rwInit(struct k_rwlock_t *lock);
+
+int k_rwRdEnter(struct k_rwlock_t *lock, int timeout);
+
+int k_rwWrEnter(struct k_rwlock_t *lock, int timeout);
+
+int k_rwRdLeave(struct k_rwlock_t *lock);
+
+int k_rwWrLeave(struct k_rwlock_t *lock);
+
+#endif
 /**
    returns which timer is used
    @return 0,1,2,3,4,5 ...
