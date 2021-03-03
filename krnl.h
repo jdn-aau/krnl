@@ -830,6 +830,14 @@ unsigned long k_millis (void);
 * starting from now but not from next tick
 */
 void k_eat_ticks( int ticks);
+ 
+/**
+** INSPIRED BY FREERTOS	
+ incr <= 60000 !
+*/
+int k_delay_task_periodic(unsigned long *t, unsigned long incr) ;
+
+
 /**
    issues a task shift - handle with care
    Not to be used by normal user

@@ -648,6 +648,23 @@ k_set_prio (char prio)
   return (i);
 }
 
+int 
+k_delay_task_periodic(unsigned long *t, unsigned long incr)
+{
+int e=0;
+unsigned long sl;
+  if (60000 < incr)
+    return -1;
+  DI();
+  *t += incr;
+  if (*t < = k_millis_counter)
+     goto xxx;	
+  k_sleep(*t - k_millis_counter); // assume msec tick
+  EI();
+  xxx:
+  return e;
+}
+
 int
 k_mut_ceil_set (struct k_t *sem, char prio)
 {
@@ -1235,7 +1252,7 @@ k_init (int nrTask, int nrSem, int nrMsg)
   pmain_el->prio = DMY_PRIO;  // main is dummy
   prio_enQ (pAQ, pmain_el);
 
-  pSleepSem = k_crt_sem (0, 2000);
+  pSleepSem = k_crt_sem (0, 10);
 
 leave:
   return k_err_cnt;
