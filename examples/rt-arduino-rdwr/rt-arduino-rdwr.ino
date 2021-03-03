@@ -4,7 +4,6 @@
 // https://en.wikipedia.org/wiki/Readers%E2%80%93writers_problem
 
 
-
 struct k_rwlock_t lock1; 
 
  
