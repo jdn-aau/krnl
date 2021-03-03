@@ -649,20 +649,22 @@ k_set_prio (char prio)
 }
 
 int 
-k_delay_task_periodic(unsigned long *t, unsigned long incr)
+k_task_periodic_delay(unsigned long *t, unsigned int incr)
 {
-int e=0;
 unsigned long sl;
+
   if (60000 < incr)
     return -1;
-  DI();
+  
   *t += incr;
-  if (*t <= k_millis_counter)
+  DI();
+  if (*t <= k_millis_counter)  // behind - no wait -just proceed
      goto xxx;	
   k_sleep(*t - k_millis_counter); // assume msec tick
+  return 0; // ok and wait
   EI();
   xxx:
-  return e;
+  return 1;  // ok but no wait - was behind
 }
 
 int
