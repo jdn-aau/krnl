@@ -835,7 +835,7 @@ void k_eat_ticks( int ticks);
 ** INSPIRED BY FREERTOS	
  incr <= 60000 !
 */
-int k_task_periodic_delay(unsigned long *t, unsigned long incr) ;
+int k_task_periodic_delay((unsigned long *t, unsigned int incr) ;
 
 
 /**
