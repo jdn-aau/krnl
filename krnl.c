@@ -657,7 +657,7 @@ unsigned long sl;
     return -1;
   DI();
   *t += incr;
-  if (*t < = k_millis_counter)
+  if (*t <= k_millis_counter)
      goto xxx;	
   k_sleep(*t - k_millis_counter); // assume msec tick
   EI();
