@@ -658,14 +658,17 @@ unsigned long sl;
   
   *t += incr;
   DI();
-  if (*t <= k_millis_counter)  // behind - no wait -just proceed
-     goto xxx;	
+  if (*t == k_millis_counter) { // behind - no wait -just proceed
+     EI();
+     return 1;  // accurate	
+     }
+  if (*t < k_millis_counter) {
+     EI();
+     return 2;  //behind
+  }
   k_sleep(*t - k_millis_counter); // assume msec tick
   return 0; // ok and wait
-  EI();
-  xxx:
-  return 1;  // ok but no wait - was behind
-}
+ }
 
 int
 k_mut_ceil_set (struct k_t *sem, char prio)
