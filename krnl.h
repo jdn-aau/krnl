@@ -238,7 +238,7 @@ https://github.com/jdn-aau/krnl
 #define MAX_SEM_VAL 50    // NB is also max for nr elem in msgQ !
 #define MAX_INT 0x7FFF
 // not in use #define SEM_MAX_DEFAULT 50
-#define SEM_MAX_VALUE 32000
+#define SEM_MAX_VALUE 10000
 
 // BACKSTOPPER wraps a looping fct around your task so it will just restart
 // is the task leaves the task body code
@@ -947,6 +947,18 @@ int k_signal (struct k_t *sem);
  */
 int k_wait (struct k_t *sem, int timeout);
 
+
+/**
+   Wait on a semaphore. Task shift will task place if you are blocked.
+   @param[in] sem semaphore handle
+   @param[in] timeout "<0" you will be started after timeout ticks, "=0" wait forever "-1" you will not wait
+   @param[out] nrClip If not NULL you will get in return nr of clip on signals on sem and clip counter will be set to 0 
+   @return 1: ok there was a signal hanging - so no suspension
+   @return 0: ok- you have been suspended
+   @return -1: timeout has occured, -2 no wait bq timeout was -1 and semaphore was negative
+   @remark only to be called after start of KRNL
+ */
+int k_waitClipInfo (struct k_t *sem, int timeout,int *nrClip);
 
 /**
    Returns how many signals has been lost on semaphore due to saturation

@@ -767,7 +767,7 @@ ki_signal (struct k_t *sem)
     }
   }  // CLIP :-(
   else {
-    if (SEM_MAX_VALUE > sem->clip) {
+    if (sem->clip < MAX_SEM_VAL+1) {
       sem->clip++;
     }
     // here we are on bad clip failure no signal takes place
@@ -848,6 +848,20 @@ k_wait (struct k_t *sem, int timeout)
   int retval;
   DI ();
   retval = ki_wait (sem, timeout);
+  EI ();
+  return retval;    // 0: ok, -1: timeout
+}
+
+int
+k_waitClipInfo (struct k_t *sem, int timeout,int *nrClip)
+{
+  int retval;
+  DI ();
+  retval = ki_wait (sem, timeout);
+  if (nrClip) {
+    *nrClip = sem->clip;
+    sem->clip  = 0;
+  }
   EI ();
   return retval;    // 0: ok, -1: timeout
 }
