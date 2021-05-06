@@ -1,0 +1,6 @@
+rm -fr ~/js1/edu/doc/arduino/krnl/krnl/*
+rsync -av krnl.[hc] ~/js1/edu/doc/arduino/krnl/krnl/ 
+rsync -av examples ~/js1/edu/doc/arduino/krnl/krnl/
+rsync -av html ~/js1/edu/doc/arduino/krnl/krnl/
+rsync -av krnl.zip ~/js1/edu/doc/arduino/krnl/krnl/
+echo "slut"

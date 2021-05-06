@@ -1,0 +1,3 @@
+cp krnl.[hc] ~/q/code/arduino/sketchbook/libraries/krnl/
+cp -rp examples ~/q/code/arduino/sketchbook/libraries/krnl/
+
