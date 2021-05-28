@@ -853,7 +853,7 @@ k_wait (struct k_t *sem, int timeout)
 }
 
 int
-k_waitClipInfo (struct k_t *sem, int timeout,int *nrClip)
+k_wait2 (struct k_t *sem, int timeout,int *nrClip)
 {
   int retval;
   DI ();

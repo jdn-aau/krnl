@@ -958,7 +958,7 @@ int k_wait (struct k_t *sem, int timeout);
    @return -1: timeout has occured, -2 no wait bq timeout was -1 and semaphore was negative
    @remark only to be called after start of KRNL
  */
-int k_waitClipInfo (struct k_t *sem, int timeout,int *nrClip);
+int k_wait2 (struct k_t *sem, int timeout,int *nrClip);
 
 /**
    Returns how many signals has been lost on semaphore due to saturation
