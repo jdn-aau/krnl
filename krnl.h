@@ -1002,11 +1002,9 @@ int k_semval (struct k_t *sem);
 /**
    returns nr of pending messages
    @param[in] msgbuffer handle
-   @return 1: ok not suspended, 0: ok you have been suspended
-   @return -1 no wait maybe bq no timeout was allowed
-   @remark only to be called after start of KRNL
+   xxx 
  */
-int ki_msg_count (struct k_msg_t *m);
+int ki_msg_count (struct k_msg_t *msgbuffer);
 
 
 /**
