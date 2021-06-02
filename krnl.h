@@ -1121,78 +1121,12 @@ char k_receive (struct k_msg_t *pB, void *el, int timeout, int *lost_msg);
    Receive data (one element of el_size)in the ringbuffer if there are data
    DONE BY COPY !
    No blocking if no data
-   Interrupt will not be enabled after ki_receive
+   Interrupt will not be enabled after ki_receive and intr must be blocked prior to call
    @param[in] pB Ref to message buffer
    @param[out] el Reference to where data shall be copied to at your site
    @param[out] lost_msg nr of lost messages since last receive. will clip at 10000.  If lost_msg ptr is NULL then overrun counter
    is not reset to 0
-   @return 1: data was rdy no suspension, 0: ok you have been suspended , -1: no data in ringbuffer
-   @remark can be used from ISR
-   @remark only to be called after start of KRNL
- */
-char ki_receive (struct k_msg_t *pB, void *el, int *lost_msg);
-
-
-#ifdef READERWRITER
-/**
- initialise a reader-writers comples
-*/
-void k_rwInit(struct k_rwlock_t *lock);
-
-/**
-reader-writer Read enter 
-*/
-int k_rwRdEnter(struct k_rwlock_t *lock, int timeout);
-
-/**
-reader-writer Write enter 
-*/
-int k_rwWrEnter(struct k_rwlock_t *lock, int timeout);
-
-/**
-  reader-writer Read leave
-*/
-int k_rwRdLeave(struct k_rwlock_t *lock);
-
-/**
-  reader-writer Write leave
-*/
-int k_rwWrLeave(struct k_rwlock_t *lock);
-
-#endif
-/**
-   returns which timer is used
-   @return 0,1,2,3,4,5 ...
- */
-int k_tmrInfo (void);     // tm in milliseconds
-
-/**
-   Initialise KRNL. First function to be called.
-   You have to give max number of tasks, semaphores and message queues you will use
-   @param[in] nrTask ...
-   @param[in] nrSem ...
-   @param[in] nrMsg ...
- */
-int k_init (int nrTask, int nrSem, int nrMsg);
-
-/**
-   start KRNL with tm tick speed (1= 1 msec, 5 = 5 msec)
-   @param[in] tm Tick length in milli seconds(1..10,20,30..10000
-   @return  -1-333 nr of k_Crt calls taht went wrong. krnl did not start
-           -555 negative tick parm value
-           -666 bad tick quant (legal is 1-10,20,30-10000
-   @remark only to be called after init of KRNL
-   @remark KRNL WILL NOT START IF YOU HAVE TRIED TO CREATE MORE TASKS/SEMS/MSG QS THAN YOU HAVE ALLOCATED SPACE FOR IN k_init !!!
- */
-int k_start (int tm);     // tm in milliseconds
-
-/**
-   stop KRNL
-   @param[in] exitVal  Will be returned in k_start to creator (old main)
-   @remark only to be called after k_start
-   @remark you will only return from k_stop if krnl is not running
- */
-int k_stop (int exitVal);     // tm in milliseconds
+   @return > 0 (1) you ot data <0 (-1): no data rdy 4 you 
 
 /**
    Reset by disable interrupt plus activate watchdog (15 millisseconds) and just wait...

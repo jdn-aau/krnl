@@ -806,19 +806,13 @@ ki_wait (struct k_t *sem, int timeout)
 
   if (0 < sem->cnt1) {
     sem->cnt1--;    // Salute to Dijkstra
-#ifdef KRNLBUG
-    k_sem_wait (sem->nr, sem->cnt1);
-#endif
-    return (1);     // ok: 1 bq we are not suspended
+     return (1);     // ok: 1 bq we are not suspended
   }
 
   if (timeout < 0)    // no luck, dont want to wait so bye bye
   {
   
-#ifdef KRNLBUG
-  k_sem_wait(sem->nr, -1111);  // -1111 timeout
-#endif
-    return (-2);
+     return (-2);
   }
   // from here we want to wait
   pRun->cnt2 = timeout;   //  0 == wait forever
@@ -829,10 +823,7 @@ ki_wait (struct k_t *sem, int timeout)
 
   sem->cnt1--;      // Salute to Diocjkstra
 
-#ifdef KRNLBUG
-  k_sem_wait(sem->nr, sem->cnt1);
-#endif
-
+ 
   enQ (sem, deQ (pRun));
   ki_task_shift ();
 
@@ -1103,7 +1094,7 @@ ki_receive (struct k_msg_t *pB, void *el, int *lost_msg)
     return (r);     // yes
   }
 
-  return (-1);      // nothing for you my friend
+  return (r);      // nothing for you my friend
 }
 
 char

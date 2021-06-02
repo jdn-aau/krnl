@@ -80,6 +80,8 @@ If any call fails (like no more RAM or bad parameters) KRNL will not start but w
 - char k_set_sem_timer(struct k_t * sem, int val);
 - char k_signal(struct k_t * sem);
 - char k_wait(struct k_t * sem, int timeout);
+- char k_wait2(struct k_t * sem, int timeout, int * clip);
+
 
 \subsection a51 ISR space
 _i indicates that no lock/unlock(disable/enable) is carried out
