@@ -856,6 +856,7 @@ int k_sleep (int time);
    creates a task and put it in the active Q
    @param[in] pTask pointer to function for code ( void task(void) ...)
    @param[in] stkSize size of data area(in bytes) to be used for stak
+   @param[in] prio - task prio max: 1 lowest < DUMMY_PRIO
    @return: pointer to task handle or NULL if no success
    @remark only to be called before start of KRNL but after k_init
  */
