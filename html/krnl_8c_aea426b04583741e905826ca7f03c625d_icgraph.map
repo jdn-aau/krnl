@@ -1,0 +1,13 @@
+<map id="k_eat_ticks" name="k_eat_ticks">
+<area shape="rect" id="node1" title=" " alt="" coords="211,132,300,159"/>
+<area shape="rect" id="node2" href="$rt-arduino-rdwr_8ino.html#a6a8912cd04df811159c7fd7c6a774c46" title=" " alt="" coords="116,5,155,32"/>
+<area shape="rect" id="node4" href="$k03asleep_8ino.html#a78ed8c1d641408a085543aa2d77ed93f" title=" " alt="" coords="116,107,155,133"/>
+<area shape="rect" id="node6" href="$k03asleep_8ino.html#a76cb230c0ffd18dba5932a1677e6866a" title=" " alt="" coords="116,157,155,184"/>
+<area shape="rect" id="node7" href="$k09msgq_8ino.html#afde07648040c326129670547738a0c86" title=" " alt="" coords="108,208,163,235"/>
+<area shape="rect" id="node9" href="$k06syncsem_8ino.html#afb35a54f26606b4808ac0a8d9ad55433" title=" " alt="" coords="108,259,163,285"/>
+<area shape="rect" id="node11" href="$rt-arduino-rdwr_8ino.html#ab3388743275b9253f2eab241e063da95" title=" " alt="" coords="116,56,155,83"/>
+<area shape="rect" id="node3" href="$rt-arduino-rdwr_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,44,60,71"/>
+<area shape="rect" id="node5" href="$k03asleep_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,120,60,147"/>
+<area shape="rect" id="node8" href="$k09msgq_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,208,60,235"/>
+<area shape="rect" id="node10" href="$k06syncsem_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,259,60,285"/>
+</map>

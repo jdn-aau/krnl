@@ -1,0 +1,39 @@
+<map id="k_signal" name="k_signal">
+<area shape="rect" id="node1" title=" " alt="" coords="444,461,515,488"/>
+<area shape="rect" id="node2" href="$debug_2mutex_2mutex_8ino.html#a675cb214e7345a443fce9a861b114e56" title=" " alt="" coords="276,93,365,120"/>
+<area shape="rect" id="node4" href="$k07mutexsem_8ino.html#adb5c186df12ec23a7f20bc16d3b01b12" title=" " alt="" coords="250,259,391,285"/>
+<area shape="rect" id="node7" href="$krnl_8h.html#a88e901359d80fd074c0d5205d993c32f" title=" " alt="" coords="259,157,382,184"/>
+<area shape="rect" id="node14" href="$debug_2mutex_2mutex_8ino.html#a9636fe87d44db9f80be9cb4d5645d288" title=" " alt="" coords="285,17,356,44"/>
+<area shape="rect" id="node15" href="$rt-arduino-reader-writer01_8ino.html#a3b9981f67f96d9699e5276c8e208d8c6" title=" " alt="" coords="289,309,353,336"/>
+<area shape="rect" id="node18" href="$rt-arduino-reader-writer01_8ino.html#a40be65e68cbd1b710ead533449bdf89f" title=" " alt="" coords="287,360,355,387"/>
+<area shape="rect" id="node19" href="$k07mutexsem_8ino.html#ab580249abc862e3af458f57c955c7f21" title=" " alt="" coords="245,208,396,235"/>
+<area shape="rect" id="node21" href="$isrmsgsend_2isrmsgsend_8ino.html#ac5c5136eb2c6e01ac014c723c5be421f" title=" " alt="" coords="301,411,340,437"/>
+<area shape="rect" id="node23" href="$semmutex_2semmutex_8ino.html#af6fe14e66a05d159831b8515473ab540" title=" " alt="" coords="289,512,353,539"/>
+<area shape="rect" id="node25" href="$k03mutex_2k03mutex_8ino.html#a6771c53ff569217bf356d04e0ff969d8" title=" " alt="" coords="301,563,340,589"/>
+<area shape="rect" id="node27" href="$semmutex_2semmutex_8ino.html#a064043fc4b09a87068c7c1059b28b50d" title=" " alt="" coords="289,461,353,488"/>
+<area shape="rect" id="node28" href="$k05_2k05_8ino.html#aaad4f4d77885dd2457f79c20ac27db19" title=" " alt="" coords="297,613,344,640"/>
+<area shape="rect" id="node30" href="$k09msgq_8ino.html#afde07648040c326129670547738a0c86" title=" " alt="" coords="293,715,348,741"/>
+<area shape="rect" id="node32" href="$k09msgq_8ino.html#afb35a54f26606b4808ac0a8d9ad55433" title=" " alt="" coords="293,664,348,691"/>
+<area shape="rect" id="node33" href="$kernelkick_2kernelkick_8ino.html#a8cbbc0c7f65056c8919283dfb9c74f0b" title=" " alt="" coords="279,765,363,792"/>
+<area shape="rect" id="node35" href="$rt-arduino-reader-writer01_8ino.html#ae767d66099d900b52d91dcccc066e47d" title=" " alt="" coords="287,867,354,893"/>
+<area shape="rect" id="node37" href="$rt-arduino-reader-writer01_8ino.html#acdfdcbe3c144bec0ab41833b21742083" title=" " alt="" coords="285,816,356,843"/>
+<area shape="rect" id="node3" href="$debug_2mutex_2mutex_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,5,180,32"/>
+<area shape="rect" id="node5" href="$k07mutexsem_8ino.html#a76cb230c0ffd18dba5932a1677e6866a" title=" " alt="" coords="133,309,172,336"/>
+<area shape="rect" id="node6" href="$k07mutexsem_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,284,60,311"/>
+<area shape="rect" id="node8" href="$debug_2mutex2_2mutex2_8ino.html#a675cb214e7345a443fce9a861b114e56" title=" " alt="" coords="108,56,197,83"/>
+<area shape="rect" id="node10" href="$debug_2mutex2_2mutex2_8ino.html#a9636fe87d44db9f80be9cb4d5645d288" title=" " alt="" coords="117,107,188,133"/>
+<area shape="rect" id="node11" href="$ceil04_2ceil04_8ino.html#afde07648040c326129670547738a0c86" title=" " alt="" coords="125,208,180,235"/>
+<area shape="rect" id="node13" href="$ceil04_2ceil04_8ino.html#afb35a54f26606b4808ac0a8d9ad55433" title=" " alt="" coords="125,157,180,184"/>
+<area shape="rect" id="node9" href="$debug_2mutex2_2mutex2_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,95,60,121"/>
+<area shape="rect" id="node12" href="$ceil04_2ceil04_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,171,60,197"/>
+<area shape="rect" id="node16" href="$rt-arduino-reader-writer01_8ino.html#a6a8912cd04df811159c7fd7c6a774c46" title=" " alt="" coords="133,360,172,387"/>
+<area shape="rect" id="node17" href="$rt-arduino-reader-writer01_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,588,60,615"/>
+<area shape="rect" id="node20" href="$k07mutexsem_8ino.html#a78ed8c1d641408a085543aa2d77ed93f" title=" " alt="" coords="133,259,172,285"/>
+<area shape="rect" id="node22" href="$isrmsgsend_2isrmsgsend_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,411,180,437"/>
+<area shape="rect" id="node24" href="$semmutex_2semmutex_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,487,180,513"/>
+<area shape="rect" id="node26" href="$k03mutex_2k03mutex_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,563,180,589"/>
+<area shape="rect" id="node29" href="$k05_2k05_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,613,180,640"/>
+<area shape="rect" id="node31" href="$k09msgq_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,689,180,716"/>
+<area shape="rect" id="node34" href="$kernelkick_2kernelkick_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="125,765,180,792"/>
+<area shape="rect" id="node36" href="$rt-arduino-reader-writer01_8ino.html#ab3388743275b9253f2eab241e063da95" title=" " alt="" coords="133,816,172,843"/>
+</map>
