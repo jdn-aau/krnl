@@ -80,6 +80,8 @@ If any call fails (like no more RAM or bad parameters) KRNL will not start but w
 - char k_set_sem_timer(struct k_t * sem, int val);
 - char k_signal(struct k_t * sem);
 - char k_wait(struct k_t * sem, int timeout);
+- char k_wait2(struct k_t * sem, int timeout, int * clip);
+
 
 \subsection a51 ISR space
 _i indicates that no lock/unlock(disable/enable) is carried out
@@ -107,5 +109,54 @@ _i indicates that no lock/unlock(disable/enable) is carried out
 \section a9 Div calls
 - int k_unused_stak(struct k_t *t);
 - int freeRam(void);
+
+
+\section timers
+https://ceezblog.info/2018/07/10/arduino-timer-pwm-cheat-sheet/
+
+UNO and mega uses timer2 for krnl ticks so avoid using libraries that are using these timers
+
+So look below and observe that UNO timer2 has normally PWM support based on timer2 on pin 3 and 11
+
+On UNO tone do also use timer2 !! so dont use tone hen running timer (or find library newTone)
+
+Arduino UNO (ATmega328p) has three 8bit timers
+
+- Timer0 - used for millis() micros() delay()… and is on pin 5, 6
+- Timer1 - 16bit timer is on pin 9, 10
+- Timer2 - 8bit timer is on pin 3, 11
+
+Arduino Mega has six 8bit timers
+
+- Timer0 - millis, micros… and is on pin 4, 13
+- Timer1 - is on pin 11, 12
+- Timer2 - is on pin 9, 10
+- Timer3 - is on pin 2, 3, 5
+- Timer4 - is on pin 6, 7, 8
+- Timer5 - is on pin 46, 45, 44
+
+ Don’t mess with Timer0 since we need to use millis() or micros() for measuring time
+ 
+\section Pitfalls Pitfalls when using timers
+Welcome to the real world :-)
+ 
+There exist some pitfalls you may encounter, when programming your Arduino and making use of functions or libraries that uses timers.
+
+- Servo Library uses Timer1. 
+	- You can’t use PWM on Pin 9, 10 when you use the Servo Library on an Arduino. 	
+	- For Arduino Mega it is a bit more difficult. The timer needed depends on the number of servos. 
+	- Each timer can handle 12 servos. For the first 12 servos timer 5 will be used (losing PWM on Pin 44,45,46). 
+	- For 24 Servos timer 5 and 1 will be used (losing PWM on Pin 11,12,44,45,46).. 
+	- For 36 servos timer 5, 1 and 3 will be used (losing PWM on Pin 2,3,5,11,12,44,45,46).. 
+	- For 48 servos all 16bit timers 5,1,3 and 4 will be used (losing all PWM pins).
+   
+- Pin 11 has shared functionality PWM and MOSI. MOSI is needed for the SPI interface, 
+	- You can’t use PWM on Pin 11 and the SPI interface at the same time on Arduino. 
+	- On the Arduino Mega the SPI pins are on different pins.
+    
+- tone() function uses at least timer2. 
+	- You can’t use PWM on Pin 3,11 when you use the tone() function an Arduino and Pin 9,10 on Arduino Mega.
+
+
 
 */
