@@ -856,10 +856,11 @@ int k_sleep (int time);
    creates a task and put it in the active Q
    @param[in] pTask pointer to function for code ( void task(void) ...)
    @param[in] stkSize size of data area(in bytes) to be used for stak
-   @return: pointer to task handle or NULL if no success
+   @param[in] pStk array to b used for stack 
+   @return: pointer to task handle or NULL if no succes
    @remark only to be called before start of KRNL but after k_init
  */
-struct k_t *k_crt_task (void (*pTask)(void), char prio,  int stkSize);
+struct k_t *k_crt_task (void (*pTask)(void), char prio,  int stkSize, char * pStk);
 
 /**
    change priority of calling task)
