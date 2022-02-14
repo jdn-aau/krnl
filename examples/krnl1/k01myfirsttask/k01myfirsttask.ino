@@ -4,14 +4,16 @@
 // if delay(...) is used then you use cpu time 
 
 struct k_t *pTask;
-unsigned char taskStak[100];
+unsigned char taskStak[200];
 
 void
 t1 ()
 {
+    int cnt=0;
     while (1)
       {				// your task loop - forever
 
+     Serial.println(cnt++);
 	  k_sleep (500);	// dont use delay because it is eating CPU time
 	  digitalWrite (13, HIGH);	// slow but ...
 
@@ -35,13 +37,13 @@ setup ()
 
     pinMode (13, OUTPUT);
     k_init (1, 0, 0);		// init with space for one task
-    //         ^------- number of message queues
-    //       ^--------- number of semaphores
-    //     ^------- number of tasks
+    //            ^------- number of message queues
+    //         ^--------- number of semaphores
+    //      ^------- number of tasks
     // RETURNS 0 is all went ok
 
     // priority low number higher priority than higher number
-    pTask = k_crt_task (t1, 10, 100, taskStak);	// t1 as task, priority 10, 100 B stak
+    pTask = k_crt_task (t1, 10, 200);	// t1 as task, priority 10, 100 B stak
     //                         ^-- array used for stak
     //                     ^------ stak size in bytes
     //                 ^---------- task priority 1 is highest 
