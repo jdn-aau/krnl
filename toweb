@@ -1,4 +1,0 @@
-rsync -av * ~/q/edu/www/edu/doc/arduino/krnl/krnl/
-cp krnl.[hc] ../arduino/sketchbook/libraries/krnl/
-cp -rp examples ../arduino/sketchbook/libraries/krnl/
-echo "slut"

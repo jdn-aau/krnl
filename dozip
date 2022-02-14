@@ -1,7 +1,0 @@
-mkdir -f krnl 
-rm -f krnl.zip
-rm -fr krnl/*
-cp krnl.[hc] krnl
-cp -rp examples krnl
-zip -rp krnl.zip krnl 
-rm -fr krnl/*
