@@ -2,7 +2,7 @@
  *
  * my own small KeRNeL adapted for Arduino
  *
- * (C) 2012,2013,2014,...,2021
+ * (C) 2012,2013,2014,...,2022
  *
  * Jens Dalsgaard Nielsen <jdn@es.aau.dk>
  * http://www.control.aau.dk/~jdn
@@ -109,7 +109,7 @@ _i indicates that no lock/unlock(disable/enable) is carried out
 \section a9 Div calls
 - int k_unused_stak(struct k_t *t);
 - int freeRam(void);
-
+- void k_eat_msec(unsigned int time);
 
 \section timers
 https://ceezblog.info/2018/07/10/arduino-timer-pwm-cheat-sheet/

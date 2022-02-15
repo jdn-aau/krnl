@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['v_468',['v',['../structshDataTp.html#a8a8a0385688b84ed22d4c6b70db0fdbd',1,'shDataTp']]],
-  ['val_469',['val',['../krnl_8h.html#aae960be4da1f282a28f8e33c356b05a2',1,'krnl.h']]],
-  ['value_470',['VALUE',['../krnl_8h.html#ad705dc78222473228fa826e42eca95f1',1,'krnl.h']]],
-  ['value_5fto_5fstring_471',['VALUE_TO_STRING',['../krnl_8h.html#ad15c9a08925b1c0365fb1bd9ac826670',1,'krnl.h']]],
-  ['var_5fname_5fvalue_472',['VAR_NAME_VALUE',['../krnl_8h.html#a9a89328d94ddd2cdd4b39db22da01f79',1,'krnl.h']]]
+  ['zombi_5fprio_135',['ZOMBI_PRIO',['../krnl_8h.html#ac72d3be88c0ebe1484d661ed66b3edff',1,'krnl.h']]]
 ];

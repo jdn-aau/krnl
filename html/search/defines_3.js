@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['epsilon_931',['epsilon',['../apidalg_2apidalg_8ino.html#a06b50f1ca7258a9862c39d3ed354bf7c',1,'epsilon():&#160;apidalg.ino'],['../pidcntrl_2pidcntrl_8ino.html#a06b50f1ca7258a9862c39d3ed354bf7c',1,'epsilon():&#160;pidcntrl.ino'],['../may-not__work_2apidalg_2apidalg_8ino.html#a06b50f1ca7258a9862c39d3ed354bf7c',1,'epsilon():&#160;apidalg.ino'],['../may-not__work_2pidcntrl_2pidcntrl_8ino.html#a06b50f1ca7258a9862c39d3ed354bf7c',1,'epsilon():&#160;pidcntrl.ino']]]
+  ['fract_5finc_249',['FRACT_INC',['../krnl_8c.html#a5647e40017bbd34a202f6a672ca116e4',1,'krnl.c']]],
+  ['fract_5fmax_250',['FRACT_MAX',['../krnl_8c.html#a3d5262b0f828700a2ce29198838e0d9e',1,'krnl.c']]]
 ];

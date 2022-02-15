@@ -1,4 +1,4 @@
- /******************************************************
+/******************************************************
 *                                                     *
 *                                                     *
 *             | |/ /___|  _ \| \ | | ___| |           *
@@ -13,14 +13,13 @@
 *       Author: jdn                                   *
 *       13 March 2018                                 *
 *                                                     *
-******************************************************/
-#define KRNL_VRS 2022-02-01
-
-/* IF YOU ARE LUCKY LOOK HERE
+*******************************************************
+IF YOU ARE LUCKY LOOK HERE
 
 https://github.com/jdn-aau/krnl
  
-    my own small KeRNeL adapted for Arduino
+             (simple not - not ?! :-) )
+   my own small KeRNeL adapted for Arduino
 
    previous known as KRNL or SNOT
 
@@ -55,7 +54,7 @@ https://github.com/jdn-aau/krnl
 *****************************************************
  remember to update in krnl.c !!!
 *****************************************************/
-
+#define KRNL_VRS 2021-06-07
 
 
 /***********************
@@ -197,68 +196,35 @@ https://github.com/jdn-aau/krnl
 
 ***********************************************************/
 
-#if defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
-#define KRNLTMR 2
-#define KCPU mega1280_2560_2561
-#define KRNLTMRVECTOR 
-#elif defined (__AVR_ATmega1284P__)
-#define KRNLTMR 2
-#define KCPU mega1284P
-
-#elif defined (__AVR_ATmega328P__)
-#define KRNLTMR 2
-#define KCPU mega328P
-
-#elif defined (__AVR_ATmega32U4__)
-#define KRNLTMR 3
-#define KCPU mega32u4
-
-#else
-#error  "unknown AVR cpu type - bad place to come"
-#endif
-
-
-// set bit
 #ifndef sbi
 #define sbi(r,b)  r |= _BV(b)
 #endif
 
-// clear bit
+
 #ifndef cbi
 #define cbi(r,b) r &= ~_BV(b)
 #endif
 
-// invert bit
 #ifndef rbi
 #define cbi(r,b) r &= ~_BV(b)
 #endif
 
 #ifndef KRNL
 
-// blink with led 13 when dmy is running
-//  #define K_BUGBLINK
-
 #define KRNL
 
 #define KRNLBUG
 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
- 
-// If KRNLZOMBIEMODE == 1 is defined you will be parked at lowest priority if you leave your 
-// function to be used as task
-// else you will just return back just like arduino loop function
 
-#define KRNLZOMBIMODE 1
+// if you want k_malloc
+// NB k_free wont release mem due to possible fragmentation
+// SO DONT USE k_free
+#define DYNMEMORY
 
+// watchdog 1 sec
 
-// WATCHDOG TIMER - watchdog 1 sec
-// watchdog is reset in krnl tmr isr is timer is stalled
-// like if you forgot to enable interrupt on your code
-
-//#define WDT_TIMER
-//#define WDT_PERIOD WDTO_1S
-
-
+#define WDT_PERIOD WDTO_1S
 
 #define QHD_PRIO 102   // Queue head prio - for sentinel use
 #define ZOMBI_PRIO (QHD_PRIO -1)
@@ -272,6 +238,7 @@ https://github.com/jdn-aau/krnl
 #define SEM_MAX_VALUE 10000
 
 // BACKSTOPPER wraps a looping fct around your task so it will just restart
+// HMM it will get a prio lower than dummy so it just stops
 // is the task leaves the task body code
 // like loop function
 // BEWARE bq local variables in the task body just evaporate
@@ -279,9 +246,11 @@ https://github.com/jdn-aau/krnl
 
 // IF YOU WANT READER WRITER LOCK THEN DEFINE
 
-//#define READERWRITER
+#define READERWRITER
+
 
 #define CEILINGFAIL -3
+
 
 /* which timer to use for krnl heartbeat
    timer 0 ( 8 bit) is normally used by millis - avoid !
@@ -292,38 +261,59 @@ https://github.com/jdn-aau/krnl
    timer 5 (16 bit) 1280/2560 only (MEGA)
  */
 
-// INTR VECTORS FOR UNO
-// https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf
 
-// for atmega  
-// https://ww1.microchip.com/downloads/en/devicedoc/atmel-2549-8-bit-avr-microcontroller-atmega640-1280-1281-2560-2561_datasheet.pd
 
- 
+#if defined (__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+#define KRNLTMR 2
+
+#elif defined (__AVR_ATmega1284P__)
+#define KRNLTMR 2
+
+#elif defined (__AVR_ATmega328P__)
+#define KRNLTMR 2
+
+#elif defined (__AVR_ATmega32U4__)
+#define KRNLTMR 3
+
+#else
+#error  "unknown AVR cpu type - bad place to come"
+
+#endif
 // END USER CONFIGURATION
- 
-#define VALUE_TO_STRING(x) #x
 
-#define VALUE(x) VALUE_TO_STRING(x)
+// check for legal timers
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
 
-#define VAR_NAME_VALUE(var) #var "="  VALUE(var)
-
-#pragma message(VAR_NAME_VALUE(KRNLTMR))
-#pragma message(KCPU)
-
-
-// CPU frequency - for adjusting delays
-
-
- 
-#if (F_CPU == 16000000)
-#pragma message ("krnl detected 16 MHz")
+#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2)
+#error "bad timer selection for krnl heartbeat(168/328/328p/...)"
 #endif
 
-#if (F_CPU == 8000000)
-#pragma message ("krnl detected 8 MHz")
 #endif
 
- 
+#if defined(__AVR_ATmega32U4__)
+
+#if (KRNLTMR != 0) && (KRNLTMR != 1) &&(KRNLTMR != 3)
+#error "bad timer selection for krnl heartbeat(32u4)...)"
+#endif
+
+#endif
+
+#if defined (__AVR_ATmega1280__)  || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+
+#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3) && (KRNLTMR != 4) && (KRNLTMR != 5)
+#error "bad timer for krnl heartbeat(1280/2560/2561) in krnl"
+#endif
+
+#endif
+
+#if defined (__AVR_ATmega1284P__)
+
+#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3)
+#error "bad timer for krnl heartbeat(1284P) in krnl"
+#endif
+
+#endif
+
 //----------------------------------------------------------
 
 #ifdef __cplusplus
@@ -373,6 +363,8 @@ struct k_t * rdwrSem, *rdSem, *fifoSem;
 };
 #endif
 /***** KeRNeL variables *****/
+
+extern volatile char k_wdt_enabled;
 
 extern struct k_t *task_pool, *sem_pool, AQ,      // activeQ
            *pmain_el, *pAQ, *pDmy, // ptr to dummy task descriptor
@@ -789,21 +781,42 @@ extern volatile char k_bug_on;
 // ki_... expects interrupt to be disablet and do no task shift
 // rest is internal functions
 
+
+#ifdef DYNMEMORY
+
 /**
-   Prep krnl for creation of task,sempahores, 
-   @return: 0 if ok, pos is mem alloc fail, -666 if called when krnls is running
-   @remark only to be called before all other krnl calls 
-   @remark : keep following numbres as low as possible to save memory
-   @param[nrTask] how many slots allocated for taskl
-   @param[nrSem] how many slots allocated for semaphores
-   @param[nrMsg] how many slots allocated for message Queues
- 
+  call malloc protected by DI and EI
+  if dft as weak so you can supply with your own
 */
-int k_init (int nrTask, int nrSem, int nrMsg);
+void * k_malloc(int k);
 
-int k_start (int tm);
+/**
+  call free
+  empty - no function
+  if dft as weak so you can supply with your own
+  @remark do no free mem bq we do not want fragmented memory
+*/
+void k_free(void * m);
+#endif
 
-void __attribute__ ((weak)) k_enable_wdt(void);
+/**
+* Call wdt_enable (AVR lib)
+*  DI();
+*  wdt_enable(WDT_PERIOD);
+*  EI();
+* WDT_PERIOD is in KRNL i sec
+* @param[t] watchdog timout WDT_PERIOD is 1 sec
+* See avrlib docu for more info 
+* The watchdog is reset in krnls timer ISR when active
+*/
+void __attribute__ ((weak)) k_wdt_enable(int t);
+
+/**
+*   disable wdt
+*   Disable the watchdog timer
+*/
+void __attribute__ ((weak)) k_wdt_disable();
+
 /**
    Returns nr of milliseconds since krnl was started by k_start
    @return: unsigned long is returned
@@ -824,8 +837,9 @@ unsigned long k_millis (void);
    Eats CPU time in k_tick quants
    @param[in] eatTime  number of k:ticks to eat
  */
-void k_eat_msec(unsigned int eatTime);
- 
+#define k_eat_msec_time(x)  _delay_ms(x)
+// JDN 180312   void k_eat_time (unsigned int eatTime);
+
 
 /**
 * eat time in quant og krnl ticks
@@ -840,7 +854,9 @@ void k_eat_ticks( int ticks);
 int k_task_periodic_delay(unsigned long *t, unsigned int incr) ;
 
 
-/**
+
+void k_eat_msec(unsigned int eatTime)
+;/**
    issues a task shift - handle with care
    Not to be used by normal user
  */
@@ -862,7 +878,7 @@ int k_sleep (int time);
    @return: pointer to task handle or NULL if no success
    @remark only to be called before start of KRNL but after k_init
  */
-struct k_t *k_crt_task (void (*pTask)(void), char prio,  int stkSize, unsigned char *pStak);
+struct k_t *k_crt_task (void (*pTask)(void), char prio,  int stkSize,char *pS);
 
 /**
    change priority of calling task)
@@ -1053,6 +1069,9 @@ void __attribute__ ((weak)) k_sem_clip (unsigned char nr, int nrClip);
 
 /**
 * called in a signal call val is sem val AFTER signal has taken place
+* @param [out] nr number of semaphore. Semaphores are allocated by user buth
+* also in message queues. So it may be diff to find the semaphore...
+* 
 */
 #ifdef KRNLBUG
 void __attribute__ ((weak)) k_sem_signal (unsigned char nr, int val);
@@ -1073,8 +1092,8 @@ void __attribute__ ((weak)) k_sem_wait (unsigned char nr, int val);
    no reset occur - it's only readind out smsgQ idendity
    1: means first msgQ allocated by user etc
    Interrupt is disabled when called and must not be enabled during.. so no print etc
-   @param nr : id of send Q 0,1,2,...
-   @param nrClip: number of times clip has occured (may be reset by call k_receive and lost parm not eq NULL)
+   @param [out] nr : id of send Q 0,1,2,...
+   @param [out] nrClip: number of times clip has occured (may be reset by call k_receive and lost parm not eq NULL)
  */
 #ifdef KRNLBUG
 void __attribute__ ((weak)) k_send_Q_clip (unsigned char nr, int nrClip);
@@ -1127,8 +1146,78 @@ char k_receive (struct k_msg_t *pB, void *el, int timeout, int *lost_msg);
    @param[out] el Reference to where data shall be copied to at your site
    @param[out] lost_msg nr of lost messages since last receive. will clip at 10000.  If lost_msg ptr is NULL then overrun counter
    is not reset to 0
-   @return > 0 (1) you ot data <0 (-1): no data rdy 4 you 
+   
+     @return 1: data was rdy no suspension, 0: ok you have been suspended , -1: no data in ringbuffer
+   @remark can be used from ISR
+   @remark only to be called after start of KRNL
+ */
+char ki_receive (struct k_msg_t *pB, void *el, int *lost_msg);
 
+
+#ifdef READERWRITER
+/**
+ initialise a reader-writers comples
+*/
+void k_rwInit(struct k_rwlock_t *lock);
+
+/**
+reader-writer Read enter 
+*/
+int k_rwRdEnter(struct k_rwlock_t *lock, int timeout);
+
+/**
+reader-writer Write enter 
+*/
+int k_rwWrEnter(struct k_rwlock_t *lock, int timeout);
+
+/**
+  reader-writer Read leave
+*/
+int k_rwRdLeave(struct k_rwlock_t *lock);
+
+/**
+  reader-writer Write leave
+*/
+int k_rwWrLeave(struct k_rwlock_t *lock);
+
+#endif
+
+/**
+   returns which timer is used
+   @return 0,1,2,3,4,5 ...
+ */
+int k_tmrInfo (void);     // tm in milliseconds
+
+/**
+   Initialise KRNL. First function to be called.
+   You have to give max number of tasks, semaphores and message queues you will use
+   @param[in] nrTask ...
+   @param[in] nrSem ...
+   @param[in] nrMsg ...
+ */
+int k_init (int nrTask, int nrSem, int nrMsg);
+
+/**
+   start KRNL with tm tick speed (1= 1 msec, 5 = 5 msec)
+   @param[in] tm Tick length in milli seconds(1..10,20,30..10000
+   @return  -1-333 nr of k_Crt calls taht went wrong. krnl did not start
+           -555 negative tick parm value
+           -666 bad tick quant (legal is 1-10,20,30-10000
+   @remark only to be called after init of KRNL
+   @remark KRNL WILL NOT START IF YOU HAVE TRIED TO CREATE MORE TASKS/SEMS/MSG QS THAN YOU HAVE ALLOCATED SPACE FOR IN k_init !!!
+ */
+int k_start (int tm);     // tm in milliseconds
+
+/**
+   stop KRNL
+   @param[in] exitVal  Will be returned in k_start to creator (old main)
+   @remark only to be called after k_start
+   @remark you will only return from k_stop if krnl is not running
+ */
+int k_stop (int exitVal);     // tm in milliseconds
+   
+    
+/**
    Reset by disable interrupt plus activate watchdog (15 millisseconds) and just wait...
  **/
 void k_reset ();
@@ -1139,10 +1228,16 @@ void k_reset ();
    Nov 2014 - fake do not use it bq it will not work
    for emergency use :-)
  */
-#ifdef K_BUGBLINK
-void k_bugblink13 (char on);
-#endif
  
+ /**
+   returns nr of unbytes bytes on stak.
+   For chekking if stak is too big or to small...
+   @param[in] t Reference to task (by task handle) If null then yourself
+   @return: nr of unused bytes on stak (int)
+   @remark only to be called after start of KRNL
+   @remark no chk of if it is a valid task
+ */
+int k_stk_chk (struct k_t *t);
 
 /**
    Returns amount of unused stak
@@ -1152,41 +1247,41 @@ void k_bugblink13 (char on);
  **/
 int k_unused_stak (struct k_t *t);
 
-#ifdef NEVER
 /**
-   Set preempt or non preempt
-   @param[in] on : 1: preempt on, 0: off 2: no change
-   @return: current state: 1 preempt sch. 0 non preempt
- **/
-char k_set_preempt (char on);
-
-/**
-   Get preempt or non preempt
-   @return: current state: 1 preempt sch. 0 non preempt
- **/
-char k_get_preempt (void);
-#endif
-/**
-   round robbin
-   @return: current state: 1 preempt sch. 0 non preempt
- **/
+* round robbin
+* reinsert running task in activeQ.
+* so running will be inserted after other tasks with same or higher priority    
+**/
 void k_round_robbin (void);
 
 /**
-   release
-   switch running to task in front of Active Q
- **/
+* release
+* switch running to task in front of Active Q
+* calls ki_task_shift (); enveloped by a DI and EI
+* no round robbin
+**/
 void k_release (void);
 
 /**
-   returns amount of free memory in your system
- */
+*   returns amount of free memory in your system
+*   (free size of heap) se docu in krnl.c   
+*/
 int freeRam (void);
 
 #ifdef KRNLBUG
 
 /**
-   Breakout function called from scheduler
+ *  Breakout function called from scheduler
+ * You can use to examine who is runnning and who is next
+ * NB NB should be fast code and remember interrupt is and must be disables
+ *  pRun->nr   Nr of running. 
+ * dummy has nr == 0
+ * then task is numbered 1.. in acc with order of creation of tasks
+ * k_breakout is defined as weak function so you can write your own k_breakout
+ * The builtin k_breakout has no code and just a placeholder to be subst
+ * with your code.
+ * setting led8-12 on uno as task number
+ *   PORTB  = (1 << pRun->nr) | led13
  **/
 void __attribute__ ((weak)) k_breakout (void);
 #endif

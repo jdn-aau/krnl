@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['for_628',['for',['../krnl_8c.html#a291b3af93d331d5f422fbba2c09eb798',1,'krnl.c']]],
-  ['freeram_629',['freeRam',['../krnl_8c.html#abde03a57484eac43bffbad24df5fc794',1,'freeRam(void):&#160;krnl.c'],['../krnl_8h.html#abde03a57484eac43bffbad24df5fc794',1,'freeRam(void):&#160;krnl.c']]]
+  ['jumper_148',['jumper',['../krnl_8c.html#a9e93bf68f5c7767915007c9641d97a37',1,'krnl.c']]]
 ];
