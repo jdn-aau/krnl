@@ -824,9 +824,8 @@ unsigned long k_millis (void);
    Eats CPU time in k_tick quants
    @param[in] eatTime  number of k:ticks to eat
  */
-#define k_eat_msec_time(x)  _delay_ms(x)
-// JDN 180312   void k_eat_time (unsigned int eatTime);
-
+void k_eat_msec(unsigned int eatTime);
+ 
 
 /**
 * eat time in quant og krnl ticks
