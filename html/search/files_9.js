@@ -1,12 +1,17 @@
 var searchData=
 [
-  ['sbicbi_2eino_595',['sbicbi.ino',['../sbicbi_2sbicbi_8ino.html',1,'(Global Namespace)'],['../may-not__work_2sbicbi_2sbicbi_8ino.html',1,'(Global Namespace)']]],
-  ['semmutex_2eino_596',['semmutex.ino',['../semmutex_2semmutex_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semmutex_2semmutex_8ino.html',1,'(Global Namespace)']]],
-  ['semmutex2_2eino_597',['semmutex2.ino',['../semmutex2_2semmutex2_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semmutex2_2semmutex2_8ino.html',1,'(Global Namespace)']]],
-  ['semmutexb_2eino_598',['semmutexb.ino',['../semmutexb_2semmutexb_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semmutexb_2semmutexb_8ino.html',1,'(Global Namespace)']]],
-  ['semperf_2eino_599',['semperf.ino',['../semperf_2semperf_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semperf_2semperf_8ino.html',1,'(Global Namespace)']]],
-  ['semperf2_2eino_600',['semperf2.ino',['../semperf2_2semperf2_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semperf2_2semperf2_8ino.html',1,'(Global Namespace)']]],
-  ['semperfb_2eino_601',['semperfb.ino',['../semperfb_2semperfb_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semperfb_2semperfb_8ino.html',1,'(Global Namespace)']]],
-  ['semsync_2eino_602',['semsync.ino',['../semsync_2semsync_8ino.html',1,'(Global Namespace)'],['../may-not__work_2semsync_2semsync_8ino.html',1,'(Global Namespace)']]],
-  ['simpleisr_2eino_603',['simpleisr.ino',['../simpleisr_2simpleisr_8ino.html',1,'(Global Namespace)'],['../may-not__work_2simpleisr_2simpleisr_8ino.html',1,'(Global Namespace)']]]
+  ['readme_2eino_779',['readme.ino',['../debug_2readme_2readme_8ino.html',1,'(Global Namespace)'],['../may-not__work_2debug_2readme_2readme_8ino.html',1,'(Global Namespace)']]],
+  ['readme_2emd_780',['README.md',['../README_8md.html',1,'']]],
+  ['rt_2darduino_2dcritregion_2eino_781',['rt-arduino-critregion.ino',['../rt-arduino-critregion_8ino.html',1,'']]],
+  ['rt_2darduino_2disrsendmsg_2eino_782',['rt-arduino-isrsendmsg.ino',['../rt-arduino-isrsendmsg_8ino.html',1,'']]],
+  ['rt_2darduino_2disrsync_2eino_783',['rt-arduino-isrsync.ino',['../rt-arduino-isrsync_8ino.html',1,'']]],
+  ['rt_2darduino_2disrsyncdebounce_2eino_784',['rt-arduino-isrsyncdebounce.ino',['../rt-arduino-isrsyncdebounce_8ino.html',1,'']]],
+  ['rt_2darduino_2dmsgq01_2eino_785',['rt-arduino-msgq01.ino',['../rt-arduino-msgq01_8ino.html',1,'']]],
+  ['rt_2darduino_2dperiodic_2ddelay_2eino_786',['rt-arduino-periodic-delay.ino',['../rt-arduino-periodic-delay_8ino.html',1,'']]],
+  ['rt_2darduino_2drdwr_2eino_787',['rt-arduino-rdwr.ino',['../rt-arduino-rdwr_8ino.html',1,'']]],
+  ['rt_2darduino_2drdwr2_2eino_788',['rt-arduino-rdwr2.ino',['../rt-arduino-rdwr2_8ino.html',1,'']]],
+  ['rt_2darduino_2dreader_2dwriter01_2eino_789',['rt-arduino-reader-writer01.ino',['../rt-arduino-reader-writer01_8ino.html',1,'']]],
+  ['rt_2darduino_2dreader_2dwriter02_2eino_790',['rt-arduino-reader-writer02.ino',['../rt-arduino-reader-writer02_8ino.html',1,'']]],
+  ['rt_2darduino_2dreader_2dwriterf_2eino_791',['rt-arduino-reader-writerf.ino',['../rt-arduino-reader-writerf_8ino.html',1,'']]],
+  ['rt_2darduino_2drealtimeloop_2eino_792',['rt-arduino-realtimeloop.ino',['../rt-arduino-realtimeloop_8ino.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hi8_24',['hi8',['../krnl_8h.html#af8e5f886988b0b8a892d49d7d539cdef',1,'krnl.h']]]
+  ['getdataincritregion_143',['getDataInCritRegion',['../k07mutexsem_8ino.html#adb5c186df12ec23a7f20bc16d3b01b12',1,'getDataInCritRegion(void):&#160;k07mutexsem.ino'],['../k014semmutex_8ino.html#adb5c186df12ec23a7f20bc16d3b01b12',1,'getDataInCritRegion(void):&#160;k014semmutex.ino']]]
 ];

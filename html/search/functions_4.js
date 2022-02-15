@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['if_147',['if',['../krnl_8c.html#a5b4c3fa4e5fb26efdf05559a11ca035b',1,'if(timer0_fractt &gt;=FRACT_MAX):&#160;krnl.c'],['../krnl_8c.html#a19a8dead725681deef35189e711f59b1',1,'if(!k_running):&#160;krnl.c'],['../krnl_8c.html#a862f3218207bb27241dd3f689e7429f2',1,'if(1&lt; k_tick_size):&#160;krnl.c']]]
+  ['emergencyblink_847',['emergencyBlink',['../oldobsolete_2k01myfirstprogram_2k01myfirsttask_8ino.html#aae2255f6be1a57db4d8dd3829a500ec3',1,'k01myfirsttask.ino']]],
+  ['enq_848',['enQ',['../krnl_8c.html#ab750c904258e717b40c17f55400ca3b2',1,'krnl.c']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zombi_5fprio_966',['ZOMBI_PRIO',['../krnl_8h.html#ac72d3be88c0ebe1484d661ed66b3edff',1,'krnl.h']]]
+  ['wdt_5fperiod_1197',['WDT_PERIOD',['../krnl_8h.html#abfd81fe656b5b7eff16ce10e1aa376c2',1,'krnl.h']]]
 ];
