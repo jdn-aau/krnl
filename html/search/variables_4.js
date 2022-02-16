@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data_977',['data',['../debug_2mutex_2mutex_8ino.html#a2cc44eca2641f8337962df4a25d0d7df',1,'data():&#160;mutex.ino'],['../debug_2mutex2_2mutex2_8ino.html#a2cc44eca2641f8337962df4a25d0d7df',1,'data():&#160;mutex2.ino'],['../debug_2mutex3_2mutex3_8ino.html#a2cc44eca2641f8337962df4a25d0d7df',1,'data():&#160;mutex3.ino'],['../may-not__work_2debug_2mutex_2mutex_8ino.html#a2cc44eca2641f8337962df4a25d0d7df',1,'data():&#160;mutex.ino'],['../may-not__work_2debug_2mutex2_2mutex2_8ino.html#a2cc44eca2641f8337962df4a25d0d7df',1,'data():&#160;mutex2.ino'],['../may-not__work_2debug_2mutex3_2mutex3_8ino.html#a2cc44eca2641f8337962df4a25d0d7df',1,'data():&#160;mutex3.ino']]],
-  ['databufformsgq_978',['dataBufForMsgQ',['../k09msgq_8ino.html#a75ad6122df699e2ab87a596c4c9acd16',1,'dataBufForMsgQ():&#160;k09msgq.ino'],['../rt-arduino-msgq01_8ino.html#a75ad6122df699e2ab87a596c4c9acd16',1,'dataBufForMsgQ():&#160;rt-arduino-msgq01.ino']]],
-  ['dmy_5fstk_979',['dmy_stk',['../krnl_8h.html#a38effc60e299ca322c0065e67270a933',1,'krnl.h']]]
+  ['fakecnt_207',['fakecnt',['../krnl_8c.html#ab6049c624c71022617cb364ecab34dba',1,'krnl.c']]],
+  ['fakecnt_5fpreset_208',['fakecnt_preset',['../krnl_8c.html#ab86ac5ffb302fcda5e40378d29e70d40',1,'krnl.c']]],
+  ['fifosem_209',['fifoSem',['../structk__rwlock__t.html#a8c862462bdc41938a22bfe8b0b600f37',1,'k_rwlock_t']]]
 ];

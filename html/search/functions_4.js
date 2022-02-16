@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['emergencyblink_847',['emergencyBlink',['../oldobsolete_2k01myfirstprogram_2k01myfirsttask_8ino.html#aae2255f6be1a57db4d8dd3829a500ec3',1,'k01myfirsttask.ino']]],
-  ['enq_848',['enQ',['../krnl_8c.html#ab750c904258e717b40c17f55400ca3b2',1,'krnl.c']]]
+  ['isr_151',['ISR',['../krnl_8c.html#a790cb408825575b88d1107608b1ff389',1,'krnl.c']]]
 ];

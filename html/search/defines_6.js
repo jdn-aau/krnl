@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['k_5fchg_5fstak_1168',['K_CHG_STAK',['../krnl_8h.html#ab1d7cfc61583d7b1abf379373daeeccc',1,'krnl.h']]],
-  ['k_5feat_5fmsec_5ftime_1169',['k_eat_msec_time',['../krnl_8h.html#ab7da79e802a9286470376d7db8aa376f',1,'krnl.h']]],
-  ['kd_1170',['Kd',['../apidalg_2apidalg_8ino.html#a91066ed459a1747b160e47aa1dd54e36',1,'Kd():&#160;apidalg.ino'],['../pidcntrl_2pidcntrl_8ino.html#a91066ed459a1747b160e47aa1dd54e36',1,'Kd():&#160;pidcntrl.ino'],['../may-not__work_2apidalg_2apidalg_8ino.html#a91066ed459a1747b160e47aa1dd54e36',1,'Kd():&#160;apidalg.ino'],['../may-not__work_2pidcntrl_2pidcntrl_8ino.html#a91066ed459a1747b160e47aa1dd54e36',1,'Kd():&#160;pidcntrl.ino']]],
-  ['ki_1171',['Ki',['../apidalg_2apidalg_8ino.html#a6ccd383fe0d82309eac500d9bd3b825b',1,'Ki():&#160;apidalg.ino'],['../pidcntrl_2pidcntrl_8ino.html#a6ccd383fe0d82309eac500d9bd3b825b',1,'Ki():&#160;pidcntrl.ino'],['../may-not__work_2apidalg_2apidalg_8ino.html#a6ccd383fe0d82309eac500d9bd3b825b',1,'Ki():&#160;apidalg.ino'],['../may-not__work_2pidcntrl_2pidcntrl_8ino.html#a6ccd383fe0d82309eac500d9bd3b825b',1,'Ki():&#160;pidcntrl.ino']]],
-  ['kp_1172',['Kp',['../apidalg_2apidalg_8ino.html#a75bcee4b28157d51fa12c57a1a5d321a',1,'Kp():&#160;apidalg.ino'],['../pidcntrl_2pidcntrl_8ino.html#a75bcee4b28157d51fa12c57a1a5d321a',1,'Kp():&#160;pidcntrl.ino'],['../may-not__work_2apidalg_2apidalg_8ino.html#a75bcee4b28157d51fa12c57a1a5d321a',1,'Kp():&#160;apidalg.ino'],['../may-not__work_2pidcntrl_2pidcntrl_8ino.html#a75bcee4b28157d51fa12c57a1a5d321a',1,'Kp():&#160;pidcntrl.ino']]],
-  ['krnl_5fvrs_1173',['KRNL_VRS',['../krnl_8h.html#a9af27293504cc2ad16bdbd062abe834e',1,'krnl.h']]],
-  ['krnlbug_1174',['KRNLBUG',['../krnl_8h.html#a6d7c92c551defd0d0764df90a09cea03',1,'krnl.h']]],
-  ['krnltmrvector_1175',['KRNLTMRVECTOR',['../krnl_8c.html#a8390550b01018588df23043e908ded51',1,'krnl.c']]]
+  ['main_5fprio_267',['MAIN_PRIO',['../krnl_8h.html#add243159986ad4ecae03a1e77c9dea6c',1,'krnl.h']]],
+  ['max_5fint_268',['MAX_INT',['../krnl_8h.html#aaa1ac5caef84256eaeb39594e58e096f',1,'krnl.h']]],
+  ['max_5fsem_5fval_269',['MAX_SEM_VAL',['../krnl_8h.html#afe39f29482489a949f24b4f4de6e9163',1,'krnl.h']]]
 ];

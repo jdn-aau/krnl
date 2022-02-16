@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lo8_1176',['lo8',['../krnl_8h.html#ac5a30af97b4277d7ac5437bffca1154a',1,'krnl.h']]]
+  ['qhd_5fprio_270',['QHD_PRIO',['../krnl_8h.html#a1b9c26bcbff44833fe9893a79279d0ba',1,'krnl.h']]]
 ];

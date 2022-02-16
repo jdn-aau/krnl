@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hacking_985',['hacking',['../k00readme_2k00readme_8ino.html#a94decdc1d4443e1def9080ff488f7339',1,'hacking():&#160;k00readme.ino'],['../may-not__work_2k00readme_2k00readme_8ino.html#a94decdc1d4443e1def9080ff488f7339',1,'hacking():&#160;k00readme.ino']]]
+  ['maxv_222',['maxv',['../structk__t.html#ab5c4013797f848b7f3d306c8b12375b0',1,'k_t']]]
 ];

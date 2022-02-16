@@ -1,3 +1,4 @@
+//220216
 #include <krnl.h>
 // one task loops and blink
 // k_wait ensures proper timing
@@ -26,10 +27,10 @@ struct shDataTp getDataInCritRegion(void)
 {
   struct shDataTp tmp;
   k_wait(semmutex, 0);
-  {
-    sharedData.counter--;
-    tmp = sharedData;
-  }
+  
+  sharedData.counter--;
+  tmp = sharedData;
+  
   k_signal(semmutex);
   return tmp;
 }

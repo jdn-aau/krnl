@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['readerwriter_1185',['READERWRITER',['../krnl_8h.html#aa5ef77acfcc0043bc185e0a2485beb21',1,'krnl.h']]]
+  ['wdt_5fperiod_275',['WDT_PERIOD',['../krnl_8h.html#abfd81fe656b5b7eff16ce10e1aa376c2',1,'krnl.h']]],
+  ['wdt_5ftimer_276',['WDT_TIMER',['../krnl_8c.html#a983c9777673ee873f12ec9f489215321',1,'krnl.c']]]
 ];

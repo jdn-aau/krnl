@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['fract_5finc_1165',['FRACT_INC',['../krnl_8c.html#a5647e40017bbd34a202f6a672ca116e4',1,'krnl.c']]],
-  ['fract_5fmax_1166',['FRACT_MAX',['../krnl_8c.html#a3d5262b0f828700a2ce29198838e0d9e',1,'krnl.c']]]
+  ['k_5fchg_5fstak_262',['K_CHG_STAK',['../krnl_8h.html#ab1d7cfc61583d7b1abf379373daeeccc',1,'krnl.h']]],
+  ['krnl_5fvrs_263',['KRNL_VRS',['../krnl_8h.html#a9af27293504cc2ad16bdbd062abe834e',1,'krnl.h']]],
+  ['krnlbug_264',['KRNLBUG',['../krnl_8h.html#a6d7c92c551defd0d0764df90a09cea03',1,'krnl.h']]],
+  ['krnltmrvector_265',['KRNLTMRVECTOR',['../krnl_8c.html#a8390550b01018588df23043e908ded51',1,'krnl.c']]]
 ];

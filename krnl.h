@@ -54,7 +54,7 @@ https://github.com/jdn-aau/krnl
 *****************************************************
  remember to update in krnl.c !!!
 *****************************************************/
-#define KRNL_VRS 2021-06-07
+#define KRNL_VRS 2022-02-15
 
 
 /***********************
@@ -834,19 +834,13 @@ unsigned long ki_millis (void);
 unsigned long k_millis (void);
 
 /**
-   Eats CPU time in k_tick quants
-   @param[in] eatTime  number of k:ticks to eat
+ * Eat time in quant of krnl ticks
+ * starting from now but not from next tick
+ *   Eats CPU time in k_tick quants
+   @param[in] tyick  number of ticks to eat
  */
-#define k_eat_msec_time(x)  _delay_ms(x)
-// JDN 180312   void k_eat_time (unsigned int eatTime);
+void k_eat_msec(unsigned int eatTime);
 
-
-/**
-* eat time in quant og krnl ticks
-* starting from now but not from next tick
-*/
-void k_eat_ticks( int ticks);
- 
 /**
 ** INSPIRED BY FREERTOS	
  incr <= 60000 !
@@ -855,8 +849,7 @@ int k_task_periodic_delay(unsigned long *t, unsigned int incr) ;
 
 
 
-void k_eat_msec(unsigned int eatTime)
-;/**
+/**
    issues a task shift - handle with care
    Not to be used by normal user
  */
