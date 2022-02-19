@@ -89,8 +89,8 @@ void setup() {
 	
 	msgQ = k_crt_send_Q (10, sizeof(int),  dataBufForMsgQ);  // 10 elements of size
 	
-	pTask1 = k_crt_task(task1, 15, STK, a1);
-	pTask2 = k_crt_task(task2, 15 , STK, a2);
+	pTask1 = k_crt_task(task1, 15,  a1,STK);
+	pTask2 = k_crt_task(task2, 15 , a2,STK);
 	
 	timedSem1 = k_crt_sem(0, 1); // 1: start value, 10: max value (clipping)
 	timedSem2 = k_crt_sem(0, 1); // 1: start value, 10: max value (clipping)

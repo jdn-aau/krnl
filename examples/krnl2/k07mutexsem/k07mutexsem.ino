@@ -78,8 +78,8 @@ void setup()
   //     |------- no of tasks (2)
 
   // priority low number higher priority than higher number
-  p1 = k_crt_task(t1, 10, 100,a1); // t1 as task, priority 10, 100 B stak
-  p2 = k_crt_task(t2, 10, 100,a2); // t1 as task, priority 10, 100 B stak
+  p1 = k_crt_task(t1, 10, a1,100); // t1 as task, priority 10, 100 B stak
+  p2 = k_crt_task(t2, 10, a2,100); // t1 as task, priority 10, 100 B stak
 
   s1 = k_crt_sem(0, 10);
   semmutex = k_crt_sem(1, 10); // must be 1 otherwise no one can come inside
