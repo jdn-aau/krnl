@@ -842,14 +842,6 @@ unsigned long k_millis (void);
 void k_eat_msec(unsigned int eatTime);
 
 /**
-** INSPIRED BY FREERTOS	
- incr <= 60000 !
-*/
-int k_task_periodic_delay(unsigned long *t, unsigned int incr) ;
-
-
-
-/**
    issues a task shift - handle with care
    Not to be used by normal user
  */
@@ -1049,7 +1041,7 @@ int k_msg_count (struct k_msg_t *m);
 
 /**
    a function for overloading on usersite which is called when a semaphore is overflooding
-   no reset occur - it's only reading out semaphore idendity
+   no  occur - it's only reading out semaphore idendity
    Signal operations has not taken place !
    1: means first semahore allocated by user, 2 the next etc
    Interrupt is disabled when called and must not be enabled during.. so no print etc
@@ -1145,6 +1137,21 @@ char k_receive (struct k_msg_t *pB, void *el, int timeout, int *lost_msg);
    @remark only to be called after start of KRNL
  */
 char ki_receive (struct k_msg_t *pB, void *el, int *lost_msg);
+
+/**
+ * Empty sendQ 
+ * @return  given no of deleted messages 
+ * @return -1 if its no a msg q
+ * @return -2 if krnl is not running
+ * @return 0 or positive gives no of messages deleted
+ */
+int ki_clear_msg_Q (struct k_msg_t *pB);
+
+/**
+ * Empty sendQ 
+ * See ki_clear_msg-Q for description
+*/
+int k_clear_msg_Q (struct k_msg_t *pB);
 
 
 #ifdef READERWRITER

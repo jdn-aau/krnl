@@ -523,7 +523,7 @@ int k_sleep(int time)
 	if (r == -1)                // timeout ? yes :-)
 		return 0;
 }
- 
+
 
 int k_unused_stak(struct k_t *t)
 {
@@ -574,27 +574,6 @@ int k_set_prio(char prio)
 	EI();
 	
 	return (i);
-}
-
-int k_task_periodic_delay(unsigned long *t, unsigned int incr)
-{
-	unsigned long sl;
-	
-	if (60000 < incr)
-		return -1;
-	
-	*t += incr;
-	DI();
-	if (*t == k_millis_counter) {       // accurate - no wait -just proceed
-		EI();
-		return 1;               // accurate  
-	}
-	if (*t < k_millis_counter) {
-		EI();
-		return 2;               //behind
-	}
-	k_sleep(*t - k_millis_counter);     // assume msec tick
-	return 0;                   // ok and wait
 }
 
 int k_mut_ceil_set(struct k_t *sem, char prio)
@@ -916,6 +895,33 @@ struct k_msg_t *k_crt_send_Q(int nr_el, int el_size, void *pBuf)
 	return (NULL);
 }
 
+int ki_clear_msg_Q (struct k_msg_t *pB)
+{
+	int ret;	
+	if (k_running) {
+		return -2;
+	}
+	
+	ret = pB->cnt;
+	if ( 0 < ret) { // messages pending s0
+		pB->lost_msg  = 0;
+		pB->cnt = 0; // reset
+		pB->r = pB->w = -1;
+		// clear sem - can do it bq no one is waiting bq 0 < ret  == pending messages
+		pB->sem->cnt1 = 0;  // Serious NASTY
+	}
+	return ret;
+}
+
+int k_clear_msg_Q (struct k_msg_t *pB)
+{
+	int r;
+	DI();
+	r = ki_clear_msg_Q(pB);
+	EI();
+	return r;
+}
+
 char ki_send(struct k_msg_t *pB, void *el)
 {
 	
@@ -968,6 +974,9 @@ char k_send(struct k_msg_t *pB, void *el)
 	EI();
 	return (res);
 }
+
+
+
 
 char ki_receive(struct k_msg_t *pB, void *el, int *lost_msg)
 {
