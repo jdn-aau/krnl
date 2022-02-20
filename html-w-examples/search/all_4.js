@@ -1,11 +1,24 @@
 var searchData=
 [
-  ['databufformsgq_23',['dataBufForMsgQ',['../k09msgq_8ino.html#a75ad6122df699e2ab87a596c4c9acd16',1,'k09msgq.ino']]],
-  ['debouncetime_24',['debounceTime',['../k08isrsem_8ino.html#a4c44bdeaeaa9c7614c178a0466577da8',1,'debounceTime():&#160;k08isrsem.ino'],['../isr04_8ino.html#a5e05ece610f1ac7c7e39db4e475e0413',1,'DEBOUNCETIME():&#160;isr04.ino']]],
-  ['debug_25',['DEBUG',['../k000time03_8ino.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'k000time03.ino']]],
-  ['deq_26',['deQ',['../krnl_8c.html#a7ac8496c83319bfc569e4fdab8149940',1,'krnl.c']]],
-  ['dmy_5fprio_27',['DMY_PRIO',['../krnl_8h.html#acf2f4a8f04e484305e7c862c0cb39d63',1,'krnl.h']]],
-  ['dmy_5fstk_28',['dmy_stk',['../krnl_8h.html#a38effc60e299ca322c0065e67270a933',1,'krnl.h']]],
-  ['dmy_5fstk_5fsz_29',['DMY_STK_SZ',['../krnl_8h.html#a1159800af031443d866b321adaae60d8',1,'krnl.h']]],
-  ['dynmemory_30',['DYNMEMORY',['../krnl_8h.html#a874598d88f6cf5a05743c4544de5d3f0',1,'krnl.h']]]
+  ['databufformsgq_53',['dataBufForMsgQ',['../k09msgq_8ino.html#a75ad6122df699e2ab87a596c4c9acd16',1,'k09msgq.ino']]],
+  ['debouncetime_54',['DEBOUNCETIME',['../isr04_8ino.html#a5e05ece610f1ac7c7e39db4e475e0413',1,'DEBOUNCETIME():&#160;isr04.ino'],['../k08isrsem_8ino.html#a4c44bdeaeaa9c7614c178a0466577da8',1,'debounceTime():&#160;k08isrsem.ino']]],
+  ['debug_55',['DEBUG',['../k000time03_8ino.html#ad72dbcf6d0153db1b8d8a58001feed83',1,'k000time03.ino']]],
+  ['defines_5f0_2ejs_56',['defines_0.js',['../defines__0_8js.html',1,'']]],
+  ['defines_5f1_2ejs_57',['defines_1.js',['../defines__1_8js.html',1,'']]],
+  ['defines_5f2_2ejs_58',['defines_2.js',['../defines__2_8js.html',1,'']]],
+  ['defines_5f3_2ejs_59',['defines_3.js',['../defines__3_8js.html',1,'']]],
+  ['defines_5f4_2ejs_60',['defines_4.js',['../defines__4_8js.html',1,'']]],
+  ['defines_5f5_2ejs_61',['defines_5.js',['../defines__5_8js.html',1,'']]],
+  ['defines_5f6_2ejs_62',['defines_6.js',['../defines__6_8js.html',1,'']]],
+  ['defines_5f7_2ejs_63',['defines_7.js',['../defines__7_8js.html',1,'']]],
+  ['defines_5f8_2ejs_64',['defines_8.js',['../defines__8_8js.html',1,'']]],
+  ['defines_5f9_2ejs_65',['defines_9.js',['../defines__9_8js.html',1,'']]],
+  ['defines_5fa_2ejs_66',['defines_a.js',['../defines__a_8js.html',1,'']]],
+  ['defines_5fb_2ejs_67',['defines_b.js',['../defines__b_8js.html',1,'']]],
+  ['deq_68',['deQ',['../krnl_8c.html#a7ac8496c83319bfc569e4fdab8149940',1,'krnl.c']]],
+  ['dmy_5fprio_69',['DMY_PRIO',['../krnl_8h.html#acf2f4a8f04e484305e7c862c0cb39d63',1,'krnl.h']]],
+  ['dmy_5fstk_70',['dmy_stk',['../krnl_8h.html#a38effc60e299ca322c0065e67270a933',1,'krnl.h']]],
+  ['dmy_5fstk_5fsz_71',['DMY_STK_SZ',['../krnl_8h.html#a1159800af031443d866b321adaae60d8',1,'krnl.h']]],
+  ['dynmemory_72',['DYNMEMORY',['../krnl_8h.html#a874598d88f6cf5a05743c4544de5d3f0',1,'krnl.h']]],
+  ['dynsections_2ejs_73',['dynsections.js',['../dynsections_8js.html',1,'']]]
 ];

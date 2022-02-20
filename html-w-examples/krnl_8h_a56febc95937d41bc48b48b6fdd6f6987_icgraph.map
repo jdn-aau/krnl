@@ -1,13 +1,13 @@
 <map id="k_sleep" name="k_sleep">
-<area shape="rect" id="node1" title=" " alt="" coords="307,132,373,159"/>
-<area shape="rect" id="node2" href="$krnl_8h.html#a36c476fedc30f8a75d78d1af8c8a8284" title=" " alt="" coords="108,5,259,32"/>
-<area shape="rect" id="node3" href="$k03asleep_8ino.html#a78ed8c1d641408a085543aa2d77ed93f" title=" " alt="" coords="164,56,203,83"/>
-<area shape="rect" id="node5" href="$k03asleep_8ino.html#a76cb230c0ffd18dba5932a1677e6866a" title=" " alt="" coords="164,107,203,133"/>
-<area shape="rect" id="node6" href="$k06syncsem_8ino.html#afb35a54f26606b4808ac0a8d9ad55433" title=" " alt="" coords="156,157,211,184"/>
-<area shape="rect" id="node8" href="$krnlsimpledebugled_8ino.html#ad8ff7fef00b70a5a4c8b0f462dd65782" title=" " alt="" coords="149,208,217,235"/>
-<area shape="rect" id="node10" href="$k04periodic-clip_8ino.html#a02e00c70411070d43d05fbad870895a3" title=" " alt="" coords="155,259,212,285"/>
-<area shape="rect" id="node4" href="$k03asleep_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,81,60,108"/>
-<area shape="rect" id="node7" href="$k06syncsem_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,157,60,184"/>
+<area shape="rect" id="node1" title=" " alt="" coords="224,132,291,159"/>
+<area shape="rect" id="node2" href="$k03asleep_8ino.html#a78ed8c1d641408a085543aa2d77ed93f" title=" " alt="" coords="123,5,161,32"/>
+<area shape="rect" id="node4" href="$k03asleep_8ino.html#a76cb230c0ffd18dba5932a1677e6866a" title=" " alt="" coords="123,56,161,83"/>
+<area shape="rect" id="node5" href="$k06syncsem_8ino.html#afb35a54f26606b4808ac0a8d9ad55433" title=" " alt="" coords="115,107,169,133"/>
+<area shape="rect" id="node7" href="$ceil01_8ino.html#ace729e6ad571671db31c448c87b2331b" title=" " alt="" coords="115,157,169,184"/>
+<area shape="rect" id="node8" href="$krnlsimpledebugled_8ino.html#ad8ff7fef00b70a5a4c8b0f462dd65782" title=" " alt="" coords="108,208,176,235"/>
+<area shape="rect" id="node10" href="$k04periodic-clip_8ino.html#a02e00c70411070d43d05fbad870895a3" title=" " alt="" coords="113,259,171,285"/>
+<area shape="rect" id="node3" href="$k03asleep_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,31,60,57"/>
+<area shape="rect" id="node6" href="$k06syncsem_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,107,60,133"/>
 <area shape="rect" id="node9" href="$krnlsimpledebugled_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,208,60,235"/>
 <area shape="rect" id="node11" href="$k04periodic-clip_8ino.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,259,60,285"/>
 </map>

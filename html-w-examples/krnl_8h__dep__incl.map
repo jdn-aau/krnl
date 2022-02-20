@@ -1,5 +1,5 @@
 <map id="krnl.h" name="krnl.h">
-<area shape="rect" id="node1" title=" " alt="" coords="1719,5,1774,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="2183,5,2238,32"/>
 <area shape="rect" id="node2" href="$k01myfirsttask_8ino.html" title=" " alt="" coords="5,80,205,121"/>
 <area shape="rect" id="node3" href="$k02twotasks_8ino.html" title=" " alt="" coords="230,80,418,121"/>
 <area shape="rect" id="node4" href="$k03asleep_8ino.html" title=" " alt="" coords="443,80,616,121"/>
@@ -15,5 +15,9 @@
 <area shape="rect" id="node14" href="$k07mutexsem-adv_8ino.html" title=" " alt="" coords="2665,80,2861,121"/>
 <area shape="rect" id="node15" href="$k09msgq_8ino.html" title=" " alt="" coords="2885,80,3051,121"/>
 <area shape="rect" id="node16" href="$k08isrsem_8ino.html" title=" " alt="" coords="3075,80,3250,121"/>
-<area shape="rect" id="node17" href="$krnl_8c.html" title=" " alt="" coords="3274,87,3329,114"/>
+<area shape="rect" id="node17" href="$ceil01_8ino.html" title=" " alt="" coords="3274,80,3422,121"/>
+<area shape="rect" id="node18" href="$ceil02_8ino.html" title=" " alt="" coords="3446,80,3594,121"/>
+<area shape="rect" id="node19" href="$ceil03_8ino.html" title=" " alt="" coords="3618,80,3766,121"/>
+<area shape="rect" id="node20" href="$ceil04_8ino.html" title=" " alt="" coords="3790,80,3938,121"/>
+<area shape="rect" id="node21" href="$krnl_8c.html" title=" " alt="" coords="3962,87,4017,114"/>
 </map>
