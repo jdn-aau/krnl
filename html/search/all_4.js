@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['d8t13_38',['d8t13',['../krnl_8h.html#a797d23ae1a9ec1bbff081aaf33120dd2',1,'krnl.h']]],
+  ['defines_5f0_2ejs_39',['defines_0.js',['../defines__0_8js.html',1,'']]],
+  ['defines_5f1_2ejs_40',['defines_1.js',['../defines__1_8js.html',1,'']]],
+  ['defines_5f2_2ejs_41',['defines_2.js',['../defines__2_8js.html',1,'']]],
+  ['defines_5f3_2ejs_42',['defines_3.js',['../defines__3_8js.html',1,'']]],
+  ['defines_5f4_2ejs_43',['defines_4.js',['../defines__4_8js.html',1,'']]],
+  ['defines_5f5_2ejs_44',['defines_5.js',['../defines__5_8js.html',1,'']]],
+  ['defines_5f6_2ejs_45',['defines_6.js',['../defines__6_8js.html',1,'']]],
+  ['defines_5f7_2ejs_46',['defines_7.js',['../defines__7_8js.html',1,'']]],
+  ['defines_5f8_2ejs_47',['defines_8.js',['../defines__8_8js.html',1,'']]],
+  ['defines_5f9_2ejs_48',['defines_9.js',['../defines__9_8js.html',1,'']]],
+  ['defines_5fa_2ejs_49',['defines_a.js',['../defines__a_8js.html',1,'']]],
+  ['defines_5fb_2ejs_50',['defines_b.js',['../defines__b_8js.html',1,'']]],
+  ['defines_5fc_2ejs_51',['defines_c.js',['../defines__c_8js.html',1,'']]],
+  ['deq_52',['deQ',['../krnl_8c.html#a7ac8496c83319bfc569e4fdab8149940',1,'krnl.c']]],
+  ['dmy_5fprio_53',['DMY_PRIO',['../krnl_8h.html#acf2f4a8f04e484305e7c862c0cb39d63',1,'krnl.h']]],
+  ['dmy_5fstk_54',['dmy_stk',['../krnl_8h.html#a38effc60e299ca322c0065e67270a933',1,'krnl.h']]],
+  ['dmy_5fstk_5fsz_55',['DMY_STK_SZ',['../krnl_8h.html#a1159800af031443d866b321adaae60d8',1,'krnl.h']]],
+  ['dynmemory_56',['DYNMEMORY',['../krnl_8h.html#a874598d88f6cf5a05743c4544de5d3f0',1,'krnl.h']]],
+  ['dynsections_2ejs_57',['dynsections.js',['../dynsections_8js.html',1,'']]]
+];

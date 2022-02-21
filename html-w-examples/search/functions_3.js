@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deq_515',['deQ',['../krnl_8c.html#a7ac8496c83319bfc569e4fdab8149940',1,'krnl.c']]]
+  ['deq_563',['deQ',['../krnl_8c.html#a7ac8496c83319bfc569e4fdab8149940',1,'krnl.c']]]
 ];

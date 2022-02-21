@@ -1,7 +1,7 @@
 <map id="setup" name="setup">
 <area shape="rect" id="node1" title=" " alt="" coords="5,159,60,185"/>
 <area shape="rect" id="node2" href="$krnl_8c.html#a27f33ac31a1b04e73084d19333e10486" title=" " alt="" coords="243,5,326,32"/>
-<area shape="rect" id="node3" href="$krnl_8c.html#adb658e8f827cd3e8f6f4386f0c77e96d" title=" " alt="" coords="243,107,326,133"/>
+<area shape="rect" id="node3" href="$krnl_8c.html#ab0cfe9f72acf96b6f901b1fccf3e723f" title=" " alt="" coords="243,107,326,133"/>
 <area shape="rect" id="node9" href="$krnl_8c.html#ad939ea35387a46c6c94a096d41c0d18b" title=" " alt="" coords="108,56,161,83"/>
 <area shape="rect" id="node10" href="$krnl_8c.html#abed191616e4e3d1fa684f9ca719715fb" title=" " alt="" coords="412,385,475,412"/>
 <area shape="rect" id="node11" href="$k07mutexsem_8ino.html#a78ed8c1d641408a085543aa2d77ed93f" title=" " alt="" coords="115,196,154,223"/>
@@ -18,7 +18,7 @@
 <area shape="rect" id="node15" href="$krnl_8c.html#ab750c904258e717b40c17f55400ca3b2" title=" " alt="" coords="682,309,729,336"/>
 <area shape="rect" id="node17" href="$krnl_8c.html#a0c2f743e45400c5d9ac04457b78d3d97" title=" " alt="" coords="408,245,479,272"/>
 <area shape="rect" id="node18" href="$krnl_8c.html#a45c4a121f17683f0cd3593c0ee0bff1b" title=" " alt="" coords="531,157,605,184"/>
-<area shape="rect" id="node19" href="$k04periodic-clip_8ino.html#aeb1e3c6b057dbfe37f39ab843001134d" title=" " alt="" coords="661,157,749,184"/>
+<area shape="rect" id="node19" href="$k01_8ino.html#aa310f55ef3d0fd36ca58142a6c986c25" title=" " alt="" coords="661,157,749,184"/>
 <area shape="rect" id="node21" href="$k07mutexsem_8ino.html#adb5c186df12ec23a7f20bc16d3b01b12" title=" " alt="" coords="214,309,355,336"/>
 <area shape="rect" id="node22" href="$krnl_8c.html#a56febc95937d41bc48b48b6fdd6f6987" title=" " alt="" coords="251,360,318,387"/>
 </map>
