@@ -775,6 +775,13 @@ extern volatile char k_bug_on;
 #error "unknown arch"
 #endif
 
+
+#define d8t13 \
+for (int i = 8; i < 14; i++) {pinMode(i,OUTPUT); digitalWrite(i,LOW);}
+
+#define kbreakout \
+extern "C" { void k_breakout() { PORTB = (1 << pRun->nr); }}
+
 // function prototypes
 // naming convention
 // k_... function do a DI/EI and can impose task shift
