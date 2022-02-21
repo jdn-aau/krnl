@@ -62,8 +62,8 @@ void setup()
 	//     |------- no of tasks (2)
 	
 	// priority low number higher priority than higher number
-	p1 = k_crt_task(t1, 10, s1,100); // t1 as task, priority 9, 100 B stak
-	p2 = k_crt_task(t2, 10, s2,100); // t2 as task, priority 10, 100 B stak
+	p1 = k_crt_task(t1, 10, 100,s1); // t1 as task, priority 9, 100 B stak
+	p2 = k_crt_task(t2, 10, 100,s2); // t2 as task, priority 10, 100 B stak
 	
 	Serial.println("bef start");
 	res = k_start(1); // 1 milli sec tick speed

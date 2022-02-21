@@ -403,8 +403,8 @@ void jumper()
 }
 #endif
 
-struct k_t *k_crt_task(void (*pTask)(void), char prio, int stkSize,
-					   char *pStk)
+struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk, int stkSize
+					   )
 {
 	struct k_t *pT;
 	

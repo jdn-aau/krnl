@@ -863,7 +863,7 @@ int k_sleep (int time);
    @return: pointer to task handle or NULL if no success
    @remark only to be called before start of KRNL but after k_init
  */
-struct k_t *k_crt_task (void (*pTask)(void), char prio,  int stkSize,char *pS);
+struct k_t *k_crt_task (void (*pTask)(void), char prio, char *pS, int stkSize);
 
 /**
    change priority of calling task)
