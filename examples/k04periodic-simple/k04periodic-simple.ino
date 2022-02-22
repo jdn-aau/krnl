@@ -24,6 +24,8 @@ void t2()
   }
 }
 
+#define STK 120
+char s1[STK], s2[STK];
 
 void setup()
 {
@@ -38,8 +40,8 @@ void setup()
   //     |------- no of tasks (2)
 
   // priority low number higher priority than higher number
-  p1 = k_crt_task(t1, 10, 100); // t1 as task, priority 10, 100 B stak
-  p2 = k_crt_task(t2, 11, 100); // t2 as task, priority 11 == lower than t1, 100 B stak
+  p1 = k_crt_task(t1, 10, s1,STK); // t1 as task, priority 10, 100 B stak
+  p2 = k_crt_task(t2, 11, s2,STK); // t2 as task, priority 11 == lower than t1, 100 B stak
   
   s1 = k_crt_sem(0, 10); // crt sem
 

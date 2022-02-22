@@ -63,10 +63,10 @@ void setup()
 	
 	// priority low number higher priority than higher number
 	//Task 1
-	p1 = k_crt_task(tperiodic, 10, STK, st1);
+	p1 = k_crt_task(tperiodic, 10, st1, STK);
 	
 	//Task 2
-	p2 = k_crt_task(tnoise, 11 , STK, st2);
+	p2 = k_crt_task(tnoise, 11 , st2, STK);
 	
 	sem1 = k_crt_sem(0, 1);
 	

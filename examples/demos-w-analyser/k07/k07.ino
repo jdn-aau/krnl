@@ -7,7 +7,7 @@
 
 #include <krnl.h>
 
-#define STKSIZE 100
+#define STKSIZE 110
 
 #define TASKPRIO 10
 

@@ -63,8 +63,8 @@ void setup()
 	//               |  |--------- priority (lower number= higher prio
 	//               |  |   |----- staksize for array s1
 	//                         |-- array used for stak
-	pt1 = k_crt_task(t1, 11, STKSZ, stak1);
-	//pt2 = k_crt_task(t2, 11, STKSZ, stak2);
+	pt1 = k_crt_task(t1, 11, stak1, STKSZ);
+	//pt2 = k_crt_task(t2, 11, stak2, STKSZ);
 	
 	
 	// NB-1 remember an Arduino has only 2-8 kByte RAM

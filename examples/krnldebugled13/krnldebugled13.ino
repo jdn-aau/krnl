@@ -3,7 +3,9 @@
 // LED13 on i dummy is runningg
 
 struct k_t *p1, *p2, *p3;
-char st1[100], st2[100], st3[100];
+
+#define STK 110
+char st1[STK], st2[STK], st3[STK];
 
 // LED 13 not used from user space bq we use led for indicating dummy i srunning
 // when dummy is running it indicates enough cpu power
@@ -23,15 +25,15 @@ void t1()
 void setup()
 {
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(13, OUTPUT);  // for debug
 
   k_init(3, 0, 0); // init with space for three tasks
 
   // priority low number higher priority than higher number
-  p1 = k_crt_task(t1, 10, st1, 100); // t1 as task, priority 10, 100 B stak
-  p2 = k_crt_task(t1, 11, st2, 100); // t1 as task, priority 10, 100 B stak
-  p3 = k_crt_task(t1, 12, st3, 100); // t1 as task, priority 10, 100 B stak
+  p1 = k_crt_task(t1, 10, st1, STK); // t1 as task, priority 10, 100 B stak
+  p2 = k_crt_task(t1, 11, st2, STK); // t1 as task, priority 10, 100 B stak
+//   p3 = k_crt_task(t1, 12, st3, STK); // t1 as task, priority 10, 100 B stak
 
   k_start(1); // 1 milli sec tick speed
 }

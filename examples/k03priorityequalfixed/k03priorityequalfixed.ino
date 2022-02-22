@@ -13,7 +13,7 @@
 
 struct k_t *p1, *p2;
 
-#define SS 100
+#define SS 140
 unsigned char s1[SS], s2[SS];
 
 
@@ -71,8 +71,8 @@ void setup()
 	//     |------- no of tasks (2)
 	
 	// priority low number higher priority than higher number
-	p1 = k_crt_task(t1, 10, 100, s1); // t1 as task, priority 9, 100 B stak
-	p2 = k_crt_task(t2, 10, 100, s2); // t2 as task, priority 10, 100 B stak
+	p1 = k_crt_task(t1, 10, s1, SS); // t1 as task, priority 9, 100 B stak
+	p2 = k_crt_task(t2, 10, s2, SS); // t2 as task, priority 10, 100 B stak
 	
 	Serial.println("bef start");
 	res = k_start(1); // 1 milli sec tick speed

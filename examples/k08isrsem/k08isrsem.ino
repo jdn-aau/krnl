@@ -117,7 +117,7 @@ void setup() {
 	
 	k_init(1, 1, 0); // 2 task, 1 semaphores, 0 messaegQueues */
 
-pTask1 = k_crt_task(task1, 15,  STK, a);
+pTask1 = k_crt_task(task1, 15, a,  STK);
 
 syncSem = k_crt_sem(0, 10); // 1: start value, 10: max value (clipping)
 

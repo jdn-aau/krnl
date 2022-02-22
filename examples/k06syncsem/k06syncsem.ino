@@ -120,8 +120,8 @@ void setup()
 	//     |------- no of tasks (2)
 	
 	// priority low number higher priority than higher number
-	p1 = k_crt_task(task1, 10, STK, a1); // task1 as task, priority 10, 100 B stak
-	p2 = k_crt_task(task2, 11, STK, a2); // task2 as task, priority 11 == lower than t1, 100 B stak
+	p1 = k_crt_task(task1, 10, a1, STK); // task1 as task, priority 10, 100 B stak
+	p2 = k_crt_task(task2, 11, a2, STK); // task2 as task, priority 11 == lower than t1, 100 B stak
 	
 	s1 = k_crt_sem(0, 1); // crt sem
 	

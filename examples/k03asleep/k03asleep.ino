@@ -20,7 +20,7 @@
  // ?: Can you predict minimu time it takes to k_sleep(2000);   (a: yes)
  
  struct k_t *p1, *p2;
- #define STK 100
+ #define STK 110
  
  unsigned char s1[STK], s2[STK];
  
@@ -62,8 +62,8 @@
 	 //     |------- no of tasks (2)
 	 
 	 // priority low number higher priority than higher number
-	 p1 = k_crt_task(t1, 10, 100, s1); // t1 as task, priority 9, 100 B stak
-	 p2 = k_crt_task(t2, 10, 100, s2); // t2 as task, priority 10, 100 B stak
+	 p1 = k_crt_task(t1, 10, s1,STK); // t1 as task, priority 9, 100 B stak
+	 p2 = k_crt_task(t2, 10, s2,STK); // t2 as task, priority 10, 100 B stak
 	 
 	 Serial.println("bef start");
 	 res = k_start(1); // 1 milli sec tick speed
