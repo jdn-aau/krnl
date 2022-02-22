@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['wdt_5fperiod_533',['WDT_PERIOD',['../krnl_8h.html#abfd81fe656b5b7eff16ce10e1aa376c2',1,'krnl.h']]],
-  ['wdt_5ftimer_534',['WDT_TIMER',['../krnl_8c.html#a983c9777673ee873f12ec9f489215321',1,'krnl.c']]]
+  ['zombi_5fprio_283',['ZOMBI_PRIO',['../krnl_8h.html#ac72d3be88c0ebe1484d661ed66b3edff',1,'krnl.h']]]
 ];
