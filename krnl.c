@@ -741,6 +741,20 @@ int k_wait(struct k_t *sem, int timeout)
 	return retval;              // 0: ok, -1: timeout
 }
 
+int k_clear_sem(struct k_t *sem)
+{
+	int retval;
+	DI();
+	retval = sem->cnt1;
+	if (0 < retval) {
+		sem->clip += ret;
+		sem->cnt1 = 0;
+	}
+	EI();
+	return retval;              // 0: ok, -1: timeout
+}
+
+
 int k_wait2(struct k_t *sem, int timeout, int *nrClip)
 {
 	int retval;
