@@ -355,7 +355,7 @@ ISR(KRNLTMRVECTOR, ISR_NAKED)   // naked so we have to supply with prolog and ep
 			{
 				((struct k_t *) (pE->cnt3))->cnt1++;    // leaving sem so adjust semcount on sem
 				prio_enQ(pAQ, deQ(pE)); // and rip task of semQ and insert in activeQ
-				pE->cnt2 = -1;  // indicate timeout in this semQ
+				pE->cnt2 = -1;  // indicate timeout in this semQ for the task that is restartet
 			}
 		}
 		pE++;
@@ -643,6 +643,10 @@ int k_set_sem_timer(struct k_t *sem, int val)
 	}
 	
 	DI();
+	if (0 < sem->cnt1) {
+		sem->cnt1 = 0; // reset
+	}
+	
 	sem->cnt2 = sem->cnt3 = val;        // if 0 then timer is not running -
 	EI();
 	
@@ -711,7 +715,7 @@ int ki_wait(struct k_t *sem, int timeout)
 	
 	if (timeout < 0)            // no luck, dont want to wait so bye bye
 	{
-		return (-2);
+// 		return (-2); 	        // will not wait so bad luck
 	}
 	// from here we want to wait
 	pRun->cnt2 = timeout;       //  0 == wait forever
