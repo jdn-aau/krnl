@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['prio_5fenq_201',['prio_enQ',['../krnl_8c.html#ae7d9dd598f0d68cea2903843117e8ebe',1,'krnl.c']]]
+  ['prio_5fenq_367',['prio_enQ',['../krnl_8c.html#ae7d9dd598f0d68cea2903843117e8ebe',1,'krnl.c']]]
 ];
