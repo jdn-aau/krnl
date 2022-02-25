@@ -715,7 +715,7 @@ int ki_wait(struct k_t *sem, int timeout)
 	
 	if (timeout < 0)            // no luck, dont want to wait so bye bye
 	{
-// 		return (-2); 	        // will not wait so bad luck
+ 		return (-1); 	        // will not wait so bad luck
 	}
 	// from here we want to wait
 	pRun->cnt2 = timeout;       //  0 == wait forever
