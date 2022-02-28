@@ -231,7 +231,22 @@ int tmr_indx;                   // for travelling Qs in tmr isr
  *       \/                                              |
  *    QHEAD (next)-->first-elm (next)-->next-elm(next) --|
  *       ^                   ^
- *       ------------(pred)  -----------(pred)  
+ *       ------------(pred)  -----------(pred)  char s1[150],s2[150],s3[150],s4[150];
+ * 
+ v *oid setup()
+ {
+ Serial.begin(115200);  // for output from task 1
+ delay(2000);
+ Serial.print("RW START");
+ k_init(4, 3, 0);
+ k_crt_task(wr, 12, s1,150);
+ k_crt_task(rd, 11, s2,150);
+ k_crt_task(rd, 11, s3,150);
+ k_crt_task(rd, 11, s4,150);
+ // rdWrLockInit(&rdWrLock1);
+ k_start(1); // start kernel with tick speed 1 milli seconds
+ Serial.println("if coming hre then init went wrong");
+ }
  */
 
 void enQ(struct k_t *Q, struct k_t *el)
@@ -404,7 +419,7 @@ void jumper()
 #endif
 
 struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk, int stkSize
-					   )
+)
 {
 	struct k_t *pT;
 	
@@ -715,7 +730,7 @@ int ki_wait(struct k_t *sem, int timeout)
 	
 	if (timeout < 0)            // no luck, dont want to wait so bye bye
 	{
- 		return (-1); 	        // will not wait so bad luck
+		return (-1); 	        // will not wait so bad luck
 	}
 	// from here we want to wait
 	pRun->cnt2 = timeout;       //  0 == wait forever
@@ -751,7 +766,7 @@ int k_clear_sem(struct k_t *sem)
 	DI();
 	retval = sem->cnt1;
 	if (0 < retval) {
-		sem->clip += ret;
+		sem->clip += retval;
 		sem->cnt1 = 0;
 	}
 	EI();
@@ -856,7 +871,6 @@ int k_semval(struct k_t *sem)
 	EI();
 	return v;
 }
-
 
 int ki_msg_count(struct k_msg_t *m)
 {
