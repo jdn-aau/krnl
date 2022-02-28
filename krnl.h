@@ -929,7 +929,7 @@ int k_mut_ceil_leave (struct k_t *sem);
    @remark only to be called after start of KRNL
  */
 int k_set_sem_timer (struct k_t *sem, int val);
-
+ 
 /**
    Signal a semaphore. Can be called from an ISR when interrupt is disabled. No task shift will occur - only queue manipulation.
    @param[in] sem semaphore handle
