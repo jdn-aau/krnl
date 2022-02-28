@@ -1,23 +1,7 @@
 var searchData=
 [
-  ['fakecnt_59',['fakecnt',['../krnl_8c.html#ab6049c624c71022617cb364ecab34dba',1,'krnl.c']]],
-  ['fakecnt_5fpreset_60',['fakecnt_preset',['../krnl_8c.html#ab86ac5ffb302fcda5e40378d29e70d40',1,'krnl.c']]],
-  ['fifosem_61',['fifoSem',['../structk__rwlock__t.html#a8c862462bdc41938a22bfe8b0b600f37',1,'k_rwlock_t']]],
-  ['files_5f0_2ejs_62',['files_0.js',['../files__0_8js.html',1,'']]],
-  ['files_5f1_2ejs_63',['files_1.js',['../files__1_8js.html',1,'']]],
-  ['files_5f2_2ejs_64',['files_2.js',['../files__2_8js.html',1,'']]],
-  ['freeram_65',['freeRam',['../krnl_8c.html#abde03a57484eac43bffbad24df5fc794',1,'freeRam(void):&#160;krnl.c'],['../krnl_8h.html#abde03a57484eac43bffbad24df5fc794',1,'freeRam(void):&#160;krnl.c']]],
-  ['functions_5f0_2ejs_66',['functions_0.js',['../functions__0_8js.html',1,'']]],
-  ['functions_5f1_2ejs_67',['functions_1.js',['../functions__1_8js.html',1,'']]],
-  ['functions_5f2_2ejs_68',['functions_2.js',['../functions__2_8js.html',1,'']]],
-  ['functions_5f3_2ejs_69',['functions_3.js',['../functions__3_8js.html',1,'']]],
-  ['functions_5f4_2ejs_70',['functions_4.js',['../functions__4_8js.html',1,'']]],
-  ['functions_5f5_2ejs_71',['functions_5.js',['../functions__5_8js.html',1,'']]],
-  ['functions_5f6_2ejs_72',['functions_6.js',['../functions__6_8js.html',1,'']]],
-  ['functions_5f7_2ejs_73',['functions_7.js',['../functions__7_8js.html',1,'']]],
-  ['functions_5f8_2ejs_74',['functions_8.js',['../functions__8_8js.html',1,'']]],
-  ['functions_5f9_2ejs_75',['functions_9.js',['../functions__9_8js.html',1,'']]],
-  ['functions_5fa_2ejs_76',['functions_a.js',['../functions__a_8js.html',1,'']]],
-  ['functions_5fb_2ejs_77',['functions_b.js',['../functions__b_8js.html',1,'']]],
-  ['functions_5fc_2ejs_78',['functions_c.js',['../functions__c_8js.html',1,'']]]
+  ['fakecnt_19',['fakecnt',['../krnl_8c.html#ab6049c624c71022617cb364ecab34dba',1,'krnl.c']]],
+  ['fakecnt_5fpreset_20',['fakecnt_preset',['../krnl_8c.html#ab86ac5ffb302fcda5e40378d29e70d40',1,'krnl.c']]],
+  ['fifosem_21',['fifoSem',['../structk__rwlock__t.html#a8c862462bdc41938a22bfe8b0b600f37',1,'k_rwlock_t']]],
+  ['freeram_22',['freeRam',['../krnl_8c.html#abde03a57484eac43bffbad24df5fc794',1,'freeRam(void):&#160;krnl.c'],['../krnl_8h.html#abde03a57484eac43bffbad24df5fc794',1,'freeRam(void):&#160;krnl.c']]]
 ];
