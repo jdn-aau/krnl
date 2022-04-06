@@ -30,7 +30,7 @@ void task()
       PORTB = (1 << pRun->nr) | reg;
       EI();
 
-      k_eat_msec(4);
+      k_eat_time(4);
 
       DI();
       reg = reg & 0xf7; // reset crit reg pin
@@ -54,7 +54,7 @@ void task2()
       PORTB = (1 << pRun->nr) | reg;
       EI();
 
-      k_eat_msec(3);
+      k_eat_time(3);
 
       DI();
       reg = reg & 0xef; // reset crit reg pin

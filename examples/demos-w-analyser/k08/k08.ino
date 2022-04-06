@@ -28,7 +28,7 @@ void task()
     PORTB = (1 << pRun->nr) | reg;
     EI();
 
-    k_eat_time(10);  // consume 10 millisec of CPU time
+    k_eat_msec(10);  // consume 10 millisec of CPU time
 
     DI();
     reg = 0; // reset crit reg pin
@@ -37,7 +37,7 @@ void task()
     k_signal(sem1);
 
     k_sleep(1);
-    k_eat_time(3);
+    k_eat_msec(3);
     k_sleep(30); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
   }
 }
@@ -52,7 +52,7 @@ void task2()  // lower prority than task above
     PORTB = (1 << pRun->nr) | reg;
     EI();
 
-    k_eat_time(3);  // consume 10 millisec of CPU time
+    k_eat_msec(3);  // consume 10 millisec of CPU time
 
     DI();
     reg = 0;
@@ -60,7 +60,7 @@ void task2()  // lower prority than task above
 
     k_signal(sem1);
     k_sleep(1);
-    k_eat_time(1);
+    k_eat_msec(1);
 
     k_sleep(20); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
   }

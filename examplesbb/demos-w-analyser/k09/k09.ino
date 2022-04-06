@@ -1,18 +1,18 @@
 
-/* k10
-
+/* k09
+     
      sampling with fixed frequency with timer on sempahore
-     two tasks !
+
 */
 
 #include <krnl.h>
 
-#define STKSIZE 200
+#define STKSIZE 100
 
 #define TASKPRIO 10
 
 char stak[STKSIZE], stak2[STKSIZE];
-struct k_t * pTask, *pTask2, *sem1, *sem2;
+struct k_t * pTask, *pTask2, *sem1;
 
 volatile char reg = 0;
 
@@ -20,47 +20,11 @@ void task()
 {
   int res;
 
-  k_set_sem_timer(sem1, 15); // krnl signals every 10 msec
-
+  k_set_sem_timer(sem1, 10); // krnl signals every 10 msec
+  
   while (1) {
     res = k_wait(sem1, 0); // knock knock at sem1. timeout = 0 means forever
-    if (res == 0) {
-      DI();
-      reg = reg | 0x08; // reset crit reg pin
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
-
-      k_eat_msec(4);
-
-      DI();
-      reg = reg & 0xf7; // reset crit reg pin
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
-    }
-  }
-}
-
-void task2()
-{
-  int res;
-
-  k_set_sem_timer(sem2, 10); // krnl signals every 10 msec
-
-  while (1) {
-    res = k_wait(sem2, 0); // knock knock at sem1. timeout = 0 means forever
-    if (res == 0) {
-      DI();  // just for setting bit for critical region for osc
-      reg =  reg | 0x10;
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
-
-      k_eat_msec(3);
-
-      DI();
-      reg = reg & 0xef; // reset crit reg pin
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
-    }
+    k_eat_time(3);
   }
 }
 
@@ -72,13 +36,12 @@ void setup() {
 
   Serial.begin(9600);
 
-  k_init(2, 2, 0); // 2 task, 1 semaphores, 0 messageQueues */
+  k_init(1, 1, 0); // 2 task, 1 semaphores, 0 messaegQueues */
   pTask = k_crt_task(task, TASKPRIO, stak, STKSIZE);
-  pTask2 = k_crt_task(task2, TASKPRIO, stak2, STKSIZE);
-  sem1 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)
-  sem2 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)k_start(1); /* start krnl timer speed 1 milliseconds*/
 
-  k_start(1);
+  sem1 = k_crt_sem(0, 10); // 1: start value, 10: max value (clipping)
+  k_start(1); /* start krnl timer speed 1 milliseconds*/
+
   Serial.println("If you see this then krnl didnt start :-( ");
 }
 
@@ -92,7 +55,7 @@ extern "C" {
 
   // called when a semphore is clipping - nr is id of semaphore and i os nr of times clip has occured
   unsigned char led13;
-
+  ;
   void k_sem_clip(unsigned char nr, int i)
   {
     return;
