@@ -16,7 +16,7 @@ void task()
 {
   int unusedStak;
   while (1) {
-   // k_eat_time(10);  // consume 10 millisec of CPU time
+   // k_eat_msec(10);  // consume 10 millisec of CPU time
   //  k_sleep(30); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
   }
 }
@@ -26,7 +26,7 @@ void task2()
 {
   int unusedStak;
   while (1) {
-  //  k_eat_time(3);  // consume 10 millisec of CPU time
+  //  k_eat_msec(3);  // consume 10 millisec of CPU time
   //  k_sleep(20); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
   }
 }

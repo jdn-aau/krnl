@@ -1,4 +1,3 @@
-demos-w-analyser/k01/k01.ino
 demos-w-analyser/k02/k02.ino
 demos-w-analyser/k03/k03.ino
 demos-w-analyser/k04/k04.ino
@@ -20,3 +19,4 @@ k07mutexsem-adv/k07mutexsem-adv.ino
 k09msgq/k09msgq.ino
 krnldebugled13/krnldebugled13.ino
 krnlsimpledebugled/krnlsimpledebugled.ino
+xx

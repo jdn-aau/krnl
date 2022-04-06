@@ -1,66 +1,70 @@
+ 
+/* k06
+    Critical region by semaphore
+    task update data and task2 use them
+    task has higher priority than task 2
 
-/* k10
-
-     sampling with fixed frequency with timer on sempahore
-     two tasks !
 */
 
 #include <krnl.h>
 
-#define STKSIZE 200
+#define STKSIZE 100
 
 #define TASKPRIO 10
 
 char stak[STKSIZE], stak2[STKSIZE];
-struct k_t * pTask, *pTask2, *sem1, *sem2;
+struct k_t * pTask, *pTask2, *sem1;
 
 volatile char reg = 0;
-
+ 
 void task()
 {
   int res;
-
-  k_set_sem_timer(sem1, 15); // krnl signals every 10 msec
-
   while (1) {
     res = k_wait(sem1, 0); // knock knock at sem1. timeout = 0 means forever
-    if (res == 0) {
-      DI();
-      reg = reg | 0x08; // reset crit reg pin
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
+    
+    DI();  // just for setting bit for critical region for osc
+    reg =  0x08;
+    PORTB = (1 << pRun->nr) | reg;
+    EI();
 
-      k_eat_msec(4);
+    k_eat_time(10);  // consume 10 millisec of CPU time
 
-      DI();
-      reg = reg & 0xf7; // reset crit reg pin
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
-    }
+    DI();
+    reg = 0; // reset crit reg pin
+    PORTB = (1 << pRun->nr) | reg;
+    EI();
+
+    k_signal(sem1);
+
+    k_sleep(1);
+    k_eat_time(3);
+    k_sleep(30); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
   }
 }
 
-void task2()
+void task2()  // lower prority than task above
 {
   int res;
-
-  k_set_sem_timer(sem2, 10); // krnl signals every 10 msec
-
   while (1) {
-    res = k_wait(sem2, 0); // knock knock at sem1. timeout = 0 means forever
-    if (res == 0) {
-      DI();  // just for setting bit for critical region for osc
-      reg =  reg | 0x10;
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
+    res = k_wait(sem1, 0); // knock knock at sem1. timeout = 0 menans forever
+    DI();  // just for setting bit for critical region for osc
+    reg =  0x10;
+    PORTB = (1 << pRun->nr) | reg;
+    EI();
 
-      k_eat_msec(3);
+    k_eat_time(3);  // consume 10 millisec of CPU time
 
-      DI();
-      reg = reg & 0xef; // reset crit reg pin
-      PORTB = (1 << pRun->nr) | reg;
-      EI();
-    }
+    DI();
+    reg = 0;
+    PORTB = (1 << pRun->nr) | reg;
+    EI();
+
+    k_signal(sem1);
+    k_sleep(1);
+    k_eat_time(1);
+
+    k_sleep(20); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
   }
 }
 
@@ -72,13 +76,13 @@ void setup() {
 
   Serial.begin(9600);
 
-  k_init(2, 2, 0); // 2 task, 1 semaphores, 0 messageQueues */
+  k_init(2, 2, 0); // 2 task, 1 semaphores, 0 messaegQueues */
   pTask = k_crt_task(task, TASKPRIO, stak, STKSIZE);
-  pTask2 = k_crt_task(task2, TASKPRIO, stak2, STKSIZE);
-  sem1 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)
-  sem2 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)k_start(1); /* start krnl timer speed 1 milliseconds*/
+  pTask2 = k_crt_task(task2, TASKPRIO+1, stak2, STKSIZE); // +1 == lower priority
 
-  k_start(1);
+  sem1 = k_crt_sem(1, 10); // 1: start value, 10: max value (clipping)
+  k_start(1); /* start krnl timer speed 1 milliseconds*/
+
   Serial.println("If you see this then krnl didnt start :-( ");
 }
 
@@ -92,7 +96,7 @@ extern "C" {
 
   // called when a semphore is clipping - nr is id of semaphore and i os nr of times clip has occured
   unsigned char led13;
-
+  ;
   void k_sem_clip(unsigned char nr, int i)
   {
     return;

@@ -1,4 +1,4 @@
-
+  
 /* k10
 
      sampling with fixed frequency with timer on sempahore
@@ -30,7 +30,7 @@ void task()
       PORTB = (1 << pRun->nr) | reg;
       EI();
 
-      k_eat_msec(4);
+      k_eat_time(4);
 
       DI();
       reg = reg & 0xf7; // reset crit reg pin
@@ -54,7 +54,7 @@ void task2()
       PORTB = (1 << pRun->nr) | reg;
       EI();
 
-      k_eat_msec(3);
+      k_eat_time(3);
 
       DI();
       reg = reg & 0xef; // reset crit reg pin
@@ -74,7 +74,7 @@ void setup() {
 
   k_init(2, 2, 0); // 2 task, 1 semaphores, 0 messageQueues */
   pTask = k_crt_task(task, TASKPRIO, stak, STKSIZE);
-  pTask2 = k_crt_task(task2, TASKPRIO, stak2, STKSIZE);
+  pTask2 = k_crt_task(task2, TASKPRIO+1, stak2, STKSIZE);
   sem1 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)
   sem2 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)k_start(1); /* start krnl timer speed 1 milliseconds*/
 
