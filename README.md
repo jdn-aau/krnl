@@ -4,6 +4,15 @@ I have found it interesting to develop an open source realtime kernel
 
 for the Arduino platform - but is also portable to other platforms
 
+2022 Juni
+
+Structured krnl in files c files each covering stufflike semaphore, message Q etc
+
+Why: to make it more readable
+
+Updated timer so now knrl runs with 1msec tick all time
+
+So k_start(xx) ->  k_start()
 
 2021 March
 Added multiple reader/writers. in version 2021-03-01 or newer.
