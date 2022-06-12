@@ -66,7 +66,7 @@
 	 p2 = k_crt_task(t2, 10, s2,STK); // t2 as task, priority 10, 100 B stak
 	 
 	 Serial.println("bef start");
-	 res = k_start(1); // 1 milli sec tick speed
+	 res = k_start(); // 1 milli sec tick speed
 	 // you will never return from k_start
 	 Serial.print("ups an error occured: "); Serial.println(res);
 	 while () ;
