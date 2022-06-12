@@ -44,7 +44,7 @@ void setup()
   
   sem1 = k_crt_sem(0,5);
   
-  err = k_start(1); // 1 milli sec tick speed
+  err = k_start(); // 1 milli sec tick speed
   Serial.print("start error ");
   Serial.print(err);
 

@@ -69,7 +69,7 @@
 	 res = k_start(1); // 1 milli sec tick speed
 	 // you will never return from k_start
 	 Serial.print("ups an error occured: "); Serial.println(res);
-	 while (1) ;
+	 while () ;
  }
  
  void loop() {}

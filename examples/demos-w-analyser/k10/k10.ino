@@ -78,7 +78,7 @@ void setup() {
   sem1 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)
   sem2 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)k_start(1); /* start krnl timer speed 1 milliseconds*/
 
-  k_start(1);
+  k_start();
   Serial.println("If you see this then krnl didnt start :-( ");
 }
 

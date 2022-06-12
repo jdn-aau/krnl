@@ -64,7 +64,7 @@ KRNL itself uses approx 190B before allocating task/sem/msgQ descriptors
 \section a3 Initialization
 If any call fails (like no more RAM or bad parameters) KRNL will not start but will return an error code in k_start
 - int k_init(int nrTask, int nrSem, int nrMsg);
-- int k_start(int tm); // tm in milliseconds
+- int k_start(); // heartbeat is 1 msec  
 
 \section a4 Creation calls - before k_start
 \subsection a41 Semaphore
@@ -151,7 +151,7 @@ There exist some pitfalls you may encounter, when programming your Arduino and m
 	- For 48 servos all 16bit timers 5,1,3 and 4 will be used (losing all PWM pins).
    
 - Pin 11 has shared functionality PWM and MOSI. MOSI is needed for the SPI interface, 
-	- You can’t use PWM on Pin 11 and the SPI interface at the same time on Arduino. 
+	- You can’t use PWM on Pin 11 and the SPI intefk_rface at the same time on Arduino. 
 	- On the Arduino Mega the SPI pins are on different pins.
     
 - tone() function uses at least timer2. 
