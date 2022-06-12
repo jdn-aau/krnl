@@ -80,7 +80,7 @@ void setup() {
   pTask2 = k_crt_task(task2, TASKPRIO, stak2, STKSIZE); // +1 == lower priority
 
   sem1 = k_crt_sem(1, 10); // 1: start value, 10: max value (clipping)
-  k_start(1); /* start krnl timer speed 1 milliseconds*/
+  k_start(); /* start krnl timer speed 1 milliseconds*/
 
   Serial.println("If you see this then krnl didnt start :-( ");
 }

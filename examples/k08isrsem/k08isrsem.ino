@@ -146,7 +146,7 @@ EIMSK |= (1 << INT0);  // enable external intr
 
 __asm__ volatile ("sei");  // enable interrupt
 
-k_start(1); /* start krnl timer speed 1 milliseconds*/
+k_start(); /* start krnl timer speed 1 milliseconds*/
 
 Serial.println("If you see this then krnl didnt start :-( ");
 }

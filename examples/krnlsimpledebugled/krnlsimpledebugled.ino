@@ -32,7 +32,7 @@ void setup()
   //Task 3
   p3 = k_crt_task(tgeneric, 12, st3, STK); // t1 as task, priority 10, 100 B stak
 
-  k_start(1); // 1 milli sec tick speed
+  k_start(); // 1 milli sec tick speed
 }
 
 void loop() {}

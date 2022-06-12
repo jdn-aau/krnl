@@ -78,7 +78,7 @@ void setup()
 	// Both task has same priority so krnl will shift between the
 	// tasks every 10 milli second (speed set in k_start)
 	
-	k_start(1); // start kernel with tick speed 1 milli seconds
+	k_start(); // start kernel with tick speed 1 milli seconds
 }
 
 void loop() {

@@ -99,7 +99,7 @@ void setup() {
 	
 	Serial.println("just bef k_start");
 	
-	k_start(1); /* start krnl timer speed 1 milliseconds*/
+	k_start(); /* start krnl timer speed 1 milliseconds*/
 	
 	Serial.println("If you see this then krnl didnt start :-( ");
 }

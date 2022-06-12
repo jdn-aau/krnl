@@ -70,7 +70,7 @@ void setup()
 	
 	sem1 = k_crt_sem(0, 1);
 	
-	err = k_start(1); // 1 milli sec tick speed
+	err = k_start(); // 1 milli sec tick speed
 	
 	Serial.print("start error ");
 	Serial.print(err); // if error is in -1 to -20 its because you need to adjust in k_init

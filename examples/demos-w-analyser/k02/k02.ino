@@ -42,7 +42,7 @@ void setup() {
   k_init(2, 0, 0); // 1 task, 0 semaphores, 0 messaegQueues */
   pTask = k_crt_task(task, TASKPRIO, stak, STKSIZE);
   pTask2 = k_crt_task(task2, TASKPRIO+1, stak2, STKSIZE);
-  k_start(1); /* start krnl timer speed 1 milliseconds*/
+  k_start(); /* start krnl timer speed 1 milliseconds*/
 
   Serial.println("If you see this then krnl didnt start :-( ");
 }
