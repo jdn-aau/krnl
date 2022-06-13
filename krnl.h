@@ -1165,14 +1165,15 @@ int k_tmrInfo (void);     // tm in milliseconds
 int k_init (int nrTask, int nrSem, int nrMsg);
 
 /**
-   start KRNL with tm tick speed 1 msec 
+   start KRNL with tm tick speed 1 msec  - NOTE earlier versions you could set tick periode
+   but not anymore
   
-   @param[in] tm Tick length in milli seconds(1..10,20,30..10000
-   @return  -1-333 nr of k_Crt calls taht went wrong. krnl did not start
+   @return  -1-333 nr of k_Crt calls that went wrong. krnl did not start
            -555 negative tick parm value
            -666 bad tick quant (legal is 1-10,20,30-10000
    @remark only to be called after init of KRNL
    @remark KRNL WILL NOT START IF YOU HAVE TRIED TO CREATE MORE TASKS/SEMS/MSG QS THAN YOU HAVE ALLOCATED SPACE FOR IN k_init !!!
+   @remark  Chak variable k_err_cnt which holds no of init call (k_crt_task,...) that did fail
  */
 int k_start ();     // tm in milliseconds
 
@@ -1181,7 +1182,8 @@ int k_start ();     // tm in milliseconds
    @param[in] exitVal  Will be returned in k_start to creator (old main)
    @remark only to be called after k_start
    @remark you will only return from k_stop if krnl is not running
-   @remark DONT USE IT !!! ponce you are running you are running ...
+   @remark DONT USE IT !!! once you are running you are running ...
+   just an advise
  */
 int k_stop (int exitVal);     // tm in milliseconds
    
