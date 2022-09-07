@@ -76,7 +76,7 @@ void setup() {
   pTask = k_crt_task(task, TASKPRIO, stak, STKSIZE);
   pTask2 = k_crt_task(task2, TASKPRIO+1, stak2, STKSIZE);
   sem1 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)
-  sem2 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)k_start(1); /* start krnl timer speed 1 milliseconds*/
+  sem2 = k_crt_sem(0, 0); // 1: start value, 10: max value (clipping)k_start(); /* start krnl timer speed 1 milliseconds*/
 
   k_start();
   Serial.println("If you see this then krnl didnt start :-( ");

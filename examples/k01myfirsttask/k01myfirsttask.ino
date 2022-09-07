@@ -42,7 +42,7 @@ void setup ()
 	//                  ^------------- function to be used as body for tas
 	// return NULL ptr if something went wrong
 	
-	res = k_start ();      // 1 milli sec tick speed ALWAYS Parameter is ignored
+	res = k_start ();      // 1 milli sec tick  
 	// you will never return from k_start
 	// if you come here is it bq krnl has not started due to an error
 	// ret vakue is negative and is a count of initalisation errors like
@@ -84,7 +84,7 @@ void loop () {}               // is NEVER used
 
 extern "C" {
 	
-	void k_breakout() // called every task shift from dispatcher
+	void k_breakout(void) // called every task shift from dispatcher
 	{
 		
 		
