@@ -1,4 +1,6 @@
- #ifndef KRNL
+/* JDN*/
+#ifndef KRNL
+
 
 #define KRNL
 
