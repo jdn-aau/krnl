@@ -37,6 +37,9 @@ Some highlights
 ---------------
 
 last news
+Sep 2022   reverted to two file version
+           k_start is now without parameters. Krnl always run 1sec timer
+
 Jan 2021 - std timer0 for all AVRs CPU and hearbeat is 1msec
            millis is still working - but dont  use it :-)
 - open source (beer license)
