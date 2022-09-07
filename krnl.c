@@ -244,7 +244,7 @@ int tmr_indx;                   // for travelling Qs in tmr isr
  k_crt_task(rd, 11, s3,150);
  k_crt_task(rd, 11, s4,150);
  // rdWrLockInit(&rdWrLock1);
- k_start(1); // start kernel with tick speed 1 milli seconds
+ k_start(); // start kernel with tick speed 1 milli seconds
  Serial.println("if coming hre then init went wrong");
  }
  */
