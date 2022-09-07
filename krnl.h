@@ -1,3 +1,30 @@
+ #ifndef KRNL
+
+#define KRNL
+
+#define KRNLBUG
+
+// BACKSTOPPER wraps a looping fct around your task so it will just restart
+// HMM it will get a prio lower than dummy so it just stops
+// is the task leaves the task body code
+// like loop function
+// BEWARE bq local variables in the task body just evaporate
+#define BACKSTOPPER
+
+// IF YOU WANT READER WRITER LOCK THEN DEFINE
+
+#define READERWRITER
+
+// watchdog 1 sec
+
+#define WDT_PERIOD WDTO_1S
+
+// if you want k_malloc
+// NB k_free wont release mem due to possible fragmentation
+// SO DONT USE k_free
+#define DYNMEMORY
+
+
 /******************************************************
 **                                                    *
 *                                                     *
@@ -15,7 +42,7 @@
 *                                                     *
 *******************************************************
 IF YOU ARE LUCKY LOOK HERE
-2022
+
 https://github.com/jdn-aau/krnl
  
              (simple not - not ?! :-) )
@@ -54,7 +81,7 @@ https://github.com/jdn-aau/krnl
 *****************************************************
  remember to update in krnl.c !!!
 *****************************************************/
-#define KRNL_VRS 2022-02-15
+#define KRNL_VRS 2022007
 
 
 /***********************
@@ -209,22 +236,9 @@ https://github.com/jdn-aau/krnl
 #define cbi(r,b) r &= ~_BV(b)
 #endif
 
-#ifndef KRNL
-
-#define KRNL
-
-#define KRNLBUG
 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
 
-// if you want k_malloc
-// NB k_free wont release mem due to possible fragmentation
-// SO DONT USE k_free
-#define DYNMEMORY
-
-// watchdog 1 sec
-
-#define WDT_PERIOD WDTO_1S
 
 #define QHD_PRIO 102   // Queue head prio - for sentinel use
 #define ZOMBI_PRIO (QHD_PRIO -1)
@@ -236,17 +250,6 @@ https://github.com/jdn-aau/krnl
 #define MAX_INT 0x7FFF
 // not in use #define SEM_MAX_DEFAULT 50
 #define SEM_MAX_VALUE 10000
-
-// BACKSTOPPER wraps a looping fct around your task so it will just restart
-// HMM it will get a prio lower than dummy so it just stops
-// is the task leaves the task body code
-// like loop function
-// BEWARE bq local variables in the task body just evaporate
-#define BACKSTOPPER
-
-// IF YOU WANT READER WRITER LOCK THEN DEFINE
-
-#define READERWRITER
 
 
 #define CEILINGFAIL -3
