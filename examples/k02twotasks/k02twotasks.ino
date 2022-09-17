@@ -20,12 +20,13 @@ struct k_t *pt1, // pointer to hold reference
 unsigned char stak1[STKSZ], stak2[STKSZ];
 
 
-volatile int i = 0;
+volatile int i = 1000;
 void t1(void)
 {
 	while (1) {
 		
 		Serial.println(i++);
+    Serial.println(k_unused_stak(0));
 		k_eat_msec(1000); // eat 1000 msec time
 		//k_sleep(1000);    // sleep for 1000 msec
 		
@@ -38,6 +39,7 @@ void t2(void)
 	// runs independent of task t1
 	while (1) {
 		k_eat_msec(1000); // simulating algorithms running for 1 sec
+    digitalWrite(13, !digitalRead(13));
 		//k_sleep(1000);    // sleep for 1 sec
 	}
 }
@@ -64,7 +66,7 @@ void setup()
 	//               |  |   |----- staksize for array s1
 	//                         |-- array used for stak
 	pt1 = k_crt_task(t1, 11, stak1, STKSZ);
-	//pt2 = k_crt_task(t2, 11, stak2, STKSZ);
+	pt2 = k_crt_task(t2, 11, stak2, STKSZ);
 	
 	
 	// NB-1 remember an Arduino has only 2-8 kByte RAM
@@ -87,24 +89,24 @@ void loop() {
 
 
 
-extern "C" {
+// extern "C" {
 	
-	void k_breakout() // called every task shift from dispatcher
-	{
+// 	void k_breakout() // called every task shift from dispatcher
+// 	{
 		
 		
-		if (pRun->nr == 0)  // 0 is dummy task - the eater of excessive CPU when all user tasks are idling
-		{
-			PORTB = PORTB | B00100000;  // led13 (bit 5) on let the rest be untouched
-		}
-		else {
-			PORTB = PORTB & B11011111;  // led13 off uno
-		}
-		/* using D8-D13 use following instead of teh code above*/
-		/* PORTB = (1 << pRun->nr); */
-	}
+// 		if (pRun->nr == 0)  // 0 is dummy task - the eater of excessive CPU when all user tasks are idling
+// 		{
+// 			PORTB = PORTB | B00100000;  // led13 (bit 5) on let the rest be untouched
+// 		}
+// 		else {
+// 			PORTB = PORTB & B11011111;  // led13 off uno
+// 		}
+// 		/* using D8-D13 use following instead of teh code above*/
+// 		/* PORTB = (1 << pRun->nr); */
+// 	}
 	
-}
+// }
 
 /*
  * README README
