@@ -11,7 +11,7 @@
  *                                                     *
  *       March 2015,2016,..,2018                       *
  *       Author: jdn                                   *
- *       13 March 2018                                 *
+ *       final sep 2022                                *
  *                                                     *
  *******************************************************
  * 2022 ..
@@ -676,8 +676,8 @@ int ki_signal(struct k_t *sem)
 		sem->cnt1++;            // Salute to Dijkstra
 		
 		#ifdef KRNLBUG
-		k_sem_signal(sem->nr, sem->cnt1);
-		#endif
+		k_sem_signal(sem->nr, sem->cnt1); // call to breakout functino
+fb		#endif
 		
 		if (sem->cnt1 <= 0) {
 			sem->next->cnt2 = 0;        // return code == ok
