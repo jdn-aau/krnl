@@ -1,8 +1,70 @@
-/* JDN*/
+/*******************************************************
+ *                                                     *
+ *                                                     *
+ *             | |/ /___|  _ \| \ | | ___| |           *
+ *             | ' // _ \ |_) |  \| |/ _ \ |           *
+ *             | . \  __/  _ <| |\  |  __/ |___        *
+ *             |_|\_\___|_| \_\_| \_|\___|_____|       *
+ *                                                     *
+ *                                                     *
+ * you are watching krnl.c                             *
+ *                                                     *
+ *       March 2015,2016,..,2018                       *
+ *       Author: jdn                                   *
+ *      final sep 2022                                 *
+ *                                                     *
+ *******************************************************
+ * 2022 ..
+ *  this version adapted for Arduino
+ * 
+ *  (C) 2012,2013,2014
+ *     2017,2018,2019,2021,2022
+ * 
+ * 
+ * IF YOU ARE LUCKY LOOK HERE
+ * 
+ * https://github.com/jdn-aau/krnl
+ * 
+ * 
+ * 
+ *  Jens Dalsgaard Nielsen <jdn@es.aau.dk>
+ *  http://es.aau.dk/staff/jdn
+ *  Section of Automation & Control
+ *  Aalborg University,
+ *  Denmark
+ * 
+ *  "THE BEER-WARE LICENSE" (frit efter PHK)
+ *  <jdn@es.aau.dk> wrote this file. As long as you
+ *  retain this notice you can do whatever you want
+ *  with this stuff. If we meet some day, and you think
+ *  this stuff is worth it ...
+ *  you can buy me a beer in return :-)
+ *  or if you are real happy then ...
+ *  single malt will be well received :-)
+ * 
+ *  Use it at your own risk - no warranty
+ * 
+ *  nice info...
+ *  http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_cplusplus
+ *  at 20090611
+ *  - k_eat_time now eats time in quants of krnl tick speed but not one quant boundary
+ *  - added k_malloc and k_free
+ *     k_free dont free memory bq we do not want fragmentation
+ *     so DONT USE k_free
+ *  - k_malloc and k_free are weak functions so you can just add your own versions
+ *  - watchdog is enabled (2sec and reset in krnl timer) in weak function k_enable_wdt
+ * 
+ * remember to update in krnl.c !!!
+*****************************************************/
+#define KRNL_VRS 2022007
+
+
 #ifndef KRNL
-
-
 #define KRNL
+
+
+// KRNLBUG ACTIVATE BREAK OUT FUNCTIONS
+// Look in krnl.c lines 13xx
 
 #define KRNLBUG
 
@@ -14,76 +76,18 @@
 #define BACKSTOPPER
 
 // IF YOU WANT READER WRITER LOCK THEN DEFINE
-
 #define READERWRITER
 
-// watchdog 1 sec
 
+// Define watchdog period  
 #define WDT_PERIOD WDTO_1S
 
-// if you want k_malloc
+// if you want to use k_malloc
 // NB k_free wont release mem due to possible fragmentation
-// SO DONT USE k_free
+// SO DONT USE k_free its just a fake
+// NEVER !!! free men in a rt system...
 #define DYNMEMORY
 
-
-/******************************************************
-**                                                    *
-*                                                     *
-*             | |/ /___|  _ \| \ | | ___| |           *
-*             | ' // _ \ |_) |  \| |/ _ \ |           *
-*             | . \  __/  _ <| |\  |  __/ |___        *
-*             |_|\_\___|_| \_\_| \_|\___|_____|       *
-*                                                     *
-*                                                     *
-* you are watching krnl.h                             *
-*                                                     *
-*       March 2015,2016,..,2018,2021                  *
-*       Author: jdn                                   *
-*       13 March 2018                                 *
-*                                                     *
-*******************************************************
-IF YOU ARE LUCKY LOOK HERE
-
-https://github.com/jdn-aau/krnl
- 
-             (simple not - not ?! :-) )
-   my own small KeRNeL adapted for Arduino
-
-   previous known as KRNL or SNOT
-
-   this version adapted for Arduino
-
-   (C) 2012,2013,2014
-      2017,2018,2019,2021
-
-   Jens Dalsgaard Nielsen <jdn@es.aau.dk>
-   http://es.aau.dk/staff/jdn
-   Section of Automation & Control
-   Aalborg University,
-   Denmark
-
-   "THE BEER-WARE LICENSE" (frit efter PHK)
-   <jdn@es.aau.dk> wrote this file. As long as you
-   retain this notice you can do whatever you want
-   with this stuff, but You shall add your
-   name and email and date for your
-   modification.
-
-   If we meet some day, and you think
-   this stuff is worth it ...
-   you can buy me a beer in return :-)
-   or if you are real happy then ...
-   single malt will be well received :-)
-
-   Use it at your own risk - no warranty
-
-   tested with duemilanove w/328, uno R3,
-   seeduino 1280 and mega2560    1284p and 2561
-*****************************************************
- remember to update in krnl.c !!!
-*****************************************************/
-#define KRNL_VRS 2022007
 
 
 /***********************
