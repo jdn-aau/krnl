@@ -1,112 +1,104 @@
 //220216
 #include <krnl.h>
 
-// A small krnl program with two independent tasks
-// They run at same priority so krnl will do timeslicing between them
-// Watch LED and Serial TX
+const int STKSZ = 200;
 
-// NB only one task must use print if you dont protect the serial port by a critical section
+struct k_t *pt1,  // pointer to hold reference
+  *pt2;           // to taskdescriptor for t1 and t2
 
-// This is a very basic rt progarm, but there might be some hidden "figures"
+char stak1[STKSZ], stak2[STKSZ];
 
-// ?1: observe how much stak there is used
-//
+void sampl() {}  // for time being empty
 
-#define STKSZ 200
+void alg01() {}  // for time being empty
 
-struct k_t *pt1, // pointer to hold reference
-*pt2;          // to taskdescriptor for t1 and t2
+int loopNr = 0;
 
-unsigned char stak1[STKSZ], stak2[STKSZ];
+void aktuer01() {
+  Serial.println("aktuer");
+  Serial.println(loopNr);
+  loopNr = loopNr + 1;
+}
 
 
 volatile int i = 1000;
-void t1(void)
-{
-	while (1) {
-		
-		Serial.println(i++);
-    Serial.println(k_unused_stak(0));
-		k_eat_msec(1000); // eat 1000 msec time
-		//k_sleep(1000);    // sleep for 1000 msec
-		
-	}               // lenght of ticks in millisec is specified in
-}                 // k_start call called from setup - USE 1 msec :-)
-
-void t2(void)
-{
-	// and task body for task 2
-	// runs independent of task t1
-	while (1) {
-		k_eat_msec(1000); // simulating algorithms running for 1 sec
-    digitalWrite(13, !digitalRead(13));
-		//k_sleep(1000);    // sleep for 1 sec
-	}
+/**
+*  dette er en test
+*/
+void t1(void) {
+  while (1) {
+    k_sleep(1000);
+    k_eat_msec(500);
+    sampl();
+    alg01();
+    aktuer01();
+  }
 }
 
-void setup()
-{
-	Serial.begin(115200);  // for output from task 1
-	while (! Serial) ;
-	Serial.println("k02twotasks");
-	
-	pinMode(13, OUTPUT); // for debug - ON when dummy is running
-	
-	/* using ananlyser D8 will be dummy running, D9 when first created task is running ,... */
-	/* remember to change in k_breakout*/
-	/* for (int i=8; i< 14; i++) { pinMode(i,OUTPUT); digitalWrite(i,LOW); } */
-	
-	
-	// init krnl so you can create 2 tasks, no semaphores and no message queues
-	k_init(2, 0, 0);
-	
-	// two task are created
-	//               |------------ function used for body code for task
-	//               |  |--------- priority (lower number= higher prio
-	//               |  |   |----- staksize for array s1
-	//                         |-- array used for stak
-	pt1 = k_crt_task(t1, 11, stak1, STKSZ);
-	pt2 = k_crt_task(t2, 11, stak2, STKSZ);
-	
-	
-	// NB-1 remember an Arduino has only 2-8 kByte RAM
-	// NB-2 remember that stak is used in function calls for
-	//  - return address
-	//  - registers stakked
-	//  - local variabels in a function
-	//  So having 200 Bytes of stak excludes a local variable like ...
-	//    int arr[400];
-	// krnl call k_unused_stak returns size of unused stak
-	// Both task has same priority so krnl will shift between the
-	// tasks every 10 milli second (speed set in k_start)
-	
-	k_start(); // start kernel with tick speed 1 milli seconds
+
+
+void t2() {
+  while (1) {
+   // digitalWrite(12, !digitalRead(13));
+    k_sleep(300);
+  }
+}
+
+void setup() {
+
+  Serial.begin(115200);
+  pinMode(13, OUTPUT);
+
+  // init krnl so you can create 2 tasks, no semaphores and no message queues
+  k_init(2, 0, 0);
+
+
+  //               |------------ function used for body code for task
+  //               |  |--------- priority (lower number= higher prio
+  //               |  |   |----- staksize for array s1
+  //                         |-- array used for stak
+  pt1 = k_crt_task(t1, 11, stak1, STKSZ);
+  pt2 = k_crt_task(t2, 10, stak2, STKSZ);
+
+
+  // NB-1 remember an Arduino has only 2-8 kByte RAM
+  // NB-2 remember that stak is used in function calls for
+  //  - return address
+  //  - registers stakked
+  //  - local variabels in a function
+  //  So having 200 Bytes of stak excludes a local variable like ...
+  //    int arr[400];
+  // krnl call k_unused_stak returns size of unused stak
+  // Both task has same priority so krnl will shift between the
+  // tasks every 10 milli second (speed set in k_start)
+
+  k_start();  // start kernel with tick speed 1 milli seconds
 }
 
 void loop() {
-	/* loop will never be called */
+  /* loop will never be called */
 }
 
 
 
-// extern "C" {
-	
-// 	void k_breakout() // called every task shift from dispatcher
-// 	{
-		
-		
-// 		if (pRun->nr == 0)  // 0 is dummy task - the eater of excessive CPU when all user tasks are idling
-// 		{
-// 			PORTB = PORTB | B00100000;  // led13 (bit 5) on let the rest be untouched
-// 		}
-// 		else {
-// 			PORTB = PORTB & B11011111;  // led13 off uno
-// 		}
-// 		/* using D8-D13 use following instead of teh code above*/
-// 		/* PORTB = (1 << pRun->nr); */
-// 	}
-	
-// }
+extern "C" {
+
+	void k_breakout() // called every task shift from dispatcher
+	{
+
+
+		if (pRun->nr == 0)  // 0 is dummy task - the eater of excessive CPU when all user tasks are idling
+		{
+			PORTB = PORTB | B00100000;  // led13 (bit 5) on let the rest be untouched
+		}
+		else {
+			PORTB = PORTB & B11011111;  // led13 off uno
+		}
+		/* using D8-D13 use following instead of teh code above*/
+		/* PORTB = (1 << pRun->nr); */
+	}
+
+}
 
 /*
  * README README
