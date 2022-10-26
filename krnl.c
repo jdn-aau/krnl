@@ -69,7 +69,8 @@ k_enable_wdt
 #include "krnl.h"
 
 #define WDT_TIMER
-#ifdef WDT_TIMER #include < avr / wdt.h>
+#ifdef WDT_TIMER 
+#include <avr/wdt.h>
 
 #endif
 
@@ -469,7 +470,7 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
   *(s--) = hi8(pTask); // which is code body for task
 #endif
   // NB  NB 2560 use 3 byte for call/ret addresses the rest only 2
-#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) *
+#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) 
   (s--) = EIND; // best guess : 3 byte addresses !!! or just 0
 #endif
 
@@ -482,13 +483,13 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
 
   // 1280 and 2560 need to save rampz reg just in case
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) ||              \
-    defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega2561__) *
+    defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega2561__) 
   (s--) = RAMPZ; // best guess  0x3b
   // obsolete JDN    *(s--) = EIND;             // best guess
 #endif
 
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) ||              \
-    defined(__AVR_ATmega2561__) *
+    defined(__AVR_ATmega2561__) 
   (s--) = EIND; // best guess 0x3c
 #endif
 
@@ -1272,7 +1273,7 @@ int k_start(void) {
   TCCRxA = 0;
   TCCRxB = PRESCALE; // atm328s  2560,...
 
-  if (F_CPU == 16000000 L) {
+  if (F_CPU == 16000000L) {
     tcntValue = COUNTMAX - DIVV;
   } else {
     tcntValue = COUNTMAX - DIVV8; // 8 Mhz wwe assume
