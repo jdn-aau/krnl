@@ -1,20 +1,27 @@
 /*******************************************************
-**                                                    *
-*                                                     *
-              | |/ /___|  _ \| \ | | ___| |
-              | ' // _ \ |_) |  \| |/ _ \ |
-              | . \  __/  _ <| |\  |  __/ |___
-              |_|\_\___|_| \_\_| \_|\___|_____|
-*                                                     *
-*                                                     *
-  you are watching krnl.c
-*                                                     *
+ *                                                     *
+ *                                                     *
+ *             | |/ /___|  _ \| \ | | ___| |           *
+ *             | ' // _ \ |_) |  \| |/ _ \ |           *
+ *             | . \  __/  _ <| |\  |  __/ |___        *
+ *             |_|\_\___|_| \_\_| \_|\___|_____|       *
+ *                                                     *
+ *                                                     *
+ * you are watching krnl.c                             *
+ *                                                     *
+ *       March 2015,2016,..,2018                       *
+ *       Author: jdn                                   *
+ *      final sep 2022                                 *
+ *                                                     *
+ *******************************************************
+
+   you are watching krnl.c
+ 
         March 2015,2016,..,2018
         Author: jdn
         final sep 2022
-*                                                     *
-*******************************************************
-  2022 ..
+
+        2022 ..
    this version adapted for Arduino
 
    (C) 2012,2013,2014
@@ -57,8 +64,7 @@ versions
    - watchdog is enabled (2sec and reset in krnl timer) in weak function
 k_enable_wdt
 
-
-*/
+************************************************************************/
 
 #include "krnl.h"
 
@@ -101,7 +107,7 @@ k_enable_wdt
 JDN SIGER NOGO IN SIMPLIFY VRS
 // normally not goood bq of arduino sys timer is on timer 0so you wil get a
 // compile error 8 bit timer !!!
-#define KRNLTMRVECTOR TIMER0_OVF_vect
+//#define KRNLTMRVECTOR TIMER0_OVF_vect
 /* we use setting from original timer0
     #define TCNTx TCNT0
     #define TCCRxA TCCR0A

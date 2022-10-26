@@ -95,7 +95,7 @@
 #elif defined(__AVR_ATmega1284P__)
 #define KRNLTMR 2
 
-#elif defined(__AVR_ATmega328P__)
+#elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)
 #define KRNLTMR 2
 
 #elif defined(__AVR_ATmega32U4__)
@@ -288,7 +288,9 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 // END USER CONFIGURATION
 
 // check for legal timers
-#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||               \
+
+
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__) ||               \
     defined(__AVR_ATmega328__)
 
 #if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2)
@@ -515,7 +517,8 @@ extern volatile char k_bug_on;
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) ||              \
     defined(__AVR_ATmega2561__) || defined(__AVR_ATmega1284P__) ||             \
     defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||               \
-    defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
+    defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__) ||               \
+    defined(__AVR_ATmega328PB__)
 
 #define DI() __asm__ volatile("cli")
 #define EI() __asm__ volatile("sei")
@@ -697,8 +700,8 @@ extern volatile char k_bug_on;
                    "pop r0  \n\t"                                              \
                    "pop r1  \n\t")
 
-#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||             \
-    defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
+#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||  defined(__AVR_ATmega328P__)  \
+                   ||  defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
 
 // 328p etc
 #define PUSHREGS()                                                             \
