@@ -700,7 +700,7 @@ extern volatile char k_bug_on;
                    "pop r0  \n\t"                                              \
                    "pop r1  \n\t")
 
-#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||  defined(__AVR_ATmega328P__)  \
+#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||  defined(__ATmega328PB_AVR__)  \
                    ||  defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
 
 // 328p etc
