@@ -68,7 +68,7 @@ k_enable_wdt
 
 #include "krnl.h"
 
-#define WDT_TIMER
+
 #ifdef WDT_TIMER 
 #include <avr/wdt.h>
 
@@ -224,8 +224,11 @@ char nr_task = 0, nr_sem = 0, nr_send = 0; // counters for created KeRNeL items
 
 volatile char k_running = 0, k_err_cnt = 0;
 
-volatile char k_wdt_enabled = 0;
+#ifdef  WDT_TIMER
 
+volatile char k_wdt_enabled = 1;
+
+#endif
 volatile unsigned int tcntValue; // counters for timer system
 unsigned long k_millis_counter = 0;
 unsigned int k_tick_size;
@@ -418,10 +421,11 @@ void __attribute__((naked, noinline)) ki_task_shift(void) {
 
 #ifdef BACKSTOPPER
 void jumper() {
-  (*(pRun->pt))();        // call task code
-  k_set_prio(ZOMBI_PRIO); // priority lower than dummy so you just stops
   while (1)
-    ; // just in case
+    (*(pRun->pt))();        // call task code
+  //k_set_prio(ZOMBI_PRIO); // priority lower than dummy so you just stops
+  //while (1)
+  //  ; // just in case
 }
 #endif
 
@@ -1245,6 +1249,7 @@ int k_start(void) {
    */
 
   int tm = 1; // always 1 msec
+  
   if (tm != 1) {
     return -999;
   }
@@ -1285,8 +1290,7 @@ int k_start(void) {
   TIMSKx |= (1 << TOIEx); // enable interrupt
 #endif
 
-  // if timer 0 we will alwasy run 1 msec !!!! and run org millis om nehalf of
-  // original Arduino interrupt
+  // if timer 0 we will always run 1 msec !!!!  
 
   DI();
   pRun = pmain_el; // just for ki_task_shift
@@ -1368,6 +1372,8 @@ void __attribute__((weak)) k_free(void *m) {
   // we dont free memory
 }
 #endif
+
+ 
 
 void __attribute__((weak)) k_wdt_enable(int i) {
   DI();
