@@ -70,16 +70,17 @@
 #define KRNLBUG
 
 // BACKSTOPPER wraps a looping fct around your task so it will just restart
-// HMM it will get a prio lower than dummy so it just stops
-// is the task leaves the task body code
 // like loop function
-// BEWARE bq local variables in the task body just evaporate
+// BEWARE bq local variables in the task body just evaporate - as always
 #define BACKSTOPPER
 
 // IF YOU WANT READER WRITER LOCK THEN DEFINE
 #define READERWRITER
 
-// Define watchdog period
+// Define watchdog timer and period
+// if you enable it it will be running at once 
+
+//#define WDT_TIMER
 #define WDT_PERIOD WDTO_1S
 
 // if you want to use k_malloc
@@ -88,14 +89,14 @@
 // NEVER !!! free men in a rt system...
 #define DYNMEMORY
 
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) ||              \
-    defined(__AVR_ATmega2561__)
+#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)  \
+    || defined(__AVR_ATmega2561__)
 #define KRNLTMR 2
 
 #elif defined(__AVR_ATmega1284P__)
 #define KRNLTMR 2
 
-#elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)
+#elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__) || defined(__AVR_ATmega328__)
 #define KRNLTMR 2
 
 #elif defined(__AVR_ATmega32U4__)
@@ -700,10 +701,9 @@ extern volatile char k_bug_on;
                    "pop r0  \n\t"                                              \
                    "pop r1  \n\t")
 
-#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||  defined(__ATmega328PB_AVR__)  \
+#elif defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||  defined(__AVR_ATmega328PB__)  \
                    ||  defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__)
 
-// 328p etc
 #define PUSHREGS()                                                             \
   __asm__ volatile("push r1 \n\t"                                              \
                    "push r0 \n\t"                                              \
