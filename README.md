@@ -4,6 +4,9 @@ I have found it interesting to develop an open source realtime kernel
 
 for the Arduino platform - but is also portable to other platforms
 
+2022 Nov
+Added cooperative multitasking - can swicth on/off runtime  (k_set_coop_multitask(unsigned char onn)
+
 2022 Juni
 
 Structured krnl in files c files each covering stufflike semaphore, message Q etc
