@@ -59,7 +59,7 @@
  *
  * remember to update in krnl.c !!!
  *****************************************************/
-#define KRNL_VRS 20221015
+#define KRNL_VRS 20221027
 
 #ifndef KRNL
 #define KRNL
@@ -1327,6 +1327,10 @@ void k_round_robbin(void);
  * no round robbin
  **/
 void k_release(void);
+
+/**
+*/
+void k_set_coop_multitask(unsigned char onn);
 
 /**
  *   returns amount of free memory in your system

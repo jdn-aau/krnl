@@ -85,7 +85,7 @@ k_enable_wdt
 #pragma message("krnl detected 8 MHz")
 #endif
 
-#if (KRNL_VRS != 20221015)
+#if (KRNL_VRS != 20221027)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 
@@ -97,6 +97,7 @@ k_enable_wdt
 
 /* which timer to use for krnl heartbeat
     timer 0 ( 8 bit) is normally used by millis - avoid !
+        or modify TIMER0 in wiring.c
     timer 1 (16 bit)  DEFAULT
     timer 2 ( 8 bit)
     timer 3 (16 bit) 1280/1284P/2560 only (MEGA)
@@ -232,6 +233,8 @@ volatile char k_wdt_enabled = 1;
 volatile unsigned int tcntValue; // counters for timer system
 unsigned long k_millis_counter = 0;
 unsigned int k_tick_size;
+
+unsigned char coopFlag=0;
 
 int tmr_indx; // for travelling Qs in tmr isr
 
@@ -387,9 +390,11 @@ ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
     pE++;
   }
 
-  prio_enQ(pAQ, deQ(pRun)); // round robbin
+  if (!coopFlag) {
+    prio_enQ(pAQ, deQ(pRun)); // round robbin
 
-  K_CHG_STAK();
+    K_CHG_STAK();
+  }
 
 exitt:
 
@@ -413,16 +418,16 @@ exitt:
 // basic concept from my own very old kernels dated back bef millenium
 
 void __attribute__((naked, noinline)) ki_task_shift(void) {
-  PUSHREGS(); // push task regs on stak so we are rdy to task shift
-  K_CHG_STAK();
-  POPREGS(); // restore regs
-  RETI();    // and do a reti NB this also enables interrupt !!!
+  PUSHREGS();    // push task regs on stak so we are rdy to task shift
+  K_CHG_STAK();  // find taskstak for task in front of activeQ
+  POPREGS();     // restore regs
+  RETI();        // and do a reti NB this also enables interrupt !!!
 }
 
 #ifdef BACKSTOPPER
 void jumper() {
   while (1)
-    (*(pRun->pt))();        // call task code
+    (*(pRun->pt))();        // call task code again and again
   //k_set_prio(ZOMBI_PRIO); // priority lower than dummy so you just stops
   //while (1)
   //  ; // just in case
@@ -441,9 +446,10 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
     goto badexit;
   }
 
-  if (pStk == NULL) {
+  if (pStk == NULL) {  // you didnt give me a stack
     goto badexit;
   }
+  
   pT = task_pool + nr_task; // lets take a task descriptor
   pT->nr = nr_task;
   nr_task++;
@@ -453,10 +459,8 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
 
   pT->cnt1 = (int)(pStk); // ref to my stack
 
-  // stack paint :-)
-  for (i = 0; i < stkSize;
-       i++) // put hash code on stak to be used by k_unused_stak()
-  {
+// paint stack with hash code to be used by k_unused_stak()
+  for (i = 0; i < stkSize; i++) {
     pStk[i] = STAK_HASH;
   }
 
@@ -1324,6 +1328,11 @@ int k_stop() {
   }
   while (1)
     ; // we stuck here with intr disabled !!!
+}
+
+void k_set_coop_multitask(unsigned char onn)
+{
+  coopFlag = onn;
 }
 
 unsigned long ki_millis(void) {
