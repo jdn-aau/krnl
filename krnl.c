@@ -234,7 +234,7 @@ volatile unsigned int tcntValue; // counters for timer system
 unsigned long k_millis_counter = 0;
 unsigned int k_tick_size;
 
-unsigned char coopFlag=0;
+unsigned char k_coopFlag=0;
 
 int tmr_indx; // for travelling Qs in tmr isr
 
@@ -390,10 +390,10 @@ ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
     pE++;
   }
 
-  if (!coopFlag) {
+  if (!k_coopFlag) {
     prio_enQ(pAQ, deQ(pRun)); // round robbin
 
-    K_CHG_STAK();
+    K_F_CHG_STAK();
   }
 
 exitt:
@@ -1332,7 +1332,7 @@ int k_stop() {
 
 void k_set_coop_multitask(unsigned char onn)
 {
-  coopFlag = onn;
+  k_coopFlag = onn;
 }
 
 unsigned long ki_millis(void) {

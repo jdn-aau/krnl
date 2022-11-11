@@ -356,6 +356,8 @@ struct k_t {
       clip; // sem: counter for lost signals | task: vacant
 };
 
+extern unsigned char k_coopFlag;
+
 struct k_msg_t {
   // msg type
   unsigned char nr;
@@ -484,7 +486,7 @@ f 15
 extern volatile char k_bug_on;
 
 #ifdef KRNLBUG
-#define K_CHG_STAK()                                                           \
+#define K_F_CHG_STAK()                                                           \
   if (pRun != AQ.next) {                                                       \
     pRun->sp_lo = SPL;                                                         \
     pRun->sp_hi = SPH;                                                         \
@@ -494,8 +496,21 @@ extern volatile char k_bug_on;
     SPH = pRun->sp_hi;                                                         \
   }
 
+#define K_CHG_STAK()                                                          \
+ if (!k_coopFlag) {                                                           \
+  if (pRun != AQ.next) {                                                       \
+    pRun->sp_lo = SPL;                                                         \
+    pRun->sp_hi = SPH;                                                         \
+    pRun = AQ.next;                                                            \
+    k_breakout();                                                              \
+    SPL = pRun->sp_lo;                                                         \
+    SPH = pRun->sp_hi;                                                         \
+  }                                                                            \
+  }
+
+
 #else
-#define K_CHG_STAK()                                                           \
+#define K_F_CHG_STAK()                                                           \
   if (pRun != AQ.next) {                                                       \
     pRun->sp_lo = SPL;                                                         \
     pRun->sp_hi = SPH;                                                         \
@@ -503,6 +518,19 @@ extern volatile char k_bug_on;
     SPL = pRun->sp_lo;                                                         \
     SPH = pRun->sp_hi;                                                         \
   }
+  
+  
+#define K_CHG_STAK()                                                          \
+ if (!k_coopFlag) {                                                           \
+  if (pRun != AQ.next) {                                                       \
+    pRun->sp_lo = SPL;                                                         \
+    pRun->sp_hi = SPH;                                                         \
+    pRun = AQ.next;                                                            \
+    SPL = pRun->sp_lo;                                                         \
+    SPH = pRun->sp_hi;                                                         \
+  }                                                                            \
+  }
+
 
 #endif
 
