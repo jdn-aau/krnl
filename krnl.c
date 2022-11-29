@@ -15,7 +15,7 @@
  *                                                     *
  *******************************************************
 
-   you are watching krnl.c
+  you are watching krnl.c
  
         March 2015,2016,..,2018
         Author: jdn
@@ -628,8 +628,10 @@ struct k_t *k_crt_sem(int init_val, int maxvalue) {
     return (NULL);
   }
 
-  if ((init_val < 0) || (SEM_MAX_VALUE < init_val) || (maxvalue < 0) ||
-      (SEM_MAX_VALUE < maxvalue)) {
+  if ((maxvalue < init_val) 
+  	|| (SEM_MAX_VALUE < maxvalue)
+  	|| (init_val < 0) 
+  	|| (maxvalue < 0) ) {
     goto badexit;
   }
 
@@ -665,8 +667,8 @@ int k_set_sem_timer(struct k_t *sem, int val) {
   // there is no k_stop_sem_timer fct just call with val== 0 for stopping timer
   // fct
 
-  if (val < 0) {
-    val = 0; // stop stop stop :-)
+  if (val <= 0) {
+    return -1;
   }
 
   DI();
