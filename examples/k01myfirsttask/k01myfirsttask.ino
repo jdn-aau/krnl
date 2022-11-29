@@ -82,6 +82,8 @@ void loop() {} // is NEVER used
  * You can see when your are printing becasue the led marked TX is ON when the
  * uno is doing serial printing
  */
+ 
+ /***
 
 extern "C" {
 
@@ -100,3 +102,5 @@ void k_breakout(void) // called every task shift from dispatcher
 
 // on MEGA led13 is on PORTB bit 7.    so use B10000000 instead of B00100000 and
 // B011111111 instead of B11011111
+
+*/
