@@ -59,7 +59,7 @@
  *
  * remember to update in krnl.c !!!
  *****************************************************/
-#define KRNL_VRS 20221027
+#define KRNL_VRS 20231234
 
 #ifndef KRNL
 #define KRNL
@@ -88,6 +88,10 @@
 // SO DONT USE k_free its just a fake
 // NEVER !!! free men in a rt system...
 #define DYNMEMORY
+
+
+#define K_TICK 1
+
 
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)  \
     || defined(__AVR_ATmega2561__)
@@ -234,6 +238,8 @@ and Pin 9,10 on Arduino Mega.
    ONLY SUPPORT FOR AVR's (uno,leonardo,nano,mega,...)
 
    //#define MOD
+   
+   MAY WORK OR NOT !!!! BEWARE  /Jens
 
   #if defined (MOD)
 
@@ -269,10 +275,9 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 #define DMY_STK_SZ 90           // staksize for dummy
 #define MAIN_PRIO 50            // main task prio
 #define STAK_HASH 0x5c          // just a hashcode
-#define MAX_SEM_VAL 50          // NB is also max for nr elem in msgQ !
-#define MAX_INT 0x7FFF
-// not in use #define SEM_MAX_DEFAULT 50
-#define SEM_MAX_VALUE 10000
+#define MAX_SEM_VAL 30000        // NB is also max for nr elem in msgQ !
+#define MAX_INT 0x7FFF 
+ 
 
 #define CEILINGFAILPRIO -4
 #define CEILINGFAILNOTCEIL -3
@@ -484,9 +489,9 @@ f 15
 #define hi8(X) ((unsigned char)((unsigned int)(X) >> 8))
 
 extern volatile char k_bug_on;
-
-#ifdef KRNLBUG
-#define K_F_CHG_STAK()                                                           \
+#ifdef KRNLBUG   
+#define K_CHG_STAK()                                                           \
+                                                                               \
   if (pRun != AQ.next) {                                                       \
     pRun->sp_lo = SPL;                                                         \
     pRun->sp_hi = SPH;                                                         \
@@ -494,46 +499,20 @@ extern volatile char k_bug_on;
     k_breakout();                                                              \
     SPL = pRun->sp_lo;                                                         \
     SPH = pRun->sp_hi;                                                         \
-  }
+  }                                                                            
 
-#define K_CHG_STAK()                                                          \
- if (!k_coopFlag) {                                                           \
-  if (pRun != AQ.next) {                                                       \
-    pRun->sp_lo = SPL;                                                         \
-    pRun->sp_hi = SPH;                                                         \
-    pRun = AQ.next;                                                            \
-    k_breakout();                                                              \
-    SPL = pRun->sp_lo;                                                         \
-    SPH = pRun->sp_hi;                                                         \
-  }                                                                            \
-  }
-
-
-#else
-#define K_F_CHG_STAK()                                                           \
+#else  
+#define K_CHG_STAK()                                                           \
   if (pRun != AQ.next) {                                                       \
     pRun->sp_lo = SPL;                                                         \
     pRun->sp_hi = SPH;                                                         \
     pRun = AQ.next;                                                            \
     SPL = pRun->sp_lo;                                                         \
     SPH = pRun->sp_hi;                                                         \
-  }
-  
-  
-#define K_CHG_STAK()                                                          \
- if (!k_coopFlag) {                                                           \
-  if (pRun != AQ.next) {                                                       \
-    pRun->sp_lo = SPL;                                                         \
-    pRun->sp_hi = SPH;                                                         \
-    pRun = AQ.next;                                                            \
-    SPL = pRun->sp_lo;                                                         \
-    SPH = pRun->sp_hi;                                                         \
-  }                                                                            \
-  }
+  }                                                                            
 
-
-#endif
-
+#endif                                                                     
+ 
 // MISSING no code 1284p
 
 /* below: r1 must/shall always assumed to be zero in c code (gcc issue I think)
@@ -1304,6 +1283,7 @@ int k_start(void); // tm in milliseconds
 
 /**
    stop KRNL
+   parm can be 1 or 10 can only run 1 og 10 msec tick speed
    If krnl is not yet running you will return with a -1 as return value
    If krnl is running interrupt will be disabled and k_stop ends in an infinite
    loop
