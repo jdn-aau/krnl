@@ -85,7 +85,7 @@ k_enable_wdt
 #pragma message("krnl detected 8 MHz")
 #endif
 
-#if (KRNL_VRS != 20221027)
+#if (KRNL_VRS != 20231234)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 
@@ -98,8 +98,8 @@ k_enable_wdt
 /* which timer to use for krnl heartbeat
     timer 0 ( 8 bit) is normally used by millis - avoid !
         or modify TIMER0 in wiring.c
-    timer 1 (16 bit)  DEFAULT
-    timer 2 ( 8 bit)
+    timer 1 (16 bit)  
+    timer 2 ( 8 bit)  DEFAULT
     timer 3 (16 bit) 1280/1284P/2560 only (MEGA)
     timer 4 (16 bit) 1280/2560 only (MEGA)
     timer 5 (16 bit) 1280/2560 only (MEGA)
@@ -107,6 +107,8 @@ k_enable_wdt
 
 #if (KRNLTMR == 0)
 JDN SIGER NOGO IN SIMPLIFY VRS
+#pragme err "tbf 0 "
+
 // normally not goood bq of arduino sys timer is on timer 0so you wil get a
 // compile error 8 bit timer !!!
 //#define KRNLTMRVECTOR TIMER0_OVF_vect
@@ -119,27 +121,17 @@ JDN SIGER NOGO IN SIMPLIFY VRS
     #define TIMSKx TIMSK0
     #define TOIEx TOIE0
     #define PRESCALE 0x07
-    #define COUNTMAX 255
+    #define COUNTMAX 0xff
     #define DIVV 15.625
     #define DIVV8 7.812
 */
 #elif (KRNLTMR == 1)
-#define KRNLTMRVECTOR TIMER1_OVF_vect
-#define TCNTx TCNT1
-#define TCCRxA TCCR1A
-#define TCCRxB TCCR1B
-#define TCNTx TCNT1
-#define OCRxA OCR1A
-#define TIMSKx TIMSK1
-#define TOIEx TOIE1
-#define PRESCALE 0x03
-#define COUNTMAX 0xffff
-#define DIVV 250
-#define DIVV8(DIVV / 2)
+
+empty
 
 #elif (KRNLTMR == 2)
 
-// 8 bit timer !!!
+// 8 bit timer !!! STANDARD
 // standard for krnl CHECK which pwm, tone etc is on this timer
 
 #pragma warn "krnl timer on timer 2 - check PWM "
@@ -151,13 +143,14 @@ JDN SIGER NOGO IN SIMPLIFY VRS
 #define OCRxA OCR2A
 #define TIMSKx TIMSK2
 #define TOIEx TOIE2
-#define PRESCALE 0x05
-#define COUNTMAX 255
-#define DIVV 125
-#define DIVV8 64
+#define CNT_1MSEC 240
+#define CNT_10MSEC 99 
+
+#define PRESCALE  ( ( 1<< CS22) | (1 << CS21) | ( 1<< CS20))
 
 #elif (KRNLTMR == 3)
 
+// 32u4
 #define KRNLTMRVECTOR TIMER3_OVF_vect
 #define TCNTx TCNT3
 #define TCCRxA TCCR3A
@@ -166,41 +159,20 @@ JDN SIGER NOGO IN SIMPLIFY VRS
 #define OCRxA OCR3A
 #define TIMSKx TIMSK3
 #define TOIEx TOIE3
-#define PRESCALE 0x03
+#define PRESCALE  ( ( 1<< CS02) | (1 << CS01) | ( 1<< CS00))
 #define COUNTMAX 0xffff
-#define DIVV 250
-#define DIVV8(DIVV / 2)
-
+#define CNT_1MSEC 65520
+#define CNT_10MSEC 65381
+  
 #elif (KRNLTMR == 4)
 
-#define KRNLTMRVECTOR TIMER4_OVF_vect
-#define TCNTx TCNT4
-#define TCCRxA TCCR4A
-#define TCCRxB TCCR4B
-#define TCNTx TCNT4
-#define OCRxA OCR4A
-#define TIMSKx TIMSK4
-#define TOIEx TOIE4
-#define PRESCALE 0x03
-#define COUNTMAX 0xffff
-#define DIVV 250
-#define DIVV8(DIVV / 2)
-
+#pragme err "tbf 4"
+ 
 #elif (KRNLTMR == 5)
 
-#define KRNLTMRVECTOR TIMER5_OVF_vect
-#define TCNTx TCNT5
-#define TCCRxA TCCR5A
-#define TCCRxB TCCR5B
-#define TCNTx TCNT5
-#define OCRxA OCR5A
-#define TIMSKx TIMSK5
-#define TOIEx TOIE5
-#define PRESCALE 0x03
-#define COUNTMAX 0xffff
-#define DIVV 250
-#define DIVV8(DIVV / 2)
 
+#pragme err "tbf 5"
+ 
 #else
 
 #pragma err "KRNL: no valid tmr selected"
@@ -230,7 +202,7 @@ volatile char k_running = 0, k_err_cnt = 0;
 volatile char k_wdt_enabled = 1;
 
 #endif
-volatile unsigned int tcntValue; // counters for timer system
+volatile unsigned char tcntValue; // counters for timer system
 unsigned long k_millis_counter = 0;
 unsigned int k_tick_size;
 
@@ -338,19 +310,22 @@ ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
                               // epilog (push pop stack of regs)
 {
   PUSHREGS();        // no local vars ! I think
-  TCNTx = tcntValue; // Reload the timer
+  
+  if (!k_running) {
+    goto exitt;
+  }
+  
+  TCNT2 = CNT_1MSEC; // Reload the timer WE RUN 1 MSEC
+ 
 #ifdef WDT_TIMER
   if (k_wdt_enabled)
     wdt_reset();
 #endif
 
-  if (!k_running) {
-    goto exitt;
-  }
 
   k_millis_counter += k_tick_size; // my own millis counter
 
-  // the following may look crazy: to go through all semaphores and tasks
+  // the following may look crazy: to go throuh all semaphores and tasks
   // but you may have 3-4 tasks and 3-6 semaphores in your code
   // so - seems to be efficient :-)
   // so - it's a good idea not to init krnl with more items
@@ -393,7 +368,7 @@ ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
   if (!k_coopFlag) {
     prio_enQ(pAQ, deQ(pRun)); // round robbin
 
-    K_F_CHG_STAK();
+    K_CHG_STAK();
   }
 
 exitt:
@@ -441,7 +416,7 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
   int i;
   char *s;
 
-  if ((k_running) || ((prio <= 0) || (DMY_PRIO < prio)) ||
+  if ((k_running) || ((prio <= 0) || (DMY_PRIO <= prio)) ||
       (k_task <= nr_task)) {
     goto badexit;
   }
@@ -629,7 +604,7 @@ struct k_t *k_crt_sem(int init_val, int maxvalue) {
   }
 
   if ((maxvalue < init_val) 
-  	|| (SEM_MAX_VALUE < maxvalue)
+  	|| (MAX_SEM_VAL < maxvalue)
   	|| (init_val < 0) 
   	|| (maxvalue < 0) ) {
     goto badexit;
@@ -990,7 +965,7 @@ char ki_send(struct k_msg_t *pB, void *el) {
 
   if (pB->nr_el <= pB->cnt) {
     // nope - no room for a putting new msg in Q ?
-    if (pB->lost_msg < SEM_MAX_VALUE) {
+    if (pB->lost_msg < MAX_SEM_VAL) {
       pB->lost_msg++;
     }
 #ifdef KRNLBUG
@@ -1220,20 +1195,25 @@ leave:
   return k_err_cnt;
 }
 
+
 int k_start(void) {
   /*
+  https://microcontrollerslab.com/arduino-timer-interrupts-tutorial/
+  https://wolles-elektronikkiste.de/en/timer-and-pwm-part-1-8-bit-timer0-2
+  
+     FOR TIMER 2 !!!  not TIMER0(8 bit) AND NOT TIMER 1(16bit) !!
      TCCRxB
      48,88,168,328, 1280,2560
      timer 0 and 2 has same prescaler config:
      8 bit:
      0 0 0 No clock source (Timer/Counter stopped).
      0 0 1 clk T2S /(No prescaling)
-     0 1 0 clk T2S /8 (From prescaler)      2000000 intr/sec at 1 downcount
+     0 1 0 clk T2S /8 (From prescaler)      16M/2 = 2000000 intr/sec at 1 downcount
      0 1 1 clk T2S /32 (From prescaler)      500000 intr/sec ...
      1 0 0 clk T2S /64 (From prescaler)      250000
      1 0 1 clk T2S /128 (From prescaler)     125000
      1 1 0 clk T 2 S /256 (From prescaler)    62500
-     1 1 1 clk T 2 S /1024 (From prescaler)   15625  eq 15.625 count down for 1
+     1 1 1 clk T 2 S /1024 (From prescaler)   16M/1024=15625  eq 15.625 count down for 1
      millisec so 255 counts ~= 80.32 milli sec timer
 
      timer 1(328+megas), 3,4,5(megas only)
@@ -1254,21 +1234,13 @@ int k_start(void) {
      *************************************************************************************
    */
 
-  int tm = 1; // always 1 msec
-  
-  if (tm != 1) {
-    return -999;
-  }
+     
   // will not start if errors during initialization
   if (k_err_cnt) {
     return -k_err_cnt;
   }
-  // boundary check
-  if (tm <= 0) {
-    return -555;
-  }
-
-  k_tick_size = tm;
+  
+  k_tick_size = K_TICK;
 
   DI(); // silencio
 
@@ -1280,30 +1252,41 @@ int k_start(void) {
   // I/O clock 32u4 does not have this facility
 #endif
 
-#if (KRNLTMR != 0)
-  TCCRxA = 0;
-  TCCRxB = PRESCALE; // atm328s  2560,...
 
-  if (F_CPU == 16000000L) {
-    tcntValue = COUNTMAX - DIVV;
-  } else {
-    tcntValue = COUNTMAX - DIVV8; // 8 Mhz wwe assume
-  }
+// TIMER2 I ASSUME !
+ 
+  //set PRESCALE bits cs22 cs21 cs20  to 0x05 fo clock div by 1024
+  //16MHz/1024 = 15625 kHz interrupt (or 
+  // its equal to 0.064 msec pr count
+  // for 1 msec tick we shall count to 15(0.96msec) or 16(1.024msec) 
+  // we prefer same freq all time instead of a leap second strategy
+  
+   
+  
+   
 
-  TCNTx = tcntValue;
-
+//https://wolles-elektronikkiste.de/en/timer-and-pwm-part-1-8-bit-timer0-2
+ // (1/16000000)*1024*16 = 1,024msec
+ //  (1/16000000)*1024*157 = 10,048 msec
+ 
+  DI();
+  TCCRxA = 0x00; // Wave Form Generation Mode 0: Normal Mode; OC2A disconnected
+  TCCRxB = PRESCALE; //(1<< CS22) | (1 << CS21)| (1 << CS20);//0x05; //  CS2 CS1 CS0 set so  prescaler = 1024
+  TIMSKx = (1<<TOIEx); // interrupt when TCNT2 is overflowed
+  
+  TCNTx = CNT_1MSEC;
+   
+  
   //  let us start the show
   TIMSKx |= (1 << TOIEx); // enable interrupt
-#endif
-
-  // if timer 0 we will always run 1 msec !!!!  
-
-  DI();
+ 
+ 
   pRun = pmain_el; // just for ki_task_shift
 
   k_running = 1;
 
   ki_task_shift(); // bye bye from here
+ 
   EI();
 
   // this while loop bq main are dummy
