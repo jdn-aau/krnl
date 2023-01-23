@@ -8,22 +8,18 @@ struct k_t *pTask; // pointer to task descriptor
 unsigned char taskStak[STK];
 
 void t1() {
-  int cnt = 0;
 
+  // blink approx 1 Hz
   while (1) // your task loop - forever
   {
-    Serial.println(cnt++);
+    digitalWrite(13, !digitalRead(13)); // togle led
     k_sleep(500);
   }
 }
 
 void setup() {
   int res;
-  Serial.begin(115200);
-  while (!Serial)
-    ;
-  Serial.println("k01myfirsttask");
-
+   
   pinMode(13, OUTPUT); // for debug
 
   k_init(1, 0, 0); // init with space for one task
@@ -48,9 +44,7 @@ void setup() {
   // no slot for tasks etc
   // see krnl.c approx line ++1270
 
-  Serial.print("ups an error occured: ");
-  Serial.println(res);
-  while (1)
+   while (1)
     ;
 }
 
@@ -81,6 +75,10 @@ void loop() {} // is NEVER used
  *
  * You can see when your are printing becasue the led marked TX is ON when the
  * uno is doing serial printing
+ *
+ * THIS EXAMPLE IS WITHOUT printf. using printf takes at least 200 bytes of ram
+ * Compare with same example  just named k01myfirsttask-w-printf so see diff i ram usage
+ * /JDN
  */
  
  /***
