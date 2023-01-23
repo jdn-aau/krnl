@@ -856,13 +856,6 @@ void __attribute__((weak)) k_wdt_disable();
 unsigned long ki_millis(void);
 
 /**
-  Return krnl ticksize
-  As for now it can be 1 (msec) or 10(msec)
-  BEWARE All delays are in quants of tick_size..
-*/
-int k_ticksize(void);
-
-/**
    Returns nr of milliseconds since krnl was started by k_start
    @return: unsigned long is returned
    @remark only to be called after start of KRNL
