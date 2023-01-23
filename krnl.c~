@@ -380,7 +380,7 @@ exitt:
 
 int k_ticksize(void)
 {
-   return k_tick_size;
+   return k_tick_size);
 }
 
 /**HERE**/
