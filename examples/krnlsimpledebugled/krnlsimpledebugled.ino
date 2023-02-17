@@ -1,6 +1,13 @@
 //220216
 #include <krnl.h>
 
+/*
+ * LED on dig pin 8,9,10
+ * D8  dummy running
+ * D9 first task created running
+ * D10 second ...
+ * 
+ */
 #define STK 110
 struct k_t *p1, *p2, *p3;
 char st1[STK], st2[STK], st3[STK];
