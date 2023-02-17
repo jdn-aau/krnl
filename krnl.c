@@ -368,8 +368,7 @@ ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
 
   if (!k_coopFlag) {
     prio_enQ(pAQ, deQ(pRun)); // round robbin
-
-    K_CHG_STAK();
+    K_CHG_STAK();             // let first in AQ run
   }
 
 exitt:
@@ -430,6 +429,7 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
   int i;
   char *s;
 
+  // sanity chek
   if ((k_running) || ((prio <= 0) || (DMY_PRIO <= prio)) ||
       (k_task <= nr_task)) {
     goto badexit;
@@ -444,7 +444,7 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
   nr_task++;
 
   pT->cnt2 = 0; // no time out running on you for the time being
-  pT->cnt3 = 0; // no time out semaphore
+  pT->cnt3 = 0; // no time out semaphore for you
 
   pT->cnt1 = (int)(pStk); // ref to my stack
 
