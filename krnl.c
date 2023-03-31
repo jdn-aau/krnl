@@ -300,83 +300,6 @@ void k_eat_msec(unsigned int eatTime) {
    #define FRACT_MAX (1000 >> 3) which is
 
 */
-struct k_t *pE;  // used only in ISR as "temporary var"
-
-ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
-                              // epilog (push pop stack of regs)
-{
-  PUSHREGS();        // no local vars ! I think
-  
-  if (!k_running) {
-    goto exitt;
-  }
-  #if (K_TICK == 1)
-  TCNT2 = CNT_1MSEC; // Reload the timer  1 msec
-  #elif (K_TICK == 10)
-    TCNT2 = CNT_10MSEC; // Reload the timer  10 msec
-  #else
-  #pragma err "bad K_TICK - you can only select 1 or 10
-  #endif
- 
-#ifdef WDT_TIMER
-  if (k_wdt_enabled)
-    wdt_reset();
-#endif
-
-
-  k_millis_counter += k_tick_size; // my own millis counter
-
-  // the following may look crazy: to go throuh all semaphores and tasks
-  // but you may have 3-4 tasks and 3-6 semaphores in your code
-  // so - seems to be efficient :-)
-  // so - it's a good idea not to init krnl with more items
-  // (tasks/Sem/msg descriptors than needed)
-
-  pE = sem_pool; // Semaphore timer - check timers on semaphores
-
-  for (tmr_indx = 0; tmr_indx < nr_sem; tmr_indx++) {
-    if (0 < pE->cnt2) // timer on semaphore ?
-    {
-      pE->cnt2--;        // yep  decrement it
-      if (pE->cnt2 <= 0) // timeout  ?
-      {
-        pE->cnt2 =
-            pE->cnt3;  // preset again - if cnt3 == 0 and >= 0 the rep timer
-        ki_signal(pE); // issue a signal to the semaphore
-      }
-    }
-    pE++;
-  }
-
-  pE = task_pool; // Chk timers on tasks - they may be one shoot waiting
-
-  for (tmr_indx = 0; tmr_indx < nr_task; tmr_indx++) {
-    if (0 < pE->cnt2) // timer active on task ?
-    {
-      pE->cnt2--;        // yep so let us do one down count
-      if (pE->cnt2 <= 0) // timeout ? ( == 0 )
-      {
-        ((struct k_t *)(pE->cnt3))
-            ->cnt1++;           // leaving sem so adjust semcount on sem
-        prio_enQ(pAQ, deQ(pE)); // and rip task of semQ and insert in activeQ
-        pE->cnt2 =
-            -1; // indicate timeout in this semQ for the task that is restartet
-      }
-    }
-    pE++;
-  }
-
-  if (!k_coopFlag) {
-    prio_enQ(pAQ, deQ(pRun)); // round robbin
-    K_CHG_STAK();             // let first in AQ run
-  }
-
-exitt:
-
-  POPREGS();
-  RETI();
-}
-
 int k_ticksize(void)
 {
    return k_tick_size;
@@ -485,12 +408,12 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
   // 1280 and 2560 need to save rampz reg just in case
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) ||              \
     defined(__AVR_ATmega1284P__) || defined(__AVR_ATmega2561__) 
-  (s--) = RAMPZ; // best guess  0x3b
+  *(s--) = RAMPZ; // best guess  0x3b
 #endif
 
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) ||              \
     defined(__AVR_ATmega2561__) 
-  (s--) = EIND; // best guess 0x3c
+  *(s--) = EIND; // best guess 0x3c
 #endif
 
   // rest of the resg on the stack
@@ -1357,6 +1280,85 @@ unsigned long k_millis(void) {
 }
 
 int k_tmrInfo(void) { return (KRNLTMR); }
+
+struct k_t *pE;  // used only in ISR as "temporary var"
+
+ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
+                              // epilog (push pop stack of regs)
+{
+  PUSHREGS();        // no local vars ! I think
+  
+  if (!k_running) {
+    goto exitt;
+  }
+  #if (K_TICK == 1)
+  TCNT2 = CNT_1MSEC; // Reload the timer  1 msec
+  #elif (K_TICK == 10)
+    TCNT2 = CNT_10MSEC; // Reload the timer  10 msec
+  #else
+  #pragma err "bad K_TICK - you can only select 1 or 10
+  #endif
+ 
+#ifdef WDT_TIMER
+  if (k_wdt_enabled)
+    wdt_reset();
+#endif
+
+
+  k_millis_counter += k_tick_size; // my own millis counter
+
+  // the following may look crazy: to go throuh all semaphores and tasks
+  // but you may have 3-4 tasks and 3-6 semaphores in your code
+  // so - seems to be efficient :-)
+  // so - it's a good idea not to init krnl with more items
+  // (tasks/Sem/msg descriptors than needed)
+
+  pE = sem_pool; // Semaphore timer - check timers on semaphores
+
+  for (tmr_indx = 0; tmr_indx < nr_sem; tmr_indx++) {
+    if (0 < pE->cnt2) // timer on semaphore ?
+    {
+      pE->cnt2--;        // yep  decrement it
+      if (pE->cnt2 <= 0) // timeout  ?
+      {
+        pE->cnt2 =
+            pE->cnt3;  // preset again - if cnt3 == 0 and >= 0 the rep timer
+        ki_signal(pE); // issue a signal to the semaphore
+      }
+    }
+    pE++;
+  }
+
+  pE = task_pool; // Chk timers on tasks - they may be one shoot waiting
+
+  for (tmr_indx = 0; tmr_indx < nr_task; tmr_indx++) {
+    if (0 < pE->cnt2) // timer active on task ?
+    {
+      pE->cnt2--;        // yep so let us do one down count
+      if (pE->cnt2 <= 0) // timeout ? ( == 0 )
+      {
+        ((struct k_t *)(pE->cnt3))
+            ->cnt1++;           // leaving sem so adjust semcount on sem
+        prio_enQ(pAQ, deQ(pE)); // and rip task of semQ and insert in activeQ
+        pE->cnt2 =
+            -1; // indicate timeout in this semQ for the task that is restartet
+      }
+    }
+    pE++;
+  }
+
+  if (!k_coopFlag) {
+    prio_enQ(pAQ, deQ(pRun)); // round robbin
+    K_CHG_STAK();             // let first in AQ run
+  }
+
+exitt:
+
+  POPREGS();
+  RETI();
+}
+
+
 
 #ifdef KRNLBUG
 
