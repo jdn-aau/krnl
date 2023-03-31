@@ -395,7 +395,7 @@ struct k_t *k_crt_task(void (*pTask)(void), char prio, char *pStk,
 #endif
   // NB  NB 2560 use 3 byte for call/ret addresses the rest only 2
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) 
-  (s--) = EIND; // best guess : 3 byte addresses !!! or just 0
+  *(s--) = EIND; // best guess : 3 byte addresses !!! or just 0
 #endif
 
   // r1 is the socalled zero value register
