@@ -79,7 +79,11 @@
 #define STOP_IN_BACKSTOPPER
 
 // IF YOU WANT READER WRITER LOCK THEN DEFINE
-#define READERWRITER
+// experimental - no guarantee
+//https://www.geeksforgeeks.org/readers-writers-problem-writers-preference-solution/?ref=rp
+//https://www.geeksforgeeks.org/readers-writers-problem-set-1-introduction-and-readers-preference-solution/
+// https://www.tutorialspoint.com/readers-writers-problem
+//#define READERWRITER
 
 // Define watchdog timer and period
 // if you enable it it will be running at once 
