@@ -4,8 +4,11 @@ I have found it interesting to develop an open source realtime kernel
 
 for the Arduino platform - but is also portable to other platforms
 
+Apr 2023
+Dig some lines down to see which PWM pins you can use when running krnl.
+
 2022 Nov
-Added cooperative multitasking - can swicth on/off runtime  (k_set_coop_multitask(unsigned char onn)
+Added cooperative multitasking - can switch on/off runtime  (k_set_coop_multitask(unsigned char onn)
 
 2022 Juni
 
@@ -13,7 +16,7 @@ Structured krnl in files c files each covering stufflike semaphore, message Q et
 
 Why: to make it more readable
 
-Updated timer so now knrl runs with 1msec tick all time
+Updated timer so now krnl runs with 1msec tick all time
 
 So k_start(xx) ->  k_start()
 
@@ -86,6 +89,29 @@ Some characteristics:
    - example 10 msec 156 instead of 156.25 so an error of 0.25/156.25 ~= 0.2%
  - 16 bit timers count down is 1 millisecond for 62.5 count
  - - example 10 msec ~ 625 countdown == precise :-)
+
+PWM output
+
+AnalogWrite (PWM) on uno and mega(2560) 
+
+timer analogWrite Pin(PWM)
+0    5,6
+1    9,10
+2    3,11 
+
+Krnl use  timer 2 på en uno så pin 3,11 kan ikke bruges til PWM
+
+
+For Arduino MEGA  (2560 cpu)we do have 6 timers
+timer PWM
+0  4,13
+1  11,12
+2  9,10
+3  2,3,5
+4  6,7,8
+5  44,45,46
+
+Krnl uses timer 2 on mega so you canrt use pwm 9,10 on a mega when you are running krnl 
 
 - Watchdog timer
 From vrs 2016056 the timer interrupt do issue a wdt_reset() for every timer interrupt.
