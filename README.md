@@ -120,7 +120,7 @@ For Arduino MEGA  (2560 cpu)we do have 6 timers
 |4 | 6,7,8  |
 |5 | 44,45,46 |
 
-Krnl uses timer 2 on mega so you canrt use pwm 9,10 on a mega when you are running krnl 
+Krnl uses timer 2 on mega so you cant use pwm 9,10 on a mega when you are running krnl 
 
 ## Watchdog timer
 From vrs 2016056 the timer interrupt do issue a wdt_reset() for every timer interrupt.
