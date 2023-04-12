@@ -103,13 +103,13 @@ Krnl use  timer 2 på en uno så pin 3,11 kan ikke bruges til PWM
 
 
 For Arduino MEGA  (2560 cpu)we do have 6 timers
-timer PWM
-0  4,13
-1  11,12
-2  9,10
-3  2,3,5
-4  6,7,8
-5  44,45,46
+|timer PWM
+|0 | 4,13 |
+|1 | 11,12
+|2 | 9,10 |
+|3 | 2,3,5 |
+|4 | 6,7,8  |
+|5 | 44,45,46 |
 
 Krnl uses timer 2 on mega so you canrt use pwm 9,10 on a mega when you are running krnl 
 
