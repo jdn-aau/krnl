@@ -96,16 +96,20 @@ AnalogWrite (PWM) on uno and mega(2560)
 
 timer analogWrite Pin(PWM)
 
+|timer | PWM |
+| --- | --- |
 | 0  |   5,6 | 
 | 1   |  9,10 | 
 | 2   |  3,11 | 
+
 
 Krnl use  timer 2 på en uno så pin 3,11 kan ikke bruges til PWM
 
 
 For Arduino MEGA  (2560 cpu)we do have 6 timers
 
-|timer PWM |
+|timer | PWM |
+| --- | --- |
 |0 | 4,13 |
 |1 | 11,12
 |2 | 9,10 |
