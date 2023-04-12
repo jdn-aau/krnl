@@ -39,7 +39,7 @@ It can be changed in the c source awhere i
 
 June 2016 - added watch dog timer - see below
 
-Some highlights
+## Some highlights
 ---------------
 
 last news
@@ -62,6 +62,7 @@ Jan 2021 - std timer0 for all AVRs CPU and hearbeat is 1msec
  - supports all atmega variants I have had available (168,328,1280,2560 - uno, duemillanove, mega 1280 and 2560)
 Some characteristics:
 
+## Scheduling
 - preemptive scheduling 
  - Basic heart beat at 1 kHz. KRNL can have heeartbeat in quants of milli seconds
  - static priority scheme
@@ -79,7 +80,9 @@ Some characteristics:
 -- 0 if signal/message has been delivered and receiever was present and was moved to activeQ
 -- -1 if max limit of semaphore/msg Q has been exceeded 
 
-- timers
+Krnl todo also offer cooperative multitasking
+
+## Timers
  - krnl can be configures to use tmr 1,2 and for mega also 3,4,5 for running krnl tick
  - For timer 0 you should take care of millis and it will require some modifications in arduino lib
  - see krnl.h for implications (like 
@@ -90,7 +93,7 @@ Some characteristics:
  - 16 bit timers count down is 1 millisecond for 62.5 count
  - - example 10 msec ~ 625 countdown == precise :-)
 
-PWM output
+## PWM output
 
 AnalogWrite (PWM) on uno and mega(2560) 
 
@@ -119,7 +122,7 @@ For Arduino MEGA  (2560 cpu)we do have 6 timers
 
 Krnl uses timer 2 on mega so you canrt use pwm 9,10 on a mega when you are running krnl 
 
-- Watchdog timer
+## Watchdog timer
 From vrs 2016056 the timer interrupt do issue a wdt_reset() for every timer interrupt.
 Krnl can run sys tick at 1-10,20,30,40,... msec. 
 If tick speed slower than 10 msec is selected krnl runs a 10 msec tick speed and drive the krnl code in fraction hereof.
@@ -177,7 +180,7 @@ Timer3, Timer4, Timer5: Timer 3,4,5 are only available on Arduino Mega boards.
 - These timers are all 16bit timers.
 
 
-Install from github:
+## Install from github:
 
 1) cd whatever/sketchbook/libraries   - see Preferences for path to sketchbook
 2) git clone https://github.com/jdn-aau/krnl.git
@@ -201,13 +204,13 @@ You can select heartbeat between 1 and 32767 milliseconds in 1 msec steps.
 
 - Timer0 - An 8 bit timer used by Arduino functions delay(), millis() and micros(). BEWARE
 - Timer1 - A 16 bit timer used by the Servo() library
-- Timer2 - An 8 bit timer used by the Tone() library
+- Timer2 - An 8 bit timer used by the Tone() library and PWM
 - Timer3,4,5 16 bits
     
     
 ... from http://arduino-info.wikispaces.com/Timers-Arduino
 
-- Servo Library uses Timer1. 
+### Servo Library uses Timer1. 
 - -  You can’t use PWM on Pin 9, 10 when you use the Servo Library on an Arduino. 
 - -  For Arduino Mega it is a bit more difficult. The timer needed depends on the number of servos. 
 - -  Each timer can handle 12 servos. 
@@ -223,7 +226,7 @@ You can select heartbeat between 1 and 32767 milliseconds in 1 msec steps.
 - tone() function uses at least timer2. 
 - -  You can’t use PWM on Pin 3,11 when you use the tone() function an Arduino and Pin 9,10 on Arduino Mega.
 
-(c)
+## (c)
 * "THE BEER-WARE LICENSE" (frit efter PHK)           *
  * <jdn@es.aau.dk> wrote this file. As long as you    *
  * retain this notice you can do whatever you want    *
