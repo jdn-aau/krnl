@@ -205,6 +205,6 @@ You can select heartbeat between 1 and 32767 milliseconds in 1 msec steps.
 
 Happy hacking
 
-See also http://jens.dk/edu/doc/arduino/krnl  - most recent vrs is on github - always
+See also http://jensd.dk/edu/doc/arduino/krnl  - most recent vrs is on github - always
 
 /Jens
