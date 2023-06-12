@@ -13,13 +13,10 @@
  *       Author: jdn                                   *
  *      final sep 2022                                 *
  *                                                     *
- *******************************************************
- * 2022 ..
- * 2023 
  *  this version adapted for Arduino
  *
  *  (C) 2012,2013,2014
- *     2017,2018,2019,2021,2022
+ *     2017,2018,2019,2021,2022,2023
  *
  *
  * IF YOU ARE LUCKY LOOK HERE
@@ -65,9 +62,9 @@
 #ifndef KRNL
 #define KRNL
 
-// KRNLBUG ACTIVATE BREAK OUT FUNCTIONS
-// Look in krnl.c lines 13xx
-#define KRNLBUG
+
+  
+#define KRNLBUG // KRNLBUG ACTIVATE BREAK OUT FUNCTIONS
 
 // BACKSTOPPER wraps a looping fct around your task so it will just restart
 // like loop function
@@ -83,6 +80,7 @@
 //https://www.geeksforgeeks.org/readers-writers-problem-writers-preference-solution/?ref=rp
 //https://www.geeksforgeeks.org/readers-writers-problem-set-1-introduction-and-readers-preference-solution/
 // https://www.tutorialspoint.com/readers-writers-problem
+
 //#define READERWRITER
 
 // Define watchdog timer and period

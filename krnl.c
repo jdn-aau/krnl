@@ -11,21 +11,11 @@
  *                                                     *
  *       March 2015,2016,..,2018                       *
  *       Author: jdn                                   *
- *      final  Apr. 2023                               *
+ *       Apr. 2023                                     *
  *.                                                    *
- *******************************************************
-
-  you are watching krnl.c
  
-        March 2015,2016,..,2018
-        Author: jdn
-        final sep 2022
-
-        2022 ..
-   this version adapted for Arduino
-
-   (C) 2012,2013,2014
-      2017,2018,2019,2021,2022
+      (C) 2012,2013,2014
+        2017,2018,2019,2021,2022,2023
 
 
   IF YOU ARE LUCKY LOOK HERE
@@ -80,7 +70,7 @@ k_enable_wdt
 
 #include <stdlib.h>
 
-// CPU frequency - for adjusting delays
+// CPU frequency 
 #if (F_CPU == 8000000)
 #pragma message("krnl detected 8 MHz")
 #endif
@@ -89,21 +79,21 @@ k_enable_wdt
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 
-/*
-    #ifdef __cplusplus
-    extern "C" {
-    #endif
-*/
-
+ 
 /* which timer to use for krnl heartbeat
     timer 0 ( 8 bit) is normally used by millis - avoid !
         or modify TIMER0 in wiring.c
     timer 1 (16 bit)  
-    timer 2 ( 8 bit)  DEFAULT
+    timer 2 ( 8 bit)  DEFAULT for uno and mega
     timer 3 (16 bit) 1280/1284P/2560 only (MEGA)
     timer 4 (16 bit) 1280/2560 only (MEGA)
     timer 5 (16 bit) 1280/2560 only (MEGA)
 */
+
+//---------------------------------------------------------------------------
+//     TIME CONFIG REGISTERS
+//     TIME CONFIG REGISTERS
+//---------------------------------------------------------------------------
 
 #if (KRNLTMR == 0)
 JDN SIGER NOGO IN SIMPLIFY VRS
@@ -125,9 +115,19 @@ JDN SIGER NOGO IN SIMPLIFY VRS
     #define DIVV 15.625
     #define DIVV8 7.812
 */
+
+//---------------------------------------------------------------------------
+//   TIMER 1
+//---------------------------------------------------------------------------
+
+
 #elif (KRNLTMR == 1)
 
 empty
+
+//---------------------------------------------------------------------------
+//   TIMER 2  - STANDARD - NB check for conflict with tone,pwm etc
+//---------------------------------------------------------------------------
 
 #elif (KRNLTMR == 2)
 
@@ -148,6 +148,10 @@ empty
 
 #define PRESCALE  ( ( 1<< CS22) | (1 << CS21) | ( 1<< CS20))
 
+//---------------------------------------------------------------------------
+//   TIMER 3
+//---------------------------------------------------------------------------
+
 #elif (KRNLTMR == 3)
 
 // 32u4
@@ -164,6 +168,10 @@ empty
 #define CNT_1MSEC 65520
 #define CNT_10MSEC 65381
   
+//---------------------------------------------------------------------------
+//   TIMER 4
+//---------------------------------------------------------------------------
+
 #elif (KRNLTMR == 4)
 
 #pragme err "tbf 4"
@@ -179,13 +187,12 @@ empty
 
 #endif
 
-// ---------- KRNL VARS ----------------
-// ---------- KRNL VARS ----------------
-// ---------- KRNL VARS ----------------
-// ---------- KRNL VARS ----------------
-
+//---------------------------------------------------------------------------
+//   KRNL VARIABLES
+//   KRNL VARIABLES
+//---------------------------------------------------------------------------
  
-    struct k_t *task_pool, // array of descriptors for tasks
+struct k_t *task_pool, // array of descriptors for tasks
     *sem_pool,             // .. for semaphores
     AQ,                    // Q head for active Q
     *pmain_el,             // procesdecriptor for main eq dummy
@@ -195,16 +202,16 @@ empty
 
 struct k_msg_t *send_pool; // ptr to array for msg sem pool
 
-int k_task, k_sem, k_msg; // how many did you request in k_init of descriptors ?
-char nr_task = 0, nr_sem = 0, nr_send = 0; // counters for created KeRNeL items
+
+
+
+
+
+int k_task, k_sem, k_msg;                  // From k_init 
+char nr_task = 0, nr_sem = 0, nr_send = 0; // counters for created elements 
 
 volatile char k_running = 0, k_err_cnt = 0;
 
-#ifdef  WDT_TIMER
-
-volatile char k_wdt_enabled = 1;
-
-#endif
 volatile unsigned char tcntValue; // counters for timer system
 unsigned long k_millis_counter = 0;
 unsigned int k_tick_size;
@@ -214,9 +221,20 @@ unsigned char k_coopFlag=0;
 int tmr_indx; // for travelling Qs in tmr isr
 
 
-// --------- ENDE KRNL VARS --------------
-// --------- ENDE KRNL VARS --------------
-// --------- ENDE KRNL VARS --------------
+//---------------------------------------------------------------------------
+//   WDT 
+//---------------------------------------------------------------------------
+
+#ifdef  WDT_TIMER
+
+volatile char k_wdt_enabled = 1;
+
+#endif
+
+
+//---------------------------------------------------------------------------
+//   Queue OPerations (activeQ, semQ,...)
+//---------------------------------------------------------------------------
 
 //---QOPS--- double chained lists with qhead as a element
 /*      -<------<-------<--------<---------<------------<-
@@ -228,12 +246,16 @@ int tmr_indx; // for travelling Qs in tmr isr
 * 
 */
 
-void enQ(struct k_t *Q, struct k_t *el) {
+// add element in end of Q ==just "before" q-head
+
+void enQ(struct k_t *Q, struct k_t *el) {  
   el->next = Q;
   el->pred = Q->pred;
   Q->pred->next = el;
   Q->pred = el;
 }
+
+// remove element from a queue
 
 struct k_t *deQ(struct k_t *el) {
   el->pred->next = el->next;
@@ -241,6 +263,8 @@ struct k_t *deQ(struct k_t *el) {
 
   return (el);
 }
+
+// insert element in Q acc to priority  (1 ==highest prio)
 
 void prio_enQ(struct k_t *Q, struct k_t *el) {
   char prio = el->prio;
