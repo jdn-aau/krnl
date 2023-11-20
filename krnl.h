@@ -1164,7 +1164,7 @@ void __attribute__((weak)) k_sem_wait(unsigned char nr, int val);
 #ifdef KRNLBUG
 void __attribute__((weak)) k_send_Q_clip(unsigned char nr, int nrClip);
 #endif
-
+ 
 struct k_msg_t *k_crt_send_Q(int nr_el, int el_size, void *pBuf);
 
 /**
@@ -1333,8 +1333,25 @@ int k_stk_chk(struct k_t *t);
    @param[in] t  Ptr to taskdescriptor. If NULL it is yourself
    @return: amount of unused stak(in bytes)
    @remark: a watermark philosophy is used
+   @remark can be called from ISR . iif userapce you must disable intr
+ **/
+int ki_unused_stak(struct k_t *t);
+
+/**
+   Returns amount of unused stak
+   @param[in] t  Ptr to taskdescriptor. If NULL it is yourself
+   @return: amount of unused stak(in bytes)
+   @remark: a watermark philosophy is used
  **/
 int k_unused_stak(struct k_t *t);
+ 
+ /**
+   Returns amount of unused stak for running task
+   @return: amount of unused stak(in bytes)
+   @remark: a watermark philosophy is used
+   @remark can be called from ISR . iif userapce you must disable intr
+ **/
+int ki_my_unused_stak();
 
 /**
  * round robbin
