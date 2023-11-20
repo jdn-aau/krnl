@@ -287,6 +287,8 @@ void prio_enQ(struct k_t *Q, struct k_t *el) {
 the blockug time do not count
 Can be use for simulate CPU usage
 */
+void delayMicroseconds(unsigned long t);
+
 void k_eat_msec(unsigned int eatTime) {
   while (10 < eatTime) {
     delayMicroseconds(10000);
@@ -499,7 +501,24 @@ int k_sleep(int time) {
     return 0;
 }
 
-int k_unused_stak(struct k_t *t) {
+int ki_my_unused_stak() {
+  int i;
+  char *pstk;
+
+   pstk = (char *)(pRun->cnt1);
+
+  // look for stack paint
+  i = 0;
+  while (*pstk == STAK_HASH) {
+    pstk++;
+    i++;
+  }
+
+  return (i);
+}
+
+
+int ki_unused_stak(struct k_t *t) {
   int i;
   char *pstk;
 
@@ -510,17 +529,25 @@ int k_unused_stak(struct k_t *t) {
     pstk = (char *)(pRun->cnt1);
   }
 
-  DI();
   // look for stack paint
   i = 0;
   while (*pstk == STAK_HASH) {
     pstk++;
     i++;
   }
-  EI();
 
   return (i);
 }
+
+int k_unused_stak(struct k_t *t) {
+  int i;
+
+  DI();
+  i= ki_unused_stak(t);
+  EI();
+  return (i);
+}
+
 
 int k_set_prio(char prio) {
   int i;
@@ -1320,7 +1347,7 @@ ISR(KRNLTMRVECTOR, ISR_NAKED) // naked so we have to supply with prolog and
   #elif (K_TICK == 10)
     TCNT2 = CNT_10MSEC; // Reload the timer  10 msec
   #else
-  #pragma err "bad K_TICK - you can only select 1 or 10
+  #pragma err "bad K_TICK - you can only select 1 or 10" 
   #endif
  
 #ifdef WDT_TIMER
@@ -1396,6 +1423,7 @@ void __attribute__((weak)) k_sem_signal(unsigned char nr, int semVal) {}
 void __attribute__((weak)) k_sem_wait(unsigned char nr, int semVal) {}
 
 void __attribute__((weak)) k_send_Q_clip(unsigned char nr, int nrClip) {}
+ 
 
 #endif
 
@@ -1428,6 +1456,7 @@ void __attribute__((weak)) k_wdt_disable(void) {
   wdt_disable();
   EI();
 }
+ 
 
 /* EOF - JDN */
 

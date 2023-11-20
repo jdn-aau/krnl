@@ -19,7 +19,12 @@ void aktuer01() {
   Serial.println(loopNr);
   loopNr = loopNr + 1;
 }
-
+void aktuer02() {
+  static int loopNr = 0;
+  Serial.println("AAAAaktuer");
+  Serial.println(loopNr);
+  loopNr = loopNr + 1;
+}
 
 volatile int i = 1000;
 /**
@@ -27,10 +32,11 @@ volatile int i = 1000;
 */
 void t1(void) {
   while (1) {
-    k_sleep(1000);
+   /* k_sleep(1000);
     k_eat_msec(500);
     sampl();
     alg01();
+    */
     aktuer01();
   }
 }
@@ -40,7 +46,8 @@ void t1(void) {
 void t2() {
   while (1) {
    // digitalWrite(12, !digitalRead(13));
-    k_sleep(300);
+    //k_sleep(300);
+    aktuer02();
   }
 }
 
@@ -58,7 +65,7 @@ void setup() {
   //               |  |   |----- staksize for array s1
   //                         |-- array used for stak
   pt1 = k_crt_task(t1, 11, stak1, STKSZ);
-  pt2 = k_crt_task(t2, 10, stak2, STKSZ);
+  pt2 = k_crt_task(t2, 11, stak2, STKSZ);
 
 
   // NB-1 remember an Arduino has only 2-8 kByte RAM
