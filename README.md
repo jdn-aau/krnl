@@ -1,5 +1,7 @@
       >>>  KRNL - a small preemptive kernel for small systems <<<
        
+Dec 2023 
+
 I have found it interesting to develop an open source realtime kernel 
 
 for the Arduino platform - but is also portable to other platforms
