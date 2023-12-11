@@ -3,6 +3,9 @@
 Dec 2023  test  nr 2 i test
 
 en gang mere 
+
+MASTER
+
 I have found it interesting to develop an open source realtime kernel 
 
 for the Arduino platform - but is also portable to other platforms
