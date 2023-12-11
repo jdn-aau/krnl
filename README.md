@@ -4,7 +4,7 @@ Dec 2023  test  nr 2 i test
 
 en gang mere 
 
-MASTER
+TEST2
 
 I have found it interesting to develop an open source realtime kernel 
 
