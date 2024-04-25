@@ -1,4 +1,4 @@
-// 220216 -
+// 220216 - JDN
 #include <krnl.h>
 
 struct k_t *pTask; // pointer to task descriptor
