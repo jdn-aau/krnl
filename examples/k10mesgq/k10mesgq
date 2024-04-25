@@ -1,0 +1,135 @@
+/*
+*/
+
+
+#include <krnl.h>
+
+#define STK 100
+char a1[STK], a3[STK];
+
+#define TASKPRIO 10
+
+// TASK PART
+struct k_t *pTask1, *pTask3;  // pointer til procesbeskrivelse
+
+
+/// MESSAGE Q PART
+struct k_msg_t *msgQ2;  // reference til message Queues
+
+
+#define NRELM 3  // der er plads til tre elementer i msg Q
+
+int q2[NRELM];  // dataområde til de tre msg Qs
+
+// reference til MUTEX SEM
+// SÅ VI KAN LAVE UDELELIG ADGNAG TIL SKÆRMEN
+
+struct k_t *mutexSem;
+
+
+
+
+#define BUGPRINT(x) k_wait(mutexSem, 0), Serial.println(x), k_signal(mutexSem)
+//#define BUGPRINT
+/* or
+void bugPrint(char * x)
+{
+   k_wait(mutexSem, 0);
+   Serial.println(x);
+   k_signal(mutexSem);
+}
+
++ #define BUGPRINT(x) bugPrint(x)
+*/
+void task1() {  // send user input to msgQ2
+  char c;
+  int v = 0;
+  char tx;
+
+  while (1) {
+    // Set serial to "No Line Ending" Then you dont Cr, LF etc transmitted
+    while (Serial.available()) {
+      c = Serial.read();
+      switch (c) {
+
+        case '+':
+          v++;
+          tx = 1;
+          break;
+        case '-':
+          v--;
+          tx = 1;
+          break;
+        case 'r':
+          v = 0;  // reset
+          tx = 1;
+          break;
+        default:
+          tx = 0;
+      }
+      if (tx) {
+        if (0 == k_send(msgQ2, &v)) {
+          BUGPRINT("snd to msgQ2");
+          // yes we did get it send
+        } else {
+          BUGPRINT("no");
+        }
+      } else {
+        BUGPRINT("noData");
+      }
+    }
+  }
+}
+
+
+// task2 i a copy of task1 except for for messageQ Id
+void task3() {
+
+  int pValue = 0;
+  int procesData = 0;
+  int lostMsgSinceLastCall;
+  int errCode;
+  while (1) {
+    errCode = k_receive(msgQ2, &pValue, 500, &lostMsgSinceLastCall);  //
+
+    //errCode = k_send(msgQ3, &myOwnInt2);
+
+    procesData += pValue; // just to show something you can use + or - or r(reset) See in task1
+
+    k_wait(mutexSem, 0);  //wait until we do get semaphore
+    {
+      Serial.print("t3");
+      Serial.print(errCode);
+      Serial.print(":  ");
+      Serial.println(procesData + pValue);
+    }
+    k_signal(mutexSem);
+  }
+}
+
+
+void setup() {
+  Serial.begin(115200);
+  delay(2000);
+
+  Serial.println("just bef init part");
+
+  k_init(2, 1, 1);  // 2 task, 1 semaphores, 0 messaegQueues */
+
+  mutexSem = k_crt_sem(1, 10);
+
+  msgQ2 = k_crt_send_Q(NRELM, sizeof(int), q2);  // 10 elements of size
+
+  pTask1 = k_crt_task(task1, 15, a1, STK);
+
+  pTask3 = k_crt_task(task3, 15, a3, STK);
+
+  Serial.println("just bef k_start");
+
+  k_start(); /* start krnl timer speed 1 milliseconds*/
+
+  Serial.println("bad");
+}
+
+void loop() {
+}
