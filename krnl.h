@@ -73,7 +73,7 @@
 
 // if defined you will stop in backstopper, else you will jump back to task s
 // see comments about local vars above
-#define STOP_IN_BACKSTOPPER
+//#define STOP_IN_BACKSTOPPER
 
 // IF YOU WANT READER WRITER LOCK THEN DEFINE
 // experimental - no guarantee

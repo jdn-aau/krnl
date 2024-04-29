@@ -226,6 +226,7 @@ int tmr_indx; // for travelling Qs in tmr isr
 //---------------------------------------------------------------------------
 
 #ifdef  WDT_TIMER
+#include<avr/wdt.h> 
 
 volatile char k_wdt_enabled = 1;
 
@@ -287,7 +288,7 @@ void prio_enQ(struct k_t *Q, struct k_t *el) {
 the blockug time do not count
 Can be use for simulate CPU usage
 */
-void delayMicroseconds(unsigned long t);
+void delayMicroseconds(unsigned int t);
 
 void k_eat_msec(unsigned int eatTime) {
   while (10 < eatTime) {
