@@ -1080,7 +1080,7 @@ int k_semval(struct k_t *sem);
  *  Clear semaphore if possible.
  *  Will set semaphore vallue 0 if possible (if no tasks is waiting)
  * @param[in] sem pointer ref to semaphore
- * @return semValue - if negative it indicates task are waiting
+ * @return semValue - if negative it indicates task are waiting and no clear
  *
  */
 int k_clear_sem(struct k_t *sem);

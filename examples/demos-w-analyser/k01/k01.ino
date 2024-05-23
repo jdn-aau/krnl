@@ -1,22 +1,77 @@
-demos-w-analyser/k01/k01.ino
-demos-w-analyser/k02/k02.ino
-demos-w-analyser/k03/k03.ino
-demos-w-analyser/k04/k04.ino
-demos-w-analyser/k05/k05.ino
-demos-w-analyser/k06/k06.ino
-demos-w-analyser/k07/k07.ino
-demos-w-analyser/k08/k08.ino
-demos-w-analyser/k09/k09.ino
-demos-w-analyser/k10/k10.ino
-demos-w-analyser/k11/k11.ino
-k01myfirsttask/k01myfirsttask.ino
-k02twotasks/k02twotasks.ino
-k03asleep/k03asleep.ino
-k03priorityequal/k03priorityequal.ino
-k04periodic-clip/k04periodic-clip.ino
-k04periodic/k04periodic.ino
-k06syncsem/k06syncsem.ino
-k07mutexsem-adv/k07mutexsem-adv.ino
-k09msgq/k09msgq.ino
-krnldebugled13/krnldebugled13.ino
-krnlsimpledebugled/krnlsimpledebugled.ino
+/* k01
+    One task printing own usage of stak
+*/
+
+#include <krnl.h>
+
+#define STKSIZE 100
+
+#define TASKPRIO 10
+
+char stak[STKSIZE];
+struct k_t * pStak;
+
+void task()
+{
+  int unusedStak;
+  while (1) {
+    k_eat_time(10);  // consume 10 millisec of CPU time
+    k_sleep(30); // sleep 100 ticks - replacement for delay bq k_seelp releases CPU
+  }
+}
+
+void setup() {
+  // for debugging
+  for (int i = 8; i < 14; i++)
+    pinMode(i, OUTPUT);
+
+  Serial.begin(9600);
+  
+  k_init(1, 0, 0); // 1 task, 0 semaphores, 0 messaegQueues */
+  pStak = k_crt_task(task, TASKPRIO, stak, STKSIZE);
+  k_start(1); /* start krnl timer speed 1 milliseconds*/
+
+  Serial.println("If you see this then krnl didnt start :-( ");
+}
+
+void loop() {}
+
+/***** DEBUGGING PART - LED ON 8-12**********/
+/************************ DEBUG CALLBACK BREAKOUT PART ****************/
+// must be extern C ! its not mandatory to supply with these  functions - only if you need
+
+extern "C" {
+
+  // called when a semphore is clipping - nr is id of semaphore and i os nr of times clip has occured
+  unsigned char led13;
+  void k_sem_clip(unsigned char nr, int i)
+  {
+    return;
+    if (nr == 2)
+      led13 |= 0x20;
+  }
+
+  void k_sem_unclip(unsigned char nr)
+  {
+    return;
+    if (nr == 2)
+      led13 = 0x00;
+  }
+
+
+  /* void k_send_Q_clip(unsigned char nr, int i) {} */
+
+  // task numbering is in creation order: dummy: 0,  first of yours 1, next 2,...
+  void k_breakout() // called every task shift from dispatcher
+  {
+    unsigned char c;
+    PORTB  = (1 << pRun->nr); // arduino uno !! specific usage of PORTB
+  }
+  // for a MEGA you have to find another port :-)
+  // port K (adc8-15) seems feasible
+  // get inspired at http://kom.aau.dk/~jdn/edu/doc/arduino/ards.html
+}
+
+
+
+
