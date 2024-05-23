@@ -944,7 +944,7 @@ struct k_t *k_crt_sem(int init_val, int maxvalue);
    @return handle to semaphore or NULL pointer
    @remark only to be called before start of KRNL
  */
-struct k_t *k_crt_mut(int ceiling_prio, int init_val, int maxvalue);
+struct k_t *k_crt_mut(char ceiling_prio, int init_val, int maxvalue);
 
 int k_mut_ceil_set(struct k_t *sem, char prio);
 

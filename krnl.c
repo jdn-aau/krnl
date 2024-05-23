@@ -746,7 +746,7 @@ int k_wait2(struct k_t *sem, int timeout, int *nrClip) {
   return retval;  // 0: ok, -1: timeout
 }
 
-struct k_t *k_crt_mut(int ceiling_prio, int init_val, int maxvalue) {
+struct k_t *k_crt_mut(char ceiling_prio, int init_val, int maxvalue) {
   struct k_t *mut;
 
   if (k_running) {
