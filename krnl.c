@@ -61,21 +61,21 @@ k_enable_wdt
 
 #ifdef WDT_TIMER
 #include <avr/wdt.h>
-
 #endif
 
-#include <avr/interrupt.h>
-
-#include <util/delay.h>
-
 #include <stdlib.h>
+//#define NULL (int)0
+
+#include <avr/interrupt.h>
+//TESTT #include <util/delay.h>
+//TESTT #include <stdlib.h>
 
 // CPU frequency
 #if (F_CPU == 8000000)
 #pragma message("krnl detected 8 MHz")
 #endif
 
-#if (KRNL_VRS != 20231127)
+#if (KRNL_VRS != 20240525)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 
@@ -202,20 +202,19 @@ empty
 
 struct k_msg_t *send_pool;  // ptr to array for msg sem pool
 
-
-
-
-
-
 int k_task, k_sem, k_msg;                   // From k_init
 char nr_task = 0, nr_sem = 0, nr_send = 0;  // counters for created elements
 
 volatile char k_running = 0, k_err_cnt = 0;
 
 volatile unsigned char tcntValue;  // counters for timer system
+
+//time
 unsigned long k_millis_counter = 0;
 unsigned int k_tick_size;
 
+
+// coop multitasking
 unsigned char k_coopFlag = 0;
 
 int tmr_indx;  // for travelling Qs in tmr isr
@@ -1343,14 +1342,9 @@ ISR(KRNLTMRVECTOR, ISR_NAKED)  // naked so we have to supply with prolog and
   if (!k_running) {
     goto exitt;
   }
-#if (K_TICK == 1)
+  
   TCNT2 = CNT_1MSEC;  // Reload the timer  1 msec
-#elif (K_TICK == 10)
-  TCNT2 = CNT_10MSEC;   // Reload the timer  10 msec
-#else
-#pragma err "bad K_TICK - you can only select 1 or 10"
-#endif
-
+ 
 #ifdef WDT_TIMER
   if (k_wdt_enabled)
     wdt_reset();
@@ -1441,7 +1435,6 @@ void __attribute__((weak)) k_free(void *m) {
   // we dont free memory
 }
 #endif
-
 
 
 void __attribute__((weak)) k_wdt_enable(int i) {
