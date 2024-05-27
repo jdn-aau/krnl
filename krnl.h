@@ -57,12 +57,16 @@
  *
  * remember to update in krnl.c !!!
  *****************************************************/
-#define KRNL_VRS 20231127
+#define KRNL_VRS 20240525
 
 #ifndef KRNL
 #define KRNL
 
-
+// IMPORTANT DEFINES !!!!
+// IMPORTANT DEFINES !!!!
+// IMPORTANT DEFINES !!!!
+// IMPORTANT DEFINES !!!!
+// IMPORTANT DEFINES !!!!
   
 #define KRNLBUG // KRNLBUG ACTIVATE BREAK OUT FUNCTIONS
 
@@ -71,9 +75,24 @@
 // BEWARE bq local variables in the task body just evaporate - as always
 #define BACKSTOPPER
 
+// if you want to use k_malloc
+// NB k_free wont release mem due to possible fragmentation
+// SO DONT USE k_free its just a fake
+// NEVER !!! free men in a rt system...
+// and please do all malloc before starting running
+
+#define DYNMEMORY
+
+// DON NOT CHANGE K_TICK - must be 1 millisec
+#define K_TICK 1
+
 // if defined you will stop in backstopper, else you will jump back to task s
 // see comments about local vars above
 //#define STOP_IN_BACKSTOPPER
+
+//#define WDT_TIMER
+#define WDT_PERIOD WDTO_1S
+
 
 // IF YOU WANT READER WRITER LOCK THEN DEFINE
 // experimental - no guarantee
@@ -86,37 +105,33 @@
 // Define watchdog timer and period
 // if you enable it it will be running at once 
 
-//#define WDT_TIMER
-#define WDT_PERIOD WDTO_1S
+// END IMPORTANT DEFINES
+// END IMPORTANT DEFINES
+// END IMPORTANT DEFINES
+// END IMPORTANT DEFINES
+// END IMPORTANT DEFINES
+// END IMPORTANT DEFINES
 
-// if you want to use k_malloc
-// NB k_free wont release mem due to possible fragmentation
-// SO DONT USE k_free its just a fake
-// NEVER !!! free men in a rt system...
-#define DYNMEMORY
 
-// Here you can   change duration of krnl tick 1 msec or 10 msec
 
-#define K_TICK 1
-//#define K_TICK 10
+// SELECTION OF HW TIMER TO BE USED FOR krnl tick
+// SELECTION OF HW TIMER TO BE USED FOR krnl tick
+// SELECTION OF HW TIMER TO BE USED FOR krnl tick
 
+// Reverted to use only timer 2 
+//HAS IMPACT ON PWM !!!! SEE BELOW !!!
 
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)  \
-    || defined(__AVR_ATmega2561__)
+    || defined(__AVR_ATmega2561__) || defined(__AVR_ATmega1284P__)\
+    || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)\
+    || defined(__AVR_ATmega328__) 
 #define KRNLTMR 2
-
-#elif defined(__AVR_ATmega1284P__)
-#define KRNLTMR 2
-
-#elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__) || defined(__AVR_ATmega328__)
-#define KRNLTMR 2
-
+ 
 #elif defined(__AVR_ATmega32U4__)
-#define KRNLTMR 3
-
+//#define KRNLTMR 3
+#error "32u4 hmm  AVR cpu type - bad place to come"
 #else
 #error "unknown AVR cpu type - bad place to come"
-
 #endif
 
 /***********************
@@ -263,6 +278,9 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 
 ***********************************************************/
 
+
+// set bit clear bit
+
 #ifndef sbi
 #define sbi(r, b) r |= _BV(b)
 #endif
@@ -277,18 +295,22 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
 
+// We do use a char forholding prio so ax max interval is 0 -> 127
+// as Qheads has lowest prio we here have the limit 0-99 for tasks
+// see below
 #define QHD_PRIO 102 // Queue head prio - for sentinel use
 #define ZOMBI_PRIO (QHD_PRIO - 1)
 #define DMY_PRIO (QHD_PRIO - 2) // dummy task prio (0 == highest prio)
+
+// no real dummytask - we do use ya old mmin loop "task""
 #define DMY_STK_SZ 90           // staksize for dummy
-#define MAIN_PRIO 50            // main task prio
+
 #define STAK_HASH 0x5c          // just a hashcode
 #define MAX_SEM_VAL 30000        // NB is also max for nr elem in msgQ !
 #define MAX_INT 0x7FFF 
  
-
-#define CEILINGFAILPRIO -4
 #define CEILINGFAILNOTCEIL -3
+#define CEILINGFAILPRIO -4
 
 /* which timer to use for krnl heartbeat
    timer 0 ( 8 bit) is normally used by millis - avoid !
@@ -301,53 +323,12 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 
 // END USER CONFIGURATION
 
-// check for legal timers
-
-
-#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__) ||               \
-    defined(__AVR_ATmega328__)
-
-#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2)
-#error "bad timer selection for krnl heartbeat(168/328/328p/...)"
-#endif
-
-#endif
-
-#if defined(__AVR_ATmega32U4__)
-
-#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 3)
-#error "bad timer selection for krnl heartbeat(32u4)...)"
-#endif
-
-#endif
-
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) ||              \
-    defined(__AVR_ATmega2561__)
-
-#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3) &&    \
-    (KRNLTMR != 4) && (KRNLTMR != 5)
-#error "bad timer for krnl heartbeat(1280/2560/2561) in krnl"
-#endif
-
-#endif
-
-#if defined(__AVR_ATmega1284P__)
-
-#if (KRNLTMR != 0) && (KRNLTMR != 1) && (KRNLTMR != 2) && (KRNLTMR != 3)
-#error "bad timer for krnl heartbeat(1284P) in krnl"
-#endif
-
-#endif
-
 //----------------------------------------------------------
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern int k_task, k_sem, k_msg;
-extern volatile char krnl_preempt_flag;
-extern char dmy_stk[DMY_STK_SZ];
 
 /***** KeRNeL data types *****/
 struct k_t {
@@ -388,8 +369,14 @@ struct k_rwlock_t {
 #endif
 /***** KeRNeL variables *****/
 
+// keep track of k alloc
+extern int k_task, k_sem, k_msg;
+extern volatile char krnl_preempt_flag;
+extern char dmy_stk[DMY_STK_SZ];
+
 extern volatile char k_wdt_enabled;
 
+// QUEUES
 extern struct k_t *task_pool, *sem_pool, AQ, // activeQ
     *pmain_el, *pAQ, *pDmy,                  // ptr to dummy task descriptor
     *pRun,                                   // ptr to running task
@@ -425,22 +412,25 @@ counter) and no tall has rampz and eind register
    REGISTER NAMING AND INTERNAL ADRESSING
 
 https://en.wikipedia.org/wiki/Atmel_AVR_instruction_set
+http://www.rjhcoding.com/avr-asm-io.php
 Register	I/O address	Data address
-SREG	0x3F	0x5F
+SREG	0x3F	        0x5F
 SP	0x3E:0x3D	0x5E:0x5D
-EIND	0x3C	0x5C
-RAMPZ	0x3B	0x5B
-RAMPY	0x3A	0x5A
-RAMPX	0x39	0x59
-RAMPD	0x38	0x58
+EIND	0x3C	        0x5C
+RAMPZ	0x3B	        0x5B
+RAMPY	0x3A	        0x5A
+RAMPX	0x39	        0x59
+RAMPD	0x38	        0x58
 A typical ATmega memory map may look like:
 
 Data address	I/O address	Contents
 0x0000 – 0x001F		Registers R0 – R31
 
 general purpose regs
-0 0
-1 1
+r0    mem addr
+...
+0 0   0x0000
+1 1   0x0001
 2 2
 3 3
 4 4
@@ -470,7 +460,7 @@ f 15
 1c 28  Yreg L
 1d 29  Yreg H
 1e 30  Zreg L
-1f 31  Zreg H
+1f 31  Zreg H  0x001F
 
 0x0020 – 0x003F	0x00 – 0x1F	I/O registers (bit-addressable)
 0x0040 – 0x005F	0x20 – 0x3F	I/O registers (not bit-addressable)
@@ -495,8 +485,16 @@ f 15
 
 #define lo8(X) ((unsigned char)((unsigned int)(X)))
 #define hi8(X) ((unsigned char)((unsigned int)(X) >> 8))
+ 
+#define DI() __asm__ volatile("cli")
+#define EI() __asm__ volatile("sei")
+#define RETI() __asm__ volatile("reti")
 
 extern volatile char k_bug_on;
+
+// IF KRLBUG IS DEFINED THEN breakout is called for every time a taskshift appears
+// IF KRLBUG IS DEFINED THEN breakout is called for every time a taskshift appears
+
 #ifdef KRNLBUG   
 #define K_CHG_STAK()                                                           \
                                                                                \
@@ -521,26 +519,15 @@ extern volatile char k_bug_on;
 
 #endif                                                                     
  
-// MISSING no code 1284p
+ 
 
 /* below: r1 must/shall always assumed to be zero in c code (gcc issue I think)
- */
+*/
 
 // AVR / ARDUINO PART PUSH POP
 // 0x3b RAMPZ extended z-pointer register
 // 0x3c EIND extended indirect register
 
-#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) ||              \
-    defined(__AVR_ATmega2561__) || defined(__AVR_ATmega1284P__) ||             \
-    defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) ||               \
-    defined(__AVR_ATmega328__) || defined(__AVR_ATmega32U4__) ||               \
-    defined(__AVR_ATmega328PB__)
-
-#define DI() __asm__ volatile("cli")
-#define EI() __asm__ volatile("sei")
-#define RETI() __asm__ volatile("reti")
-
-#endif
 
 /* below: r1 must/shall always assumed to be zero in c code (gcc issue I think)
  */
@@ -797,16 +784,6 @@ extern volatile char k_bug_on;
 #error "unknown arch"
 #endif
 
-#define d8t13                                                                  \
-  for (int i = 8; i < 14; i++) {                                               \
-    pinMode(i, OUTPUT);                                                        \
-    digitalWrite(i, LOW);                                                      \
-  }
-
-#define kbreakout                                                              \
-  extern "C" {                                                                 \
-  void k_breakout() { PORTB = (1 << pRun->nr); }                               \
-  }
 
 // function prototypes
 // naming convention
