@@ -632,12 +632,12 @@ int k_set_sem_timer(struct k_t *sem, int val) {
   // there is no k_stop_sem_timer fct just call with val== 0 for stopping timer
   // fct
 
-  if (val <= 0) {
+  if (val < 0) {
     return -1;
   }
 
   DI();
-  if (0 < sem->cnt1) {
+  if (0 <= sem->cnt1) {
     sem->cnt1 = 0;  // reset
   }
 
