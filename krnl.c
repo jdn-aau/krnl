@@ -1439,15 +1439,19 @@ void __attribute__((weak)) k_free(void *m) {
 
 void __attribute__((weak)) k_wdt_enable(int i) {
   DI();
+  #ifdef WDT_TIMER
   wdt_enable(i);
   k_wdt_enabled = 1;
+  #endif
   EI();
 }
 
 void __attribute__((weak)) k_wdt_disable(void) {
   DI();
+  #ifdef WDT_TIMER
   k_wdt_enabled = 0;
   wdt_disable();
+  #endif
   EI();
 }
 

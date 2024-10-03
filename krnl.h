@@ -90,7 +90,8 @@
 // see comments about local vars above
 //#define STOP_IN_BACKSTOPPER
 
-//#define WDT_TIMER
+#define WDT_TIMER
+
 #define WDT_PERIOD WDTO_1S
 
 
