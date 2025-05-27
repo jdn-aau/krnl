@@ -1,5 +1,6 @@
 /*******************************************************
-**                                                    *
+* JDN:DCL  auth plain C RT Arduino lib                         *
+*                                                     *
  *                                                     *
  *             | |/ /___|  _ \| \ | | ___| |           *
  *             | ' // _ \ |_) |  \| |/ _ \ |           *
@@ -55,6 +56,92 @@ versions
 k_enable_wdt
 
 ************************************************************************/
+/*
+https://www.arduinoslovakia.eu/application/timer-calculator
+xxxxxxxxxxxxxxxxxxxxxx
+
+328, 328P timer 2
+// AVR Timer CTC Interrupts Calculator
+// v. 8
+// http://www.arduinoslovakia.eu/application/timer-calculator
+// Microcontroller: ATmega328P
+// Created: 2025-05-09T09:12:42.511Z
+
+#define ledPin 13
+
+void setupTimer2() {
+  noInterrupts();
+  // Clear registers
+  TCCR2A = 0;
+  TCCR2B = 0;
+  TCNT2 = 0;
+
+  // 1000 Hz (16000000/((124+1)*128))
+  OCR2A = 124;
+  // CTC
+  TCCR2A |= (1 << WGM21);
+  // Prescaler 128
+  TCCR2B |= (1 << CS22) | (1 << CS20);
+  // Output Compare Match A Interrupt Enable
+  TIMSK2 |= (1 << OCIE2A);
+  interrupts();
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  setupTimer2();
+}
+
+void loop() {
+}
+
+ISR(TIMER2_COMPA_vect) {
+  digitalWrite(ledPin, digitalRead(ledPin) ^ 1);
+}
+xxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+2560 2561 timer5
+
+// AVR Timer CTC Interrupts Calculator
+// v. 8
+// http://www.arduinoslovakia.eu/application/timer-calculator
+// Microcontroller: ATmega2560
+// Created: 2025-05-09T09:13:08.041Z
+
+#define ledPin 13
+
+void setupTimer5() {
+  noInterrupts();
+  // Clear registers
+  TCCR5A = 0;
+  TCCR5B = 0;
+  TCNT5 = 0;
+
+  // 1000 Hz (16000000/((249+1)*64))
+  OCR5A = 249;
+  // CTC
+  TCCR5B |= (1 << WGM52);
+  // Prescaler 64
+  TCCR5B |= (1 << CS51) | (1 << CS50);
+  // Output Compare Match A Interrupt Enable
+  TIMSK5 |= (1 << OCIE5A);
+  interrupts();
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  setupTimer5();
+}
+
+void loop() {
+}
+
+ISR(TIMER5_COMPA_vect) {
+  digitalWrite(ledPin, digitalRead(ledPin) ^ 1);
+}
+
+*/
+
 
 #include "krnl.h"
 
@@ -75,10 +162,12 @@ k_enable_wdt
 #pragma message("krnl detected 8 MHz")
 #endif
 
-#if (KRNL_VRS != 20240525)
+#if (KRNL_VRS != 20250509)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
 
+
+ 
 
 /* which timer to use for krnl heartbeat
     timer 0 ( 8 bit) is normally used by millis - avoid !
@@ -163,10 +252,11 @@ empty
 #define OCRxA OCR3A
 #define TIMSKx TIMSK3
 #define TOIEx TOIE3
-#define PRESCALE ((1 << CS02) | (1 << CS01) | (1 << CS00))
+
 #define COUNTMAX 0xffff
 #define CNT_1MSEC 65520
 #define CNT_10MSEC 65381
+
 
 //---------------------------------------------------------------------------
 //   TIMER 4
@@ -186,6 +276,8 @@ empty
 #pragma err "KRNL: no valid tmr selected"
 
 #endif
+
+unsigned char preScaleVal = PRESCALE1K;  // timer2
 
   //---------------------------------------------------------------------------
   //   KRNL VARIABLES
@@ -1149,6 +1241,22 @@ void k_release(void) {
 
 // char dmy_stk[DMY_STK_SZ]; // dmy duty is nwo maintained by org main
 
+unsigned char k_set_prescaler(unsigned char preScaleParm) {
+  if (k_running) {
+     return (-1);
+   }
+  switch(preScaleParm) {
+	case 1:
+		preScaleVal = PRESCALE1K;
+		break;
+	case 4:
+		preScaleVal = PRESCALE4K;
+		break;
+	default : ;
+  }
+return preScaleVal;
+}
+
 int k_init(int nrTask, int nrSem, int nrMsg) {
   if (k_running) {
     return (-666);
@@ -1190,43 +1298,7 @@ leave:
 
 
 int k_start() {
-  /*
-  https://microcontrollerslab.com/arduino-timer-interrupts-tutorial/
-  https://wolles-elektronikkiste.de/en/timer-and-pwm-part-1-8-bit-timer0-2
   
-     FOR TIMER 2 !!!  not TIMER0(8 bit) AND NOT TIMER 1(16bit) !!
-     TCCRxB
-     48,88,168,328, 1280,2560
-     timer 0 and 2 has same prescaler config:
-     8 bit:
-     0 0 0 No clock source (Timer/Counter stopped).
-     0 0 1 clk T2S /(No prescaling)
-     0 1 0 clk T2S /8 (From prescaler)      16M/2 = 2000000 intr/sec at 1 downcount
-     0 1 1 clk T2S /32 (From prescaler)      500000 intr/sec ...
-     1 0 0 clk T2S /64 (From prescaler)      250000
-     1 0 1 clk T2S /128 (From prescaler)     125000
-     1 1 0 clk T 2 S /256 (From prescaler)    62500
-     1 1 1 clk T 2 S /1024 (From prescaler)   16M/1024=15625  eq 15.625 count down for 1
-     millisec so 255 counts ~= 80.32 milli sec timer
-
-     timer 1(328+megas), 3,4,5(megas only)
-     1280, 2560,2561 has same prescaler config :
-     FOR 16 bits !
-     prescaler in cs2 cs1 cs0
-     0   0   0   none
-     0   0   1   /1 == none
-     0   1   0   /8     2000000 intr/sec
-     0   1   1   /64     250000 intr/sec
-     1   0   0   /256     62500 intr/sec
-     1   0   1   /1024    15625 intr/sec
-     16MHz Arduino -> 16000000/1024 =  15625 intr/second at one count
-     16MHz Arduino -> 16000000/256  =  62500 ticks/second
-     -------------------------/64   = 250000 ticks/second !
-
-     NB 16 bit counter so values >= 65535 is not working
-     *************************************************************************************
-   */
-
 
   // will not start if errors during initialization
   if (k_err_cnt) {
@@ -1237,6 +1309,7 @@ int k_start() {
 
   DI();  // silencio
 
+#ifdef NEVER
   //  outdated ? JDN NASTY
 #if defined(__AVR_ATmega32U4__)
   // 32u4 have no intern/extern clock source register
@@ -1245,35 +1318,46 @@ int k_start() {
                         // I/O clock 32u4 does not have this facility
 #endif
 
+#endif
 
-  // TIMER2 I ASSUME !
+ // 328(p) timer2
+// 2560, 2561 timer5
 
-  //set PRESCALE bits cs22 cs21 cs20  to 0x05 fo clock div by 1024
-  //16MHz/1024 = 15625 kHz interrupt (or
-  // its equal to 0.064 msec pr count
-  // for 1 msec tick we shall count to 15(0.96msec) or 16(1.024msec)
-  // we prefer same freq all time instead of a leap second strategy
+DI();
+#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+// Clear registers
+  TCCR5A = 0;
+  TCCR5B = 0;
+  TCNT5 = 0;
 
+  // 1000 Hz (16000000/((249+1)*64))
+  OCR5A = 249;
+  // CTC
+  TCCR5B |= (1 << WGM52);
+  // Prescaler 64
+  TCCR5B |= (1 << CS51) | (1 << CS50);
+  // Output Compare Match A Interrupt Enable
+  TIMSK5 |= (1 << OCIE5A);
+#elif    defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)  || defined(__AVR_ATmega328__) 
+  // Clear registers
+  TCCR2A = 0;
+  TCCR2B = 0;
+  TCNT2 = 0;
 
-
-
-
-  //https://wolles-elektronikkiste.de/en/timer-and-pwm-part-1-8-bit-timer0-2
-  // (1/16000000)*1024*16 = 1,024msec
-  //  (1/16000000)*1024*157 = 10,048 msec
-
-  DI();
-  TCCRxA = 0x00;          // Wave Form Generation Mode 0: Normal Mode; OC2A disconnected
-  TCCRxB = PRESCALE;      //(1<< CS22) | (1 << CS21)| (1 << CS20);//0x05; //  CS2 CS1 CS0 set so  prescaler = 1024
-  TIMSKx = (1 << TOIEx);  // interrupt when TCNT2 is overflowed
-
-  TCNTx = CNT_1MSEC;
-
-
-  //  let us start the show
-  TIMSKx |= (1 << TOIEx);  // enable interrupt
-
-
+  // 1000 Hz (16000000/((124+1)*128))
+  OCR2A = 124;
+  // CTC
+  TCCR2A |= (1 << WGM21);
+  // Prescaler 128
+  TCCR2B |= (1 << CS22) | (1 << CS20);
+  // Output Compare Match A Interrupt Enable
+  TIMSK2 |= (1 << OCIE2A);
+#else
+ERROR
+#endif
+EI();
+  
+ 
   pRun = pmain_el;  // just for ki_task_shift
 
   k_running = 1;
@@ -1334,8 +1418,15 @@ int k_tmrInfo(void) {
 
 struct k_t *pE;  // used only in ISR as "temporary var"
 
-ISR(KRNLTMRVECTOR, ISR_NAKED)  // naked so we have to supply with prolog and
+#if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+ISR(TIMER5_COMPA_vect, ISR_NAKED)
+#elif    defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)  || defined(__AVR_ATmega328__) 
+ISR(TIMER2_COMPA_vect, ISR_NAKED)  // naked so we have to supply with prolog and
                                // epilog (push pop stack of regs)
+#else
+ERROR1
+#endif
+
 {
   PUSHREGS();  // no local vars ! I think
 
@@ -1459,3 +1550,5 @@ void __attribute__((weak)) k_wdt_disable(void) {
     }
     #endif
 */
+ 
+
