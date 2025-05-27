@@ -1,3 +1,5 @@
+
+#define KRNL_VRS 20250509
 /*******************************************************
  *                                                     *
  *                                                     *
@@ -57,7 +59,7 @@
  *
  * remember to update in krnl.c !!!
  *****************************************************/
-#define KRNL_VRS 20240525
+
 
 #ifndef KRNL
 #define KRNL
@@ -294,6 +296,13 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 #endif
 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
+
+
+// TIMER 2
+
+#define PRESCALE1K ((1 << CS02) | (1 << CS01) | (1 << CS00))
+#define PRESCALE4K  ((1 << CS02) | (1 << CS01) )
+
 
 // We do use a char forholding prio so ax max interval is 0 -> 127
 // as Qheads has lowest prio we here have the limit 0-99 for tasks
@@ -834,6 +843,16 @@ void __attribute__((weak)) k_wdt_disable();
    @remark To be called within an ISR so interrupts is no disabled
 */
 unsigned long ki_millis(void);
+
+
+/**
+set prescaler to 1(1kHz) or 4(4kHz)
+* return -1 if krnl is running
+  return prescaleset if krnlis not running
+*/
+unsigned char k_set_prescaler(unsigned char prescaleSelect);
+
+
 
 /**
   Return krnl ticksize
