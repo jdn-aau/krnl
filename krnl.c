@@ -16,7 +16,7 @@
  *.                                                    *
  
       (C) 2012,2013,2014
-        2017,2018,2019,2021,2022,2023
+        2017,2018,2019,2021,2022,2023,..25
 
 
   IF YOU ARE LUCKY LOOK HERE
@@ -124,21 +124,17 @@ void setupTimer5() {
 //#define NULL (int)0
 
 #include <avr/interrupt.h>
-//TESTT #include <util/delay.h>
-//TESTT #include <stdlib.h>
-
+ 
 // CPU frequency
 #if (F_CPU == 8000000)
-#pragma message("krnl detected 8 MHz")
+#pragma message("krnl detected 8 MHz we are stopping")
+#error stopping
 #endif
 
 #if (KRNL_VRS != 20250509)
 #error "KRNL VERSION NOT UPDATED in krnl.c "
 #endif
-
-
      
-unsigned char preScaleVal = PRESCALE1K;  // timer2
 
   //---------------------------------------------------------------------------
   //   KRNL VARIABLES
@@ -1102,22 +1098,7 @@ void k_release(void) {
 
 // char dmy_stk[DMY_STK_SZ]; // dmy duty is nwo maintained by org main
 
-unsigned char k_set_prescaler(unsigned char preScaleParm) {
-  if (k_running) {
-     return (-1);
-   }
-  switch(preScaleParm) {
-	case 1:
-		preScaleVal = PRESCALE1K;
-		break;
-	case 4:
-		preScaleVal = PRESCALE4K;
-		break;
-	default : ;
-  }
-return preScaleVal;
-}
-
+ 
 int k_init(int nrTask, int nrSem, int nrMsg) {
   if (k_running) {
     return (-666);
@@ -1166,7 +1147,7 @@ int k_start() {
     return -k_err_cnt;
   }
 
-  k_tick_size = K_TICK;
+ k_tick_size = 1;
 
   DI();  // silencio
 
@@ -1198,15 +1179,11 @@ DI();
   TCCR2A = 0;
   TCCR2B = 0;
   TCNT2 = 0;
-
-  // 1000 Hz (16000000/((124+1)*128))
-  OCR2A = 124;
+  OCR2A = 124;   // 1000 Hz (16000000/((124+1)*128))
   // CTC
-  TCCR2A |= (1 << WGM21);
-  // Prescaler 128
+  TCCR2A |= (1 << WGM21);    // Prescaler 128
   TCCR2B |= (1 << CS22) | (1 << CS20);
-  // Output Compare Match A Interrupt Enable
-  TIMSK2 |= (1 << OCIE2A);
+  TIMSK2 |= (1 << OCIE2A);  // Output Compare Match A Interrupt Enable
 #else
 ERROR
 #endif
@@ -1230,11 +1207,16 @@ int k_stop() {
   /*
      main is dummy task so it gives no meaning to stop krnl this way
      The best and dirty thing is
-     her DI();  while (1);
-   */
 
   // DANGEROUS - handle with care - no isr timer control etc etc
   // I WILL NEVER USE IT
+     
+     DI();  
+     while (1);
+
+   */
+
+
   DI();  // silencio
   if (!k_running) {
     EI();

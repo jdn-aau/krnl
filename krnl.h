@@ -92,7 +92,7 @@
 // see comments about local vars above
 //#define STOP_IN_BACKSTOPPER
 
-//#define WDT_TIMER
+//#define WDT_TIMER    // uncomment to activate
 #define WDT_PERIOD WDTO_1S
 
 
@@ -280,29 +280,10 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 
 ***********************************************************/
 
-
-// set bit clear bit
-
-#ifndef sbi
-#define sbi(r, b) r |= _BV(b)
-#endif
-
-#ifndef cbi
-#define cbi(r, b) r &= ~_BV(b)
-#endif
-
-#ifndef rbi
-#define cbi(r, b) r &= ~_BV(b)
-#endif
-
+ 
 // >>>>>>>>>>>>>>>>> USER CONFIGURATION PART <<<<<<<<<<<<<<<<<<
 
-
-// TIMER 2
-
-#define PRESCALE1K ((1 << CS02) | (1 << CS01) | (1 << CS00))
-#define PRESCALE4K  ((1 << CS02) | (1 << CS01) )
-
+ 
 
 // We do use a char forholding prio so ax max interval is 0 -> 127
 // as Qheads has lowest prio we here have the limit 0-99 for tasks
@@ -324,7 +305,7 @@ defined(__AVR_ATtiny84__) ISR(TIM0_OVF_vect) 769769876987 lalalalalalal #else
 /* which timer to use for krnl heartbeat
    timer 0 ( 8 bit) is normally used by millis - avoid !
    timer 1 (16 bit)
-   timer 2 ( 8 bit) not 32u4
+   timer 2 ( 8 bit) not impl on 32u4
    timer 3 (16 bit) 32u4/1280/1284p/2560 only
    timer 4 (16 bit) 1280/2560 only (MEGA)
    timer 5 (16 bit) 1280/2560 only (MEGA)
@@ -843,23 +824,6 @@ void __attribute__((weak)) k_wdt_disable();
    @remark To be called within an ISR so interrupts is no disabled
 */
 unsigned long ki_millis(void);
-
-
-/**
-set prescaler to 1(1kHz) or 4(4kHz)
-* return -1 if krnl is running
-  return prescaleset if krnlis not running
-*/
-unsigned char k_set_prescaler(unsigned char prescaleSelect);
-
-
-
-/**
-  Return krnl ticksize
-  As for now it can be 1 (msec) or 10(msec)
-  BEWARE All delays are in quants of tick_size..
-*/
-int k_ticksize(void);
 
 /**
    Returns nr of milliseconds since krnl was started by k_start
