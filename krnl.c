@@ -57,6 +57,11 @@ k_enable_wdt
 
 ************************************************************************/
 /*
+
+FOR OLD HISTORY  
+
+328 variants now use TIMER 2
+2560 variants use TIMER 5
 https://www.arduinoslovakia.eu/application/timer-calculator
 xxxxxxxxxxxxxxxxxxxxxx
 
@@ -86,30 +91,7 @@ void setupTimer2() {
   TIMSK2 |= (1 << OCIE2A);
   interrupts();
 }
-
-void setup() {
-  pinMode(ledPin, OUTPUT);
-  setupTimer2();
-}
-
-void loop() {
-}
-
-ISR(TIMER2_COMPA_vect) {
-  digitalWrite(ledPin, digitalRead(ledPin) ^ 1);
-}
-xxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-2560 2561 timer5
-
-// AVR Timer CTC Interrupts Calculator
-// v. 8
-// http://www.arduinoslovakia.eu/application/timer-calculator
-// Microcontroller: ATmega2560
-// Created: 2025-05-09T09:13:08.041Z
-
-#define ledPin 13
-
+ 
 void setupTimer5() {
   noInterrupts();
   // Clear registers
@@ -127,19 +109,7 @@ void setupTimer5() {
   TIMSK5 |= (1 << OCIE5A);
   interrupts();
 }
-
-void setup() {
-  pinMode(ledPin, OUTPUT);
-  setupTimer5();
-}
-
-void loop() {
-}
-
-ISR(TIMER5_COMPA_vect) {
-  digitalWrite(ledPin, digitalRead(ledPin) ^ 1);
-}
-
+ 
 */
 
 
@@ -167,116 +137,7 @@ ISR(TIMER5_COMPA_vect) {
 #endif
 
 
- 
-
-/* which timer to use for krnl heartbeat
-    timer 0 ( 8 bit) is normally used by millis - avoid !
-        or modify TIMER0 in wiring.c
-    timer 1 (16 bit)  
-    timer 2 ( 8 bit)  DEFAULT for uno and mega
-    timer 3 (16 bit) 1280/1284P/2560 only (MEGA)
-    timer 4 (16 bit) 1280/2560 only (MEGA)
-    timer 5 (16 bit) 1280/2560 only (MEGA)
-*/
-
-//---------------------------------------------------------------------------
-//     TIME CONFIG REGISTERS
-//     TIME CONFIG REGISTERS
-//---------------------------------------------------------------------------
-
-#if (KRNLTMR == 0)
-JDN SIGER NOGO IN SIMPLIFY VRS
-#pragme err "tbf 0 "
-
-// normally not goood bq of arduino sys timer is on timer 0so you wil get a
-// compile error 8 bit timer !!!
-//#define KRNLTMRVECTOR TIMER0_OVF_vect
-/* we use setting from original timer0
-    #define TCNTx TCNT0
-    #define TCCRxA TCCR0A
-    #define TCCRxB TCCR0B
-    #define TCNTx TCNT0
-    #define OCRxA OCR0A
-    #define TIMSKx TIMSK0
-    #define TOIEx TOIE0
-    #define PRESCALE 0x07
-    #define COUNTMAX 0xff
-    #define DIVV 15.625
-    #define DIVV8 7.812
-*/
-
-//---------------------------------------------------------------------------
-//   TIMER 1
-//---------------------------------------------------------------------------
-
-
-#elif (KRNLTMR == 1)
-
-empty
-
-//---------------------------------------------------------------------------
-//   TIMER 2  - STANDARD - NB check for conflict with tone,pwm etc
-//---------------------------------------------------------------------------
-
-#elif (KRNLTMR == 2)
-
-// 8 bit timer !!! STANDARD
-// standard for krnl CHECK which pwm, tone etc is on this timer
-
-#pragma warn "krnl timer on timer 2 - check PWM "
-#define KRNLTMRVECTOR TIMER2_OVF_vect
-#define TCNTx TCNT2
-#define TCCRxA TCCR2A
-#define TCCRxB TCCR2B
-#define TCNTx TCNT2
-#define OCRxA OCR2A
-#define TIMSKx TIMSK2
-#define TOIEx TOIE2
-#define CNT_1MSEC 240
-#define CNT_10MSEC 99
-
-#define PRESCALE ((1 << CS22) | (1 << CS21) | (1 << CS20))
-
-//---------------------------------------------------------------------------
-//   TIMER 3
-//---------------------------------------------------------------------------
-
-#elif (KRNLTMR == 3)
-
-// 32u4
-#define KRNLTMRVECTOR TIMER3_OVF_vect
-#define TCNTx TCNT3
-#define TCCRxA TCCR3A
-#define TCCRxB TCCR3B
-#define TCNTx TCNT3
-#define OCRxA OCR3A
-#define TIMSKx TIMSK3
-#define TOIEx TOIE3
-
-#define COUNTMAX 0xffff
-#define CNT_1MSEC 65520
-#define CNT_10MSEC 65381
-
-
-//---------------------------------------------------------------------------
-//   TIMER 4
-//---------------------------------------------------------------------------
-
-#elif (KRNLTMR == 4)
-
-#pragme err "tbf 4"
-
-#elif (KRNLTMR == 5)
-
-
-#pragme err "tbf 5"
-
-#else
-
-#pragma err "KRNL: no valid tmr selected"
-
-#endif
-
+     
 unsigned char preScaleVal = PRESCALE1K;  // timer2
 
   //---------------------------------------------------------------------------
@@ -1296,7 +1157,7 @@ leave:
   return k_err_cnt;
 }
 
-
+// https://www.arduinoslovakia.eu/application/timer-calculator
 int k_start() {
   
 
@@ -1309,22 +1170,13 @@ int k_start() {
 
   DI();  // silencio
 
-#ifdef NEVER
-  //  outdated ? JDN NASTY
-#if defined(__AVR_ATmega32U4__)
-  // 32u4 have no intern/extern clock source register
-#else
-                        // should be default ASSR &= ~(1 << AS2);   // Select clock source: internal
-                        // I/O clock 32u4 does not have this facility
-#endif
-
-#endif
-
  // 328(p) timer2
 // 2560, 2561 timer5
 
 DI();
 #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
+// https://www.arduinoslovakia.eu/application/timer-calculator
+#define KRNLTMR 5
 // Clear registers
   TCCR5A = 0;
   TCCR5B = 0;
@@ -1338,7 +1190,10 @@ DI();
   TCCR5B |= (1 << CS51) | (1 << CS50);
   // Output Compare Match A Interrupt Enable
   TIMSK5 |= (1 << OCIE5A);
+
 #elif    defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)  || defined(__AVR_ATmega328__) 
+// https://www.arduinoslovakia.eu/application/timer-calculator
+#define KRNLTMR 2
   // Clear registers
   TCCR2A = 0;
   TCCR2B = 0;
@@ -1355,11 +1210,8 @@ DI();
 #else
 ERROR
 #endif
-EI();
-  
  
   pRun = pmain_el;  // just for ki_task_shift
-
   k_running = 1;
 
   ki_task_shift();  // bye bye from here
@@ -1433,8 +1285,6 @@ ERROR1
   if (!k_running) {
     goto exitt;
   }
-  
-  TCNT2 = CNT_1MSEC;  // Reload the timer  1 msec
  
 #ifdef WDT_TIMER
   if (k_wdt_enabled)
@@ -1452,33 +1302,32 @@ ERROR1
 
   pE = sem_pool;  // Semaphore timer - check timers on semaphores
 
+  // Look for timeout on semaphores
   for (tmr_indx = 0; tmr_indx < nr_sem; tmr_indx++) {
     if (0 < pE->cnt2)  // timer on semaphore ?
     {
       pE->cnt2--;         // yep  decrement it
       if (pE->cnt2 <= 0)  // timeout  ?
       {
-        pE->cnt2 =
-          pE->cnt3;     // preset again - if cnt3 == 0 and >= 0 the rep timer
+        pE->cnt2 = pE->cnt3;     // preset again - if cnt3 == 0 and >= 0 the rep timer
         ki_signal(pE);  // issue a signal to the semaphore
       }
     }
     pE++;
   }
 
-  pE = task_pool;  // Chk timers on tasks - they may be one shoot waiting
 
+  // Look for activ timers on tasks
+  pE = task_pool;  // Chk timers on tasks - they may be one shoot waiting
   for (tmr_indx = 0; tmr_indx < nr_task; tmr_indx++) {
     if (0 < pE->cnt2)  // timer active on task ?
     {
       pE->cnt2--;         // yep so let us do one down count
       if (pE->cnt2 <= 0)  // timeout ? ( == 0 )
       {
-        ((struct k_t *)(pE->cnt3))
-          ->cnt1++;              // leaving sem so adjust semcount on sem
+        ((struct k_t *)(pE->cnt3))->cnt1++;              // leaving sem so adjust semcount on sem
         prio_enQ(pAQ, deQ(pE));  // and rip task of semQ and insert in activeQ
-        pE->cnt2 =
-          -1;  // indicate timeout in this semQ for the task that is restartet
+        pE->cnt2 = -1;  // indicate timeout has occured 
       }
     }
     pE++;
