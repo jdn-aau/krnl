@@ -2,10 +2,10 @@
  *
  * my own small KeRNeL adapted for Arduino
  *
- * (C) 2012,2013,2014,...,2022
+ * (C) 2012,2013,2014,...,2022,.. 2025 !
  *
  * Jens Dalsgaard Nielsen <jdn@es.aau.dk>
- * http://www.control.aau.dk/~jdn
+ * http://www.es.aau.dk  / http://jensd.dk
  * Section of Automation & Control
  * Aalborg University,
  * Denmark
@@ -28,7 +28,8 @@
  One note before starting:
 
 \section NOTE
-In standard version you can only select 1 millisecond in k_start. Otherwise it will not start
+Krnl is now always running with 1msec timer
+
 \section  a1 Before you start
 
 All initialization must be carried out after k_init and BEFORE k_start
