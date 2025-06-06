@@ -1,14 +1,21 @@
       >>>  KRNL - a small preemptive kernel for small systems <<<
        
-Dec 2023  test  nr 2 i test
+Dec 2023 
 
-en gang mere 
+June 2025 - very last final vrs ? 
 
-MASTER
-
+ 
+ 
 I have found it interesting to develop an open source realtime kernel 
 
 for the Arduino platform - but is also portable to other platforms
+
+2025
+Clean up
+328P variant on timer 2 - beware it removes some tone an dpwm channels
+2560 variant on timer 5
+
+Do alway run 1 msec kernel tick
 
 Apr 2023
 Dig some lines down to see which PWM pins you can use when running krnl.
