@@ -1,3 +1,7 @@
+#if (KRNL_VRS != 20250606)
+#error "KRNL VERSION NOT UPDATED in krnl.c "
+#endif
+   
 /*******************************************************
 * JDN:DCL  auth plain C RT Arduino lib                         *
 *                                                     *
@@ -130,11 +134,7 @@ void setupTimer5() {
 #pragma message("krnl detected 8 MHz we are stopping")
 #error stopping
 #endif
-
-#if (KRNL_VRS != 20250509)
-#error "KRNL VERSION NOT UPDATED in krnl.c "
-#endif
-     
+  
 
   //---------------------------------------------------------------------------
   //   KRNL VARIABLES
