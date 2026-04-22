@@ -2,14 +2,13 @@
 #include <krnl.h>
 //
 // sleppy waiting k_sleep("sleeptime in msec");
-//
 
 // Set t1 priority to  9 == highest priority
 // What will happen ? What do you see on the led and the measurements
 // REALTIME ?
-// change priority of t1 to 9 (higher than  t2) : does it matters ?
+// change priority of t1 to 9 (higher than t2) : does it matter?
 
-// gives a guess how cpu time is used in krnl "dummy time eating"
+// give a guess as to how cpu time is used in krnl "dummy time eating"
 
 struct k_t *p1, *p2;
 
@@ -65,13 +64,13 @@ void setup()
 	/* for (int i=8; i< 14; i++) { pinMode(i,OUTPUT); digitalWrite(i,LOW); } */
 	
 	
-	k_init(2, 0, 0); // init with space for one task
-	//         |--- no of mg Queues (0)
-	//       |----- no of semaphores (0)
-	//     |------- no of tasks (2)
+	k_init(2, 0, 0); // init with space for two tasks
+	//     |  |  |--- num of mg Queues (0)
+	//     |  |----- num of semaphores (0)
+	//     |------------- num of tasks (2)
 	
-	// priority low number higher priority than higher number
-	p1 = k_crt_task(t1, 10, s1, SS); // t1 as task, priority 9, 100 B stak
+	// priority: lower number has higher priority than higher number
+	p1 = k_crt_task(t1, 10, s1, SS); // t1 as task, priority 10, 100 B stak
 	p2 = k_crt_task(t2, 10, s2, SS); // t2 as task, priority 10, 100 B stak
 	
 	Serial.println("bef start");

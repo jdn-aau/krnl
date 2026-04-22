@@ -2,7 +2,6 @@
 #include <krnl.h>
 //
 // busy waiting all the way around - like using ya old delay
-//
 
 // Set t1 priority to  9 == highest priority
 // What will happen ? What do you see on the led and the measurements
@@ -56,12 +55,12 @@ void setup()
 	while (! Serial) ;
 	pinMode(13, OUTPUT);
 	
-	k_init(2, 0, 0); // init with space for one task
-	//         |--- no of mg Queues (0)
-	//       |----- no of semaphores (0)
-	//     |------- no of tasks (2)
+	k_init(2, 0, 0); // init with space for two tasks
+	//     |  |  |--- no of mg Queues (0)
+	//     |  |----- no of semaphores (0)
+	//     |------------- no of tasks (2)
 	
-	// priority low number higher priority than higher number
+	// priority: lower number has higher priority than higher number
 	p1 = k_crt_task(t1, 10,s1,SS); // t1 as task, priority 9, 100 B stak
 	p2 = k_crt_task(t2, 10, s2,SS); // t2 as task, priority 10, 100 B stak
 	

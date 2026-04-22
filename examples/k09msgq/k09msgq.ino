@@ -85,17 +85,20 @@ void setup() {
 	
 	Serial.println("just bef init part");
 	
-	k_init(2, 3, 1); // 2 task, 1 semaphores, 0 messaegQueues */
+	k_init(2, 3, 1);
+	//     |  |  |--- num of mg Queues (1)
+	//     |  |----- num of semaphores (3)
+	//     |------------- num of tasks (2)
 	
 	msgQ = k_crt_send_Q (10, sizeof(int),  dataBufForMsgQ);  // 10 elements of size
 	
 	pTask1 = k_crt_task(task1, 15, a1, STK);
 	pTask2 = k_crt_task(task2, 15 , a2, STK);
 	
-	timedSem1 = k_crt_sem(0, 1); // 1: start value, 10: max value (clipping)
-	timedSem2 = k_crt_sem(0, 1); // 1: start value, 10: max value (clipping)
+	timedSem1 = k_crt_sem(0, 1); // 0: start value, 1: max value (clipping)
+	timedSem2 = k_crt_sem(0, 1); // 0: start value, 1: max value (clipping)
 	
-	mutSem = k_crt_sem(1, 1); // 1: start value, 10: max value (clipping)
+	mutSem = k_crt_sem(1, 1); // 1: start value, 1: max value (clipping)
 	
 	Serial.println("just bef k_start");
 	

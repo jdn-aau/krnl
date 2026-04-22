@@ -26,7 +26,7 @@ void saveDataInCritRegion(int v)  // save data from critical region protected by
 	k_signal(semmutex);
 }
 
-int saveDataInCritRegionNoWait(int v)  // picjk up data from critical region protected by a semaphore
+int saveDataInCritRegionNoWait(int v)  // pick up data from critical region protected by a semaphore
 {
 	int x;
 	x = k_wait(semmutex, -1);
@@ -47,7 +47,7 @@ struct shDataTp getDataInCritRegion(void)
 	struct shDataTp tmp;
 	k_wait(semmutex, 0);
 	
-	k_eat_msec(70);  // to block region some time so teh other cant get it at once
+	k_eat_msec(70);  // to block region some time so the other cant get it at once
 	sharedData.counter--;
 	tmp = sharedData;
 	
@@ -66,7 +66,7 @@ void t1()
 	
 	while (1) {
 		
-		k_wait(s1, 0); //wait until  a kick comes
+		k_wait(s1, 0); //wait until a kick comes
 		
 		v = analogRead(A0);  // just to get some noise
 		if (0 > saveDataInCritRegionNoWait(v)) {  // or saveDataInCritRegion(v);  if you can afford to wait - may become late
@@ -107,12 +107,12 @@ void setup()
 	while (! Serial) ;
 	pinMode(13, OUTPUT);
 	
-	k_init(2, 2, 0); // init with space for one task
-	//         |--- no of mg Queues (0)
-	//       |----- no of semaphores (0)
-	//     |------- no of tasks (2)
+	k_init(2, 2, 0); // init with space for two tasks and two semaphores
+	//     |  |  |--- num of mg Queues (0)
+	//     |  |----- num of semaphores (2)
+	//     |------------- num of tasks (2)
 	
-	// priority low number higher priority than higher number
+	// priority: lower number has higher priority than higher number
 	p1 = k_crt_task(t1, 10, a1, STK); // t1 as task, priority 10, 100 B stak
 	p2 = k_crt_task(t2, 10, a2, STK); // t1 as task, priority 10, 100 B stak
 	

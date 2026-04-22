@@ -36,13 +36,13 @@ void setup() {
   //      ^------- number of tasks
   // RETURNS 0 is all went ok
 
-  // priority low number higher priority than higher number
+  // priority: lower number has higher priority than higher number
   pTask =
       k_crt_task(t1, 10, taskStak, STK); // t1 as task, priority 10, 100 B stak
-  //                                ^-- array used for stak
-  //                                    ^--- stak size in bytes
-  //                      ^---------- task priority 1 is highest
-  //                  ^------------- function to be used as body for tas
+  //                                 ^--- stak size in bytes
+  //                            ^-- array used for stak
+  //                  ^---------- task priority 1 is highest
+  //              ^------------- function to be used as body for tas
   // return NULL ptr if something went wrong
 
   res = k_start(); // 1 milli sec tick

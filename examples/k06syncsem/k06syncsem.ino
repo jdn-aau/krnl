@@ -4,16 +4,16 @@
 // k_wait on a semaphore ensures proper timing
 
 // task2 is using partly k_eat_ticks in the loop
-// Try to lower tasl2 priority to 11 and see what happens
+// Try to lower task2 priority to 11 and see what happens
 //?: what do you observe ?
 // hint k_eat_ticks mimic cpu usage so if a task uses 2000 ticks cpu time then it should not
 // have high(est) priority because lower priority task will then starve: not getting cpu time
-//
-// If you as starting point gives all same prioriryt there is a high chance taht all will more or less get
-// what the need.
+
+// If you as starting point gives all same prioriryt there is a high chance that all will more or less get
+// what they need.
 
 // even better is to give high priority task (like sampling and control) a high priority
-//
+
 // you can mimic high cpu usage for task1 with insertion of a k_eat_ticks in the code below (is commented out)
 
 // The commented out eat uses 90 ticks so task1 will use 90 out of 100 (the time in loop) of the CPU
@@ -22,15 +22,15 @@
 // life is life
 
 // ?: what will happen if equal priorities and the k_eat_ticks(90)  in task1 ?
-// when task2 is u´ni the k_eat_ticks(2000) then it will be in competition with task1
+// when task2 is runing the k_eat_ticks(2000) then it will be in competition with task1
 // the have same priority so they will share cpu time (round robbin)
 // So it will take 180 ticks for task1 to execute k_eat_ticks(90) and at same time task2 will et 90 ticks
-//
+
 // At the same time the krnl signals to semaphore  s1 every 100 ticks. But a loop will take 180 ticks. So
-// will will come behind with 80 ticks for every loop(when task2 i in k_eat_ticks(2000)
+// will will come behind with 80 ticks for every loop(when task2 is in k_eat_ticks(2000)
 
 // you can see than k_Semval will never pass 50. This is because k_crt_sem is called with 50 as max.
-//
+
 // ?: can you model it ?
 
 
@@ -96,7 +96,7 @@ void task2()
 	while (1) {
 		
 		k_sleep(200);  // just eating time
-		k_eat_msec(150); // nasty !!! yo are requesting a heavy load on the processor
+		k_eat_msec(150); // nasty !!! you are requesting a heavy load on the processor
 	}
 }
 
@@ -115,15 +115,15 @@ void setup()
 	}
 	
 	k_init(2, 1, 0); // init with space for two tasks and one semaphore
-	//           |--- no of mg Queues (0)
-	//        |----- no of semaphores (0)
-	//     |------- no of tasks (2)
+	//     |  |  |--- num of mg Queues (0)
+	//     |  |----- num of semaphores (1)
+	//     |------------- num of tasks (2)
 	
-	// priority low number higher priority than higher number
+	// priority: lower number has higher priority than higher number
 	p1 = k_crt_task(task1, 10, a1, STK); // task1 as task, priority 10, 100 B stak
 	p2 = k_crt_task(task2, 11, a2, STK); // task2 as task, priority 11 == lower than t1, 100 B stak
 	
-	s1 = k_crt_sem(0, 1); // crt sem
+	s1 = k_crt_sem(0, 1); // create semaphore
 	
 	res = k_start(); // 1 milli sec tick speed
 	// you will never return from k_start

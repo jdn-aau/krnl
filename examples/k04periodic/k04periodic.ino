@@ -21,7 +21,7 @@ void tperiodic()
 void tnoise()
 {
   while (1) {
-    k_eat_msec(  random(30, 200) ); // we eat between 30 and 200 msec of time
+    k_eat_msec(random(30, 200)); // we eat between 30 and 200 msec of time
     k_sleep(500);          // and sleep for 500 msec
   }
 }
@@ -34,13 +34,14 @@ void setup()
     pinMode(i, OUTPUT);
   Serial.begin(115200);
 
-  k_init(2, 1, 0); // init with space for three tasks
-
-  // priority low number higher priority than higher number
-  //Task 1
+  k_init(2, 1, 0); // init with space for two tasks and one semaphore
+	//     |  |  |--- num of mg Queues (0)
+	//     |  |----- num of semaphores (1)
+	//     |------------- num of tasks (2)
+	
+	// priority: lower number has higher priority than higher number
   p1 = k_crt_task(tperiodic, 10, st1, STK); // t1 as task, priority 10, 100 B stak
-  //Task 2
-  p2 = k_crt_task(tnoise, 11 , st2, STK); // t1 as task, priority 10, 100 B stak
+  p2 = k_crt_task(tnoise, 11 , st2, STK); // t2 as task, priority 11, 100 B stak
   
   sem1 = k_crt_sem(0,5);
   

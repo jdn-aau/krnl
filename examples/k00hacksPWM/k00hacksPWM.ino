@@ -30,7 +30,7 @@ void setup() {
   //      ^------- number of tasks
   // RETURNS 0 is all went ok
 
-  // priority low number higher priority than higher number
+  // priority: lower number has higher priority than higher number
   pTask = k_crt_task(t1, 10, taskStak, STK); // t1 as task, priority 10, 100 B stak
   //                                    ^--- stak size in bytes
   //                                ^-- array used for stak

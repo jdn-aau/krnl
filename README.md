@@ -1,21 +1,22 @@
       >>>  KRNL - a small preemptive kernel for small systems <<<
        
-Dec 2023 
-
 June 2025 - very last final vrs ? 
 
- 
+
  
 I have found it interesting to develop an open source realtime kernel 
 
 for the Arduino platform - but is also portable to other platforms
 
+
+
 2025
 Clean up
+
 328P variant on timer 2 - beware it removes some tone an dpwm channels
 2560 variant on timer 5
 
-Do alway run 1 msec kernel tick
+always run 1 msec kernel tick
 
 Apr 2023
 Dig some lines down to see which PWM pins you can use when running krnl.
@@ -24,7 +25,6 @@ Dig some lines down to see which PWM pins you can use when running krnl.
 Added cooperative multitasking - can switch on/off runtime  (k_set_coop_multitask(unsigned char onn)
 
 2022 Juni
-
 Structured krnl in files c files each covering stufflike semaphore, message Q etc
 
 Why: to make it more readable
@@ -41,7 +41,7 @@ Added multiple reader/writers. in version 2021-03-01 or newer.
 2021 January:
 Krnl used timer0 uns a 1 msec kernel tick even if you give another value to k_start.
 
-It can be changed in the c source awhere i
+It can be changed in the c source where i
 
 - SEE SOME NOTES BELOW ABOUT TIMERS AND PINS 
 - Now doxygen docu at html directory :-)
@@ -113,30 +113,30 @@ AnalogWrite (PWM) on uno and mega(2560)
 timer analogWrite Pin(PWM)
 
 |UNO timer | PWM |
-| --- | --- |
-| 0  |   5,6 | 
-| 1   |  9,10 | 
-| 2   |  3,11 | 
+| --- | ---- |
+| 0   | 5,6  | 
+| 1   | 9,10 | 
+| 2   | 3,11 | 
 
 
-Krnl use  timer 2 på en uno så pin 3,11 kan ikke bruges til PWM
+Krnl uses timer 2 on a uno so pin 3 and 11 cant be used for PWM
 
 
-For Arduino MEGA  (2560 cpu)we do have 6 timers
+For Arduino MEGA (2560 cpu) we have 6 timers
 
 |MEGA timer | PWM |
-| --- | --- |
-|0 | 4,13 |
-|1 | 11,12
-|2 | 9,10 |
-|3 | 2,3,5 |
-|4 | 6,7,8  |
-|5 | 44,45,46 |
+| --- | -------- |
+| 0   | 4,13     |
+| 1   | 11,12    |
+| 2   | 9,10     |
+| 3   | 2,3,5    |
+| 4   | 6,7,8    |
+| 5   | 44,45,46 |
 
 Krnl uses timer 2 on mega so you cant use pwm 9,10 on a mega when you are running krnl 
 
 ## Watchdog timer
-From vrs 2016056 the timer interrupt do issue a wdt_reset() for every timer interrupt.
+From vrs 2016056 the timer interrupt issues a wdt_reset() for every timer interrupt.
 Krnl can run sys tick at 1-10,20,30,40,... msec. 
 If tick speed slower than 10 msec is selected krnl runs a 10 msec tick speed and drive the krnl code in fraction hereof.
 Which means ... that the wdt is reset at least every 10 millisecond.
@@ -195,7 +195,7 @@ Timer3, Timer4, Timer5: Timer 3,4,5 are only available on Arduino Mega boards.
 
 ## Install from github:
 
-1) cd whatever/sketchbook/libraries   - see Preferences for path to sketchbook
+1) cd whatever/sketchbook/libraries - see Preferences for path to sketchbook
 2) git clone https://github.com/jdn-aau/krnl.git
 
 NB NB NB - TIMER HEARTBEAT
@@ -240,19 +240,19 @@ You can select heartbeat between 1 and 32767 milliseconds in 1 msec steps.
 - -  You can’t use PWM on Pin 3,11 when you use the tone() function an Arduino and Pin 9,10 on Arduino Mega.
 
 ## (c)
-* "THE BEER-WARE LICENSE" (frit efter PHK)           *
+ * "THE BEER-WARE LICENSE" (frit efter PHK)           *
  * <jdn@es.aau.dk> wrote this file. As long as you    *
  * retain this notice you can do whatever you want    *
- * with this stuff. If we meet some day, and you think*
- * this stuff is worth it ...                         *
+ * with this stuff. If we meet some day, and you      *
+ * think this stuff is worth it ...                   *
  *  you can buy me a beer in return :-)               *
  * or if you are real happy then ...                  *
  * single malt will be well received :-)              *
- *                                                    *
- * Use it at your own risk - no warranty       
+ * -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- *
+ * Use it at your own risk - no warranty              *
 
 Happy hacking
 
-See also http://jensd.dk/edu/doc/arduino/krnl  - most recent vrs is on github - always
+See also http://jensd.dk/doc/arduino/krnl  - most recent vrs is on github - always
 
 /Jens

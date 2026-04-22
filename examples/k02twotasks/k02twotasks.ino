@@ -28,7 +28,7 @@ void aktuer02() {
 
 volatile int i = 1000;
 /**
-*  dette er en test
+*  This is a test
 */
 void t1(void) {
   while (1) {
@@ -59,11 +59,11 @@ void setup() {
   // init krnl so you can create 2 tasks, no semaphores and no message queues
   k_init(2, 0, 0);
 
-
-  //               |------------ function used for body code for task
-  //               |  |--------- priority (lower number= higher prio
-  //               |  |   |----- staksize for array s1
-  //                         |-- array used for stak
+	
+  //               |---------- function used for body code for task
+  //               |   |------ priority (lower number = higher priority)
+  //               |   |   |-- array used for stak
+  //               |   |   |      |----- staksize
   pt1 = k_crt_task(t1, 11, stak1, STKSZ);
   pt2 = k_crt_task(t2, 11, stak2, STKSZ);
 
@@ -72,12 +72,12 @@ void setup() {
   // NB-2 remember that stak is used in function calls for
   //  - return address
   //  - registers stakked
-  //  - local variabels in a function
+  //  - local variables in a function
   //  So having 200 Bytes of stak excludes a local variable like ...
   //    int arr[400];
   // krnl call k_unused_stak returns size of unused stak
   // Both task has same priority so krnl will shift between the
-  // tasks every 10 milli second (speed set in k_start)
+  // tasks every millisecond (speed set in k_start)
 
   k_start();  // start kernel with tick speed 1 milli seconds
 }

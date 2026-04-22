@@ -80,17 +80,17 @@ void setup()
   while (! Serial) ;
   pinMode(13, OUTPUT);
 
-  k_init(2, 2, 0); // init with space for one task
-  //         |--- no of mg Queues (0)
-  //       |----- no of semaphores (0)
-  //     |------- no of tasks (2)
-
-  // priority low number higher priority than higher number
+  k_init(2, 2, 0); // init with space for two tasks and two semaphores
+  //     |  |  |--- num of mg Queues (0)
+  //     |  |----- num of semaphores (2)
+  //     |------------- num of tasks (2)
+	
+  // priority: lower number has higher priority than higher number
   p1 = k_crt_task(t1, 10, a1,STK); // t1 as task, priority 10, 100 B stak
   p2 = k_crt_task(t2, 10, a2,STK); // t1 as task, priority 10, 100 B stak
 
   s1 = k_crt_sem(0, 10); // tik
-  semmutex = k_crt_mut(5,1, 10); // ceiling prio == 5 
+  semmutex = k_crt_mut(5, 1, 10); // ceiling prio == 5 
   
   Serial.println("bef start");
   res = k_start(); // 1 milli sec tick speed

@@ -7,7 +7,7 @@ struct k_t *p1, *p2, *p3;
 #define STK 110
 char st1[STK], st2[STK], st3[STK];
 
-// LED 13 not used from user space bq we use led for indicating dummy i srunning
+// LED 13 not used from user space bq we use led for indicating dummy is running
 // when dummy is running it indicates enough cpu power
 // if dummy is not running for a longer time you may have problems ....
 void t1()
@@ -30,7 +30,7 @@ void setup()
 
   k_init(3, 0, 0); // init with space for three tasks
 
-  // priority low number higher priority than higher number
+  // priority: lower number has higher priority than higher number
   p1 = k_crt_task(t1, 10, st1, STK); // t1 as task, priority 10, 100 B stak
   p2 = k_crt_task(t1, 11, st2, STK); // t1 as task, priority 10, 100 B stak
 //   p3 = k_crt_task(t1, 12, st3, STK); // t1 as task, priority 10, 100 B stak

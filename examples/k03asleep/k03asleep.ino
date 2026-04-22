@@ -2,9 +2,8 @@
  #include <krnl.h>
  // one task loops and blink
  
- 
- // hint using k_sleep instead og k_eat_ticks
- // k_eat_ticks eat your cpu time 
+ // hint use k_sleep instead of k_eat_ticks
+ // k_eat_ticks eats your cpu time 
  
  // k_eat_ticks is busy waiting meaning it is using cpu time
  // See in krnl.c approx line 597
@@ -17,7 +16,7 @@
  // ?: why is t2 running in bursts
  // ?: Can you predict the minimum time it takes to k_eat_ticks(2000) if you do not know
  //    what other tasks are doing  (a:no)
- // ?: Can you predict minimu time it takes to k_sleep(2000);   (a: yes)
+ // ?: Can you predict minimum time it takes to k_sleep(2000);   (a: yes)
  
  struct k_t *p1, *p2;
  #define STK 110
@@ -56,12 +55,12 @@
 	 while (! Serial) ;
 	 pinMode(13, OUTPUT);
 	 
-	 k_init(2, 0, 0); // init with space for one task
-	 //         |--- no of mg Queues (0)
-	 //       |----- no of semaphores (0)
-	 //     |------- no of tasks (2)
+	 k_init(2, 0, 0); // init with space for two tasks
+	 //     |  |  |--- num of mg Queues (0)
+	 //     |  |----- num of semaphores (0)
+	 //     |------------- num of tasks (2)
 	 
-	 // priority low number higher priority than higher number
+	 // priority: lower number has higher priority than higher number
 	 p1 = k_crt_task(t1, 10, s1,STK); // t1 as task, priority 9, 100 B stak
 	 p2 = k_crt_task(t2, 10, s2,STK); // t2 as task, priority 10, 100 B stak
 	 

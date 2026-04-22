@@ -42,8 +42,8 @@ void tperiodic()
 void tnoise()
 {
 	while (1) {
-		k_eat_msec( 600 ); // we eat between 30 and 200 msec of time
-		k_sleep(1000);          // and sleep for 500 msec
+		k_eat_msec(600); // we eat 600 msec of time
+		k_sleep(1000);     // and sleep for 1000 msec
 	}
 }
 
@@ -59,14 +59,14 @@ void setup()
 	
 	Serial.begin(115200);
 	
-	k_init(2, 1, 0); // init with space for three tasks
+	k_init(2, 1, 0); // init with space for two tasks and a semaphore
+	//     |  |  |--- no of mg Queues (0)
+	//     |  |----- no of semaphores (1)
+	//     |------------- no of tasks (2)
 	
-	// priority low number higher priority than higher number
-	//Task 1
-	p1 = k_crt_task(tperiodic, 10, st1, STK);
-	
-	//Task 2
-	p2 = k_crt_task(tnoise, 11 , st2, STK);
+	// priority: lower number has higher priority than higher number
+	p1 = k_crt_task(tperiodic, 10, st1, STK); //Task 1
+	p2 = k_crt_task(tnoise, 11 , st2, STK); //Task 2
 	
 	sem1 = k_crt_sem(0, 1);
 	
@@ -81,9 +81,9 @@ void setup()
 // LED13 will go ON if overflow på semaphore sem1
 // YOU can see nr of clip/saturatino situation in the printotu (terminal)
 
-// FOr tnoise:
+// For tnoise:
 // prio = 11  no overflow bq tperodic has highest prio
-// prio =10 overflow willl occur bq tnoise is eating 600 msec and therefore share CPU
+// prio = 10 overflow willl occur bq tnoise is eating 600 msec and therefore share CPU
 // 50/50 with tperiodic so eating 140 msec in every 200 msec period can take up to 280 msec(guessing) and therfore its are being
 // tnoise prio < 10 makes even worse
 
